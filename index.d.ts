@@ -5,7 +5,7 @@
 
 import * as runtime from './runtime/index';
 declare const prisma: unique symbol
-export type PrismaPromise<A> = Promise<A> & {[prisma]: true}
+export interface PrismaPromise<A> extends Promise<A> {[prisma]: true}
 type UnwrapPromise<P extends any> = P extends Promise<infer R> ? R : P
 type UnwrapTuple<Tuple extends readonly unknown[]> = {
   [K in keyof Tuple]: K extends `${number}` ? Tuple[K] extends PrismaPromise<infer X> ? X : UnwrapPromise<Tuple[K]> : UnwrapPromise<Tuple[K]>
@@ -176,9 +176,9 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<UnwrapTuple<P>>;
+  $transaction<P extends PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<UnwrapTuple<P>>
 
-  $transaction<R>(fn: (prisma: Prisma.TransactionClient) => Promise<R>, options?: {maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel}): Promise<R>;
+  $transaction<R>(fn: (prisma: Prisma.TransactionClient) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
 
       /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
@@ -260,7 +260,7 @@ export namespace Prisma {
 
 
   /**
-   * Prisma Client JS version: 4.8.0
+   * Prisma Client JS version: 4.9.0
    * Query Engine version: d6e67a83f971b175a593ccc12e15c4a757f93ffe
    */
   export type PrismaVersion = {
@@ -625,19 +625,11 @@ export namespace Prisma {
 
   export type Keys<U extends Union> = U extends unknown ? keyof U : never
 
-  type Exact<A, W = unknown> = 
-  W extends unknown ? A extends Narrowable ? Cast<A, W> : Cast<
-  {[K in keyof A]: K extends keyof W ? Exact<A[K], W[K]> : never},
-  {[K in keyof W]: K extends keyof A ? Exact<A[K], W[K]> : W[K]}>
-  : never;
-
-  type Narrowable = string | number | boolean | bigint;
-
   type Cast<A, B> = A extends B ? A : B;
 
   export const type: unique symbol;
 
-  export function validator<V>(): <S>(select: Exact<S, V>) => S;
+  export function validator<V>(): <S>(select: runtime.Types.Utils.LegacyExact<S, V>) => S;
 
   /**
    * Used by group by
@@ -908,8 +900,7 @@ export namespace Prisma {
   export type UserCountOutputTypeArgs = {
     /**
      * Select specific fields to fetch from the UserCountOutputType
-     * 
-    **/
+     */
     select?: UserCountOutputTypeSelect | null
   }
 
@@ -952,8 +943,7 @@ export namespace Prisma {
   export type CouponCountOutputTypeArgs = {
     /**
      * Select specific fields to fetch from the CouponCountOutputType
-     * 
-    **/
+     */
     select?: CouponCountOutputTypeSelect | null
   }
 
@@ -996,8 +986,7 @@ export namespace Prisma {
   export type ListingCountOutputTypeArgs = {
     /**
      * Select specific fields to fetch from the ListingCountOutputType
-     * 
-    **/
+     */
     select?: ListingCountOutputTypeSelect | null
   }
 
@@ -1096,36 +1085,31 @@ export namespace Prisma {
   export type UserAggregateArgs = {
     /**
      * Filter which User to aggregate.
-     * 
-    **/
+     */
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Users.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -1173,7 +1157,7 @@ export namespace Prisma {
   export type UserGroupByArgs = {
     where?: UserWhereInput
     orderBy?: Enumerable<UserOrderByWithAggregationInput>
-    by: Array<UserScalarFieldEnum>
+    by: UserScalarFieldEnum[]
     having?: UserScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -1220,15 +1204,15 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     role?: boolean
-    couponsUsedByUser?: boolean | UserCouponsUsedByUserArgs
+    couponsUsedByUser?: boolean | User$couponsUsedByUserArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
 
   export type UserInclude = {
-    couponsUsedByUser?: boolean | UserCouponsUsedByUserArgs
+    couponsUsedByUser?: boolean | User$couponsUsedByUserArgs
     _count?: boolean | UserCountOutputTypeArgs
-  } 
+  }
 
   export type UserGetPayload<S extends boolean | null | undefined | UserArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
@@ -1249,13 +1233,13 @@ export namespace Prisma {
       : User
 
 
-  type UserCountArgs = Merge<
+  type UserCountArgs = 
     Omit<UserFindManyArgs, 'select' | 'include'> & {
       select?: UserCountAggregateInputType | true
     }
-  >
 
   export interface UserDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one User that matches the filter.
      * @param {UserFindUniqueArgs} args - Arguments to find a User
@@ -1602,7 +1586,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-    couponsUsedByUser<T extends UserCouponsUsedByUserArgs= {}>(args?: Subset<T, UserCouponsUsedByUserArgs>): PrismaPromise<Array<CouponsUsedByUserGetPayload<T>>| Null>;
+    couponsUsedByUser<T extends User$couponsUsedByUserArgs= {}>(args?: Subset<T, User$couponsUsedByUserArgs>): PrismaPromise<Array<CouponsUsedByUserGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -1637,18 +1621,15 @@ export namespace Prisma {
   export type UserFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * Filter, which User to fetch.
-     * 
-    **/
+     */
     where: UserWhereUniqueInput
   }
 
@@ -1670,18 +1651,15 @@ export namespace Prisma {
   export type UserFindUniqueOrThrowArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * Filter, which User to fetch.
-     * 
-    **/
+     */
     where: UserWhereUniqueInput
   }
 
@@ -1692,53 +1670,45 @@ export namespace Prisma {
   export type UserFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * Filter, which User to fetch.
-     * 
-    **/
+     */
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Users.
-     * 
-    **/
+     */
     cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Users.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Users.
-     * 
-    **/
+     */
     distinct?: Enumerable<UserScalarFieldEnum>
   }
 
@@ -1760,53 +1730,45 @@ export namespace Prisma {
   export type UserFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * Filter, which User to fetch.
-     * 
-    **/
+     */
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Users.
-     * 
-    **/
+     */
     cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Users.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Users.
-     * 
-    **/
+     */
     distinct?: Enumerable<UserScalarFieldEnum>
   }
 
@@ -1817,46 +1779,39 @@ export namespace Prisma {
   export type UserFindManyArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * Filter, which Users to fetch.
-     * 
-    **/
+     */
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Users to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<UserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing Users.
-     * 
-    **/
+     */
     cursor?: UserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Users from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Users.
-     * 
-    **/
+     */
     skip?: number
     distinct?: Enumerable<UserScalarFieldEnum>
   }
@@ -1868,18 +1823,15 @@ export namespace Prisma {
   export type UserCreateArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * The data needed to create a User.
-     * 
-    **/
+     */
     data: XOR<UserCreateInput, UserUncheckedCreateInput>
   }
 
@@ -1890,23 +1842,19 @@ export namespace Prisma {
   export type UserUpdateArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * The data needed to update a User.
-     * 
-    **/
+     */
     data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
     /**
      * Choose, which User to update.
-     * 
-    **/
+     */
     where: UserWhereUniqueInput
   }
 
@@ -1917,13 +1865,11 @@ export namespace Prisma {
   export type UserUpdateManyArgs = {
     /**
      * The data used to update Users.
-     * 
-    **/
+     */
     data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
     /**
      * Filter which Users to update
-     * 
-    **/
+     */
     where?: UserWhereInput
   }
 
@@ -1934,28 +1880,23 @@ export namespace Prisma {
   export type UserUpsertArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * The filter to search for the User to update in case it exists.
-     * 
-    **/
+     */
     where: UserWhereUniqueInput
     /**
      * In case the User found by the `where` argument doesn't exist, create a new User with this data.
-     * 
-    **/
+     */
     create: XOR<UserCreateInput, UserUncheckedCreateInput>
     /**
      * In case the User was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
   }
 
@@ -1966,18 +1907,15 @@ export namespace Prisma {
   export type UserDeleteArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
     /**
      * Filter which User to delete.
-     * 
-    **/
+     */
     where: UserWhereUniqueInput
   }
 
@@ -1988,8 +1926,7 @@ export namespace Prisma {
   export type UserDeleteManyArgs = {
     /**
      * Filter which Users to delete
-     * 
-    **/
+     */
     where?: UserWhereInput
   }
 
@@ -1997,16 +1934,14 @@ export namespace Prisma {
   /**
    * User.couponsUsedByUser
    */
-  export type UserCouponsUsedByUserArgs = {
+  export type User$couponsUsedByUserArgs = {
     /**
      * Select specific fields to fetch from the CouponsUsedByUser
-     * 
-    **/
+     */
     select?: CouponsUsedByUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponsUsedByUserInclude | null
     where?: CouponsUsedByUserWhereInput
     orderBy?: Enumerable<CouponsUsedByUserOrderByWithRelationInput>
@@ -2023,13 +1958,11 @@ export namespace Prisma {
   export type UserArgs = {
     /**
      * Select specific fields to fetch from the User
-     * 
-    **/
+     */
     select?: UserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: UserInclude | null
   }
 
@@ -2110,36 +2043,31 @@ export namespace Prisma {
   export type CouponsUsedByUserAggregateArgs = {
     /**
      * Filter which CouponsUsedByUser to aggregate.
-     * 
-    **/
+     */
     where?: CouponsUsedByUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CouponsUsedByUsers to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CouponsUsedByUserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: CouponsUsedByUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CouponsUsedByUsers from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CouponsUsedByUsers.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -2187,7 +2115,7 @@ export namespace Prisma {
   export type CouponsUsedByUserGroupByArgs = {
     where?: CouponsUsedByUserWhereInput
     orderBy?: Enumerable<CouponsUsedByUserOrderByWithAggregationInput>
-    by: Array<CouponsUsedByUserScalarFieldEnum>
+    by: CouponsUsedByUserScalarFieldEnum[]
     having?: CouponsUsedByUserScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -2236,7 +2164,7 @@ export namespace Prisma {
   export type CouponsUsedByUserInclude = {
     User?: boolean | UserArgs
     Coupons?: boolean | CouponArgs
-  } 
+  }
 
   export type CouponsUsedByUserGetPayload<S extends boolean | null | undefined | CouponsUsedByUserArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
@@ -2257,13 +2185,13 @@ export namespace Prisma {
       : CouponsUsedByUser
 
 
-  type CouponsUsedByUserCountArgs = Merge<
+  type CouponsUsedByUserCountArgs = 
     Omit<CouponsUsedByUserFindManyArgs, 'select' | 'include'> & {
       select?: CouponsUsedByUserCountAggregateInputType | true
     }
-  >
 
   export interface CouponsUsedByUserDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one CouponsUsedByUser that matches the filter.
      * @param {CouponsUsedByUserFindUniqueArgs} args - Arguments to find a CouponsUsedByUser
@@ -2647,18 +2575,15 @@ export namespace Prisma {
   export type CouponsUsedByUserFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the CouponsUsedByUser
-     * 
-    **/
+     */
     select?: CouponsUsedByUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponsUsedByUserInclude | null
     /**
      * Filter, which CouponsUsedByUser to fetch.
-     * 
-    **/
+     */
     where: CouponsUsedByUserWhereUniqueInput
   }
 
@@ -2680,18 +2605,15 @@ export namespace Prisma {
   export type CouponsUsedByUserFindUniqueOrThrowArgs = {
     /**
      * Select specific fields to fetch from the CouponsUsedByUser
-     * 
-    **/
+     */
     select?: CouponsUsedByUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponsUsedByUserInclude | null
     /**
      * Filter, which CouponsUsedByUser to fetch.
-     * 
-    **/
+     */
     where: CouponsUsedByUserWhereUniqueInput
   }
 
@@ -2702,53 +2624,45 @@ export namespace Prisma {
   export type CouponsUsedByUserFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the CouponsUsedByUser
-     * 
-    **/
+     */
     select?: CouponsUsedByUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponsUsedByUserInclude | null
     /**
      * Filter, which CouponsUsedByUser to fetch.
-     * 
-    **/
+     */
     where?: CouponsUsedByUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CouponsUsedByUsers to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CouponsUsedByUserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for CouponsUsedByUsers.
-     * 
-    **/
+     */
     cursor?: CouponsUsedByUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CouponsUsedByUsers from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CouponsUsedByUsers.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of CouponsUsedByUsers.
-     * 
-    **/
+     */
     distinct?: Enumerable<CouponsUsedByUserScalarFieldEnum>
   }
 
@@ -2770,53 +2684,45 @@ export namespace Prisma {
   export type CouponsUsedByUserFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the CouponsUsedByUser
-     * 
-    **/
+     */
     select?: CouponsUsedByUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponsUsedByUserInclude | null
     /**
      * Filter, which CouponsUsedByUser to fetch.
-     * 
-    **/
+     */
     where?: CouponsUsedByUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CouponsUsedByUsers to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CouponsUsedByUserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for CouponsUsedByUsers.
-     * 
-    **/
+     */
     cursor?: CouponsUsedByUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CouponsUsedByUsers from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CouponsUsedByUsers.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of CouponsUsedByUsers.
-     * 
-    **/
+     */
     distinct?: Enumerable<CouponsUsedByUserScalarFieldEnum>
   }
 
@@ -2827,46 +2733,39 @@ export namespace Prisma {
   export type CouponsUsedByUserFindManyArgs = {
     /**
      * Select specific fields to fetch from the CouponsUsedByUser
-     * 
-    **/
+     */
     select?: CouponsUsedByUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponsUsedByUserInclude | null
     /**
      * Filter, which CouponsUsedByUsers to fetch.
-     * 
-    **/
+     */
     where?: CouponsUsedByUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of CouponsUsedByUsers to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CouponsUsedByUserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing CouponsUsedByUsers.
-     * 
-    **/
+     */
     cursor?: CouponsUsedByUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` CouponsUsedByUsers from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` CouponsUsedByUsers.
-     * 
-    **/
+     */
     skip?: number
     distinct?: Enumerable<CouponsUsedByUserScalarFieldEnum>
   }
@@ -2878,18 +2777,15 @@ export namespace Prisma {
   export type CouponsUsedByUserCreateArgs = {
     /**
      * Select specific fields to fetch from the CouponsUsedByUser
-     * 
-    **/
+     */
     select?: CouponsUsedByUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponsUsedByUserInclude | null
     /**
      * The data needed to create a CouponsUsedByUser.
-     * 
-    **/
+     */
     data: XOR<CouponsUsedByUserCreateInput, CouponsUsedByUserUncheckedCreateInput>
   }
 
@@ -2900,23 +2796,19 @@ export namespace Prisma {
   export type CouponsUsedByUserUpdateArgs = {
     /**
      * Select specific fields to fetch from the CouponsUsedByUser
-     * 
-    **/
+     */
     select?: CouponsUsedByUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponsUsedByUserInclude | null
     /**
      * The data needed to update a CouponsUsedByUser.
-     * 
-    **/
+     */
     data: XOR<CouponsUsedByUserUpdateInput, CouponsUsedByUserUncheckedUpdateInput>
     /**
      * Choose, which CouponsUsedByUser to update.
-     * 
-    **/
+     */
     where: CouponsUsedByUserWhereUniqueInput
   }
 
@@ -2927,13 +2819,11 @@ export namespace Prisma {
   export type CouponsUsedByUserUpdateManyArgs = {
     /**
      * The data used to update CouponsUsedByUsers.
-     * 
-    **/
+     */
     data: XOR<CouponsUsedByUserUpdateManyMutationInput, CouponsUsedByUserUncheckedUpdateManyInput>
     /**
      * Filter which CouponsUsedByUsers to update
-     * 
-    **/
+     */
     where?: CouponsUsedByUserWhereInput
   }
 
@@ -2944,28 +2834,23 @@ export namespace Prisma {
   export type CouponsUsedByUserUpsertArgs = {
     /**
      * Select specific fields to fetch from the CouponsUsedByUser
-     * 
-    **/
+     */
     select?: CouponsUsedByUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponsUsedByUserInclude | null
     /**
      * The filter to search for the CouponsUsedByUser to update in case it exists.
-     * 
-    **/
+     */
     where: CouponsUsedByUserWhereUniqueInput
     /**
      * In case the CouponsUsedByUser found by the `where` argument doesn't exist, create a new CouponsUsedByUser with this data.
-     * 
-    **/
+     */
     create: XOR<CouponsUsedByUserCreateInput, CouponsUsedByUserUncheckedCreateInput>
     /**
      * In case the CouponsUsedByUser was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<CouponsUsedByUserUpdateInput, CouponsUsedByUserUncheckedUpdateInput>
   }
 
@@ -2976,18 +2861,15 @@ export namespace Prisma {
   export type CouponsUsedByUserDeleteArgs = {
     /**
      * Select specific fields to fetch from the CouponsUsedByUser
-     * 
-    **/
+     */
     select?: CouponsUsedByUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponsUsedByUserInclude | null
     /**
      * Filter which CouponsUsedByUser to delete.
-     * 
-    **/
+     */
     where: CouponsUsedByUserWhereUniqueInput
   }
 
@@ -2998,8 +2880,7 @@ export namespace Prisma {
   export type CouponsUsedByUserDeleteManyArgs = {
     /**
      * Filter which CouponsUsedByUsers to delete
-     * 
-    **/
+     */
     where?: CouponsUsedByUserWhereInput
   }
 
@@ -3010,13 +2891,11 @@ export namespace Prisma {
   export type CouponsUsedByUserArgs = {
     /**
      * Select specific fields to fetch from the CouponsUsedByUser
-     * 
-    **/
+     */
     select?: CouponsUsedByUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponsUsedByUserInclude | null
   }
 
@@ -3109,36 +2988,31 @@ export namespace Prisma {
   export type CouponAggregateArgs = {
     /**
      * Filter which Coupon to aggregate.
-     * 
-    **/
+     */
     where?: CouponWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Coupons to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CouponOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: CouponWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Coupons from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Coupons.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -3186,7 +3060,7 @@ export namespace Prisma {
   export type CouponGroupByArgs = {
     where?: CouponWhereInput
     orderBy?: Enumerable<CouponOrderByWithAggregationInput>
-    by: Array<CouponScalarFieldEnum>
+    by: CouponScalarFieldEnum[]
     having?: CouponScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -3232,16 +3106,16 @@ export namespace Prisma {
     listingId?: boolean
     deal?: boolean
     expires?: boolean
-    couponsUsedByUser?: boolean | CouponCouponsUsedByUserArgs
+    couponsUsedByUser?: boolean | Coupon$couponsUsedByUserArgs
     _count?: boolean | CouponCountOutputTypeArgs
   }
 
 
   export type CouponInclude = {
     listing?: boolean | ListingArgs
-    couponsUsedByUser?: boolean | CouponCouponsUsedByUserArgs
+    couponsUsedByUser?: boolean | Coupon$couponsUsedByUserArgs
     _count?: boolean | CouponCountOutputTypeArgs
-  } 
+  }
 
   export type CouponGetPayload<S extends boolean | null | undefined | CouponArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
@@ -3264,13 +3138,13 @@ export namespace Prisma {
       : Coupon
 
 
-  type CouponCountArgs = Merge<
+  type CouponCountArgs = 
     Omit<CouponFindManyArgs, 'select' | 'include'> & {
       select?: CouponCountAggregateInputType | true
     }
-  >
 
   export interface CouponDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one Coupon that matches the filter.
      * @param {CouponFindUniqueArgs} args - Arguments to find a Coupon
@@ -3619,7 +3493,7 @@ export namespace Prisma {
 
     listing<T extends ListingArgs= {}>(args?: Subset<T, ListingArgs>): Prisma__ListingClient<ListingGetPayload<T> | Null>;
 
-    couponsUsedByUser<T extends CouponCouponsUsedByUserArgs= {}>(args?: Subset<T, CouponCouponsUsedByUserArgs>): PrismaPromise<Array<CouponsUsedByUserGetPayload<T>>| Null>;
+    couponsUsedByUser<T extends Coupon$couponsUsedByUserArgs= {}>(args?: Subset<T, Coupon$couponsUsedByUserArgs>): PrismaPromise<Array<CouponsUsedByUserGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -3654,18 +3528,15 @@ export namespace Prisma {
   export type CouponFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the Coupon
-     * 
-    **/
+     */
     select?: CouponSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponInclude | null
     /**
      * Filter, which Coupon to fetch.
-     * 
-    **/
+     */
     where: CouponWhereUniqueInput
   }
 
@@ -3687,18 +3558,15 @@ export namespace Prisma {
   export type CouponFindUniqueOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Coupon
-     * 
-    **/
+     */
     select?: CouponSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponInclude | null
     /**
      * Filter, which Coupon to fetch.
-     * 
-    **/
+     */
     where: CouponWhereUniqueInput
   }
 
@@ -3709,53 +3577,45 @@ export namespace Prisma {
   export type CouponFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the Coupon
-     * 
-    **/
+     */
     select?: CouponSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponInclude | null
     /**
      * Filter, which Coupon to fetch.
-     * 
-    **/
+     */
     where?: CouponWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Coupons to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CouponOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Coupons.
-     * 
-    **/
+     */
     cursor?: CouponWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Coupons from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Coupons.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Coupons.
-     * 
-    **/
+     */
     distinct?: Enumerable<CouponScalarFieldEnum>
   }
 
@@ -3777,53 +3637,45 @@ export namespace Prisma {
   export type CouponFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Coupon
-     * 
-    **/
+     */
     select?: CouponSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponInclude | null
     /**
      * Filter, which Coupon to fetch.
-     * 
-    **/
+     */
     where?: CouponWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Coupons to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CouponOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Coupons.
-     * 
-    **/
+     */
     cursor?: CouponWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Coupons from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Coupons.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Coupons.
-     * 
-    **/
+     */
     distinct?: Enumerable<CouponScalarFieldEnum>
   }
 
@@ -3834,46 +3686,39 @@ export namespace Prisma {
   export type CouponFindManyArgs = {
     /**
      * Select specific fields to fetch from the Coupon
-     * 
-    **/
+     */
     select?: CouponSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponInclude | null
     /**
      * Filter, which Coupons to fetch.
-     * 
-    **/
+     */
     where?: CouponWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Coupons to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<CouponOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing Coupons.
-     * 
-    **/
+     */
     cursor?: CouponWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Coupons from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Coupons.
-     * 
-    **/
+     */
     skip?: number
     distinct?: Enumerable<CouponScalarFieldEnum>
   }
@@ -3885,18 +3730,15 @@ export namespace Prisma {
   export type CouponCreateArgs = {
     /**
      * Select specific fields to fetch from the Coupon
-     * 
-    **/
+     */
     select?: CouponSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponInclude | null
     /**
      * The data needed to create a Coupon.
-     * 
-    **/
+     */
     data: XOR<CouponCreateInput, CouponUncheckedCreateInput>
   }
 
@@ -3907,23 +3749,19 @@ export namespace Prisma {
   export type CouponUpdateArgs = {
     /**
      * Select specific fields to fetch from the Coupon
-     * 
-    **/
+     */
     select?: CouponSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponInclude | null
     /**
      * The data needed to update a Coupon.
-     * 
-    **/
+     */
     data: XOR<CouponUpdateInput, CouponUncheckedUpdateInput>
     /**
      * Choose, which Coupon to update.
-     * 
-    **/
+     */
     where: CouponWhereUniqueInput
   }
 
@@ -3934,13 +3772,11 @@ export namespace Prisma {
   export type CouponUpdateManyArgs = {
     /**
      * The data used to update Coupons.
-     * 
-    **/
+     */
     data: XOR<CouponUpdateManyMutationInput, CouponUncheckedUpdateManyInput>
     /**
      * Filter which Coupons to update
-     * 
-    **/
+     */
     where?: CouponWhereInput
   }
 
@@ -3951,28 +3787,23 @@ export namespace Prisma {
   export type CouponUpsertArgs = {
     /**
      * Select specific fields to fetch from the Coupon
-     * 
-    **/
+     */
     select?: CouponSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponInclude | null
     /**
      * The filter to search for the Coupon to update in case it exists.
-     * 
-    **/
+     */
     where: CouponWhereUniqueInput
     /**
      * In case the Coupon found by the `where` argument doesn't exist, create a new Coupon with this data.
-     * 
-    **/
+     */
     create: XOR<CouponCreateInput, CouponUncheckedCreateInput>
     /**
      * In case the Coupon was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<CouponUpdateInput, CouponUncheckedUpdateInput>
   }
 
@@ -3983,18 +3814,15 @@ export namespace Prisma {
   export type CouponDeleteArgs = {
     /**
      * Select specific fields to fetch from the Coupon
-     * 
-    **/
+     */
     select?: CouponSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponInclude | null
     /**
      * Filter which Coupon to delete.
-     * 
-    **/
+     */
     where: CouponWhereUniqueInput
   }
 
@@ -4005,8 +3833,7 @@ export namespace Prisma {
   export type CouponDeleteManyArgs = {
     /**
      * Filter which Coupons to delete
-     * 
-    **/
+     */
     where?: CouponWhereInput
   }
 
@@ -4014,16 +3841,14 @@ export namespace Prisma {
   /**
    * Coupon.couponsUsedByUser
    */
-  export type CouponCouponsUsedByUserArgs = {
+  export type Coupon$couponsUsedByUserArgs = {
     /**
      * Select specific fields to fetch from the CouponsUsedByUser
-     * 
-    **/
+     */
     select?: CouponsUsedByUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponsUsedByUserInclude | null
     where?: CouponsUsedByUserWhereInput
     orderBy?: Enumerable<CouponsUsedByUserOrderByWithRelationInput>
@@ -4040,13 +3865,11 @@ export namespace Prisma {
   export type CouponArgs = {
     /**
      * Select specific fields to fetch from the Coupon
-     * 
-    **/
+     */
     select?: CouponSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponInclude | null
   }
 
@@ -4153,36 +3976,31 @@ export namespace Prisma {
   export type ListingAggregateArgs = {
     /**
      * Filter which Listing to aggregate.
-     * 
-    **/
+     */
     where?: ListingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Listings to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<ListingOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
-     * 
-    **/
+     */
     cursor?: ListingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Listings from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Listings.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
@@ -4230,7 +4048,7 @@ export namespace Prisma {
   export type ListingGroupByArgs = {
     where?: ListingWhereInput
     orderBy?: Enumerable<ListingOrderByWithAggregationInput>
-    by: Array<ListingScalarFieldEnum>
+    by: ListingScalarFieldEnum[]
     having?: ListingScalarWhereWithAggregatesInput
     take?: number
     skip?: number
@@ -4281,15 +4099,15 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     website?: boolean
-    coupons?: boolean | ListingCouponsArgs
+    coupons?: boolean | Listing$couponsArgs
     _count?: boolean | ListingCountOutputTypeArgs
   }
 
 
   export type ListingInclude = {
-    coupons?: boolean | ListingCouponsArgs
+    coupons?: boolean | Listing$couponsArgs
     _count?: boolean | ListingCountOutputTypeArgs
-  } 
+  }
 
   export type ListingGetPayload<S extends boolean | null | undefined | ListingArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
@@ -4310,13 +4128,13 @@ export namespace Prisma {
       : Listing
 
 
-  type ListingCountArgs = Merge<
+  type ListingCountArgs = 
     Omit<ListingFindManyArgs, 'select' | 'include'> & {
       select?: ListingCountAggregateInputType | true
     }
-  >
 
   export interface ListingDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
     /**
      * Find zero or one Listing that matches the filter.
      * @param {ListingFindUniqueArgs} args - Arguments to find a Listing
@@ -4663,7 +4481,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-    coupons<T extends ListingCouponsArgs= {}>(args?: Subset<T, ListingCouponsArgs>): PrismaPromise<Array<CouponGetPayload<T>>| Null>;
+    coupons<T extends Listing$couponsArgs= {}>(args?: Subset<T, Listing$couponsArgs>): PrismaPromise<Array<CouponGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -4698,18 +4516,15 @@ export namespace Prisma {
   export type ListingFindUniqueArgsBase = {
     /**
      * Select specific fields to fetch from the Listing
-     * 
-    **/
+     */
     select?: ListingSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: ListingInclude | null
     /**
      * Filter, which Listing to fetch.
-     * 
-    **/
+     */
     where: ListingWhereUniqueInput
   }
 
@@ -4731,18 +4546,15 @@ export namespace Prisma {
   export type ListingFindUniqueOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Listing
-     * 
-    **/
+     */
     select?: ListingSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: ListingInclude | null
     /**
      * Filter, which Listing to fetch.
-     * 
-    **/
+     */
     where: ListingWhereUniqueInput
   }
 
@@ -4753,53 +4565,45 @@ export namespace Prisma {
   export type ListingFindFirstArgsBase = {
     /**
      * Select specific fields to fetch from the Listing
-     * 
-    **/
+     */
     select?: ListingSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: ListingInclude | null
     /**
      * Filter, which Listing to fetch.
-     * 
-    **/
+     */
     where?: ListingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Listings to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<ListingOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Listings.
-     * 
-    **/
+     */
     cursor?: ListingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Listings from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Listings.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Listings.
-     * 
-    **/
+     */
     distinct?: Enumerable<ListingScalarFieldEnum>
   }
 
@@ -4821,53 +4625,45 @@ export namespace Prisma {
   export type ListingFindFirstOrThrowArgs = {
     /**
      * Select specific fields to fetch from the Listing
-     * 
-    **/
+     */
     select?: ListingSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: ListingInclude | null
     /**
      * Filter, which Listing to fetch.
-     * 
-    **/
+     */
     where?: ListingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Listings to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<ListingOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Listings.
-     * 
-    **/
+     */
     cursor?: ListingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Listings from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Listings.
-     * 
-    **/
+     */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
      * Filter by unique combinations of Listings.
-     * 
-    **/
+     */
     distinct?: Enumerable<ListingScalarFieldEnum>
   }
 
@@ -4878,46 +4674,39 @@ export namespace Prisma {
   export type ListingFindManyArgs = {
     /**
      * Select specific fields to fetch from the Listing
-     * 
-    **/
+     */
     select?: ListingSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: ListingInclude | null
     /**
      * Filter, which Listings to fetch.
-     * 
-    **/
+     */
     where?: ListingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Listings to fetch.
-     * 
-    **/
+     */
     orderBy?: Enumerable<ListingOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing Listings.
-     * 
-    **/
+     */
     cursor?: ListingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Take `±n` Listings from the position of the cursor.
-     * 
-    **/
+     */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
      * Skip the first `n` Listings.
-     * 
-    **/
+     */
     skip?: number
     distinct?: Enumerable<ListingScalarFieldEnum>
   }
@@ -4929,18 +4718,15 @@ export namespace Prisma {
   export type ListingCreateArgs = {
     /**
      * Select specific fields to fetch from the Listing
-     * 
-    **/
+     */
     select?: ListingSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: ListingInclude | null
     /**
      * The data needed to create a Listing.
-     * 
-    **/
+     */
     data: XOR<ListingCreateInput, ListingUncheckedCreateInput>
   }
 
@@ -4951,23 +4737,19 @@ export namespace Prisma {
   export type ListingUpdateArgs = {
     /**
      * Select specific fields to fetch from the Listing
-     * 
-    **/
+     */
     select?: ListingSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: ListingInclude | null
     /**
      * The data needed to update a Listing.
-     * 
-    **/
+     */
     data: XOR<ListingUpdateInput, ListingUncheckedUpdateInput>
     /**
      * Choose, which Listing to update.
-     * 
-    **/
+     */
     where: ListingWhereUniqueInput
   }
 
@@ -4978,13 +4760,11 @@ export namespace Prisma {
   export type ListingUpdateManyArgs = {
     /**
      * The data used to update Listings.
-     * 
-    **/
+     */
     data: XOR<ListingUpdateManyMutationInput, ListingUncheckedUpdateManyInput>
     /**
      * Filter which Listings to update
-     * 
-    **/
+     */
     where?: ListingWhereInput
   }
 
@@ -4995,28 +4775,23 @@ export namespace Prisma {
   export type ListingUpsertArgs = {
     /**
      * Select specific fields to fetch from the Listing
-     * 
-    **/
+     */
     select?: ListingSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: ListingInclude | null
     /**
      * The filter to search for the Listing to update in case it exists.
-     * 
-    **/
+     */
     where: ListingWhereUniqueInput
     /**
      * In case the Listing found by the `where` argument doesn't exist, create a new Listing with this data.
-     * 
-    **/
+     */
     create: XOR<ListingCreateInput, ListingUncheckedCreateInput>
     /**
      * In case the Listing was found with the provided `where` argument, update it with this data.
-     * 
-    **/
+     */
     update: XOR<ListingUpdateInput, ListingUncheckedUpdateInput>
   }
 
@@ -5027,18 +4802,15 @@ export namespace Prisma {
   export type ListingDeleteArgs = {
     /**
      * Select specific fields to fetch from the Listing
-     * 
-    **/
+     */
     select?: ListingSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: ListingInclude | null
     /**
      * Filter which Listing to delete.
-     * 
-    **/
+     */
     where: ListingWhereUniqueInput
   }
 
@@ -5049,8 +4821,7 @@ export namespace Prisma {
   export type ListingDeleteManyArgs = {
     /**
      * Filter which Listings to delete
-     * 
-    **/
+     */
     where?: ListingWhereInput
   }
 
@@ -5058,16 +4829,14 @@ export namespace Prisma {
   /**
    * Listing.coupons
    */
-  export type ListingCouponsArgs = {
+  export type Listing$couponsArgs = {
     /**
      * Select specific fields to fetch from the Coupon
-     * 
-    **/
+     */
     select?: CouponSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: CouponInclude | null
     where?: CouponWhereInput
     orderBy?: Enumerable<CouponOrderByWithRelationInput>
@@ -5084,13 +4853,11 @@ export namespace Prisma {
   export type ListingArgs = {
     /**
      * Select specific fields to fetch from the Listing
-     * 
-    **/
+     */
     select?: ListingSelect | null
     /**
      * Choose, which related nodes to fetch as well.
-     * 
-    **/
+     */
     include?: ListingInclude | null
   }
 
