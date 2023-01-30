@@ -26,13 +26,14 @@ export type User = {
 }
 
 /**
- * Model CouponsUsedByUser
+ * Model CouponsForUser
  * 
  */
-export type CouponsUsedByUser = {
+export type CouponsForUser = {
   id: number
   userId: number | null
   couponsName: string | null
+  used: boolean
 }
 
 /**
@@ -55,11 +56,17 @@ export type Listing = {
   id: number
   name: string
   address: string
-  category: string
+  city: string
+  zipcode: string
+  displayTitle: string
+  subTitle: string | null
+  category: string | null
+  attributes: string
   description: string
   email: string
   phone: string
   website: string
+  images: string
 }
 
 
@@ -191,14 +198,14 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<GlobalReject>;
 
   /**
-   * `prisma.couponsUsedByUser`: Exposes CRUD operations for the **CouponsUsedByUser** model.
+   * `prisma.couponsForUser`: Exposes CRUD operations for the **CouponsForUser** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more CouponsUsedByUsers
-    * const couponsUsedByUsers = await prisma.couponsUsedByUser.findMany()
+    * // Fetch zero or more CouponsForUsers
+    * const couponsForUsers = await prisma.couponsForUser.findMany()
     * ```
     */
-  get couponsUsedByUser(): Prisma.CouponsUsedByUserDelegate<GlobalReject>;
+  get couponsForUser(): Prisma.CouponsForUserDelegate<GlobalReject>;
 
   /**
    * `prisma.coupon`: Exposes CRUD operations for the **Coupon** model.
@@ -696,7 +703,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    CouponsUsedByUser: 'CouponsUsedByUser',
+    CouponsForUser: 'CouponsForUser',
     Coupon: 'Coupon',
     Listing: 'Listing'
   };
@@ -869,11 +876,11 @@ export namespace Prisma {
 
 
   export type UserCountOutputType = {
-    couponsUsedByUser: number
+    couponsForUser: number
   }
 
   export type UserCountOutputTypeSelect = {
-    couponsUsedByUser?: boolean
+    couponsForUser?: boolean
   }
 
   export type UserCountOutputTypeGetPayload<S extends boolean | null | undefined | UserCountOutputTypeArgs> =
@@ -1204,13 +1211,13 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     role?: boolean
-    couponsUsedByUser?: boolean | User$couponsUsedByUserArgs
+    couponsForUser?: boolean | User$couponsForUserArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
 
   export type UserInclude = {
-    couponsUsedByUser?: boolean | User$couponsUsedByUserArgs
+    couponsForUser?: boolean | User$couponsForUserArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
@@ -1221,13 +1228,13 @@ export namespace Prisma {
     S extends { include: any } & (UserArgs | UserFindManyArgs)
     ? User  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'couponsUsedByUser' ? Array < CouponsUsedByUserGetPayload<S['include'][P]>>  :
+        P extends 'couponsForUser' ? Array < CouponsForUserGetPayload<S['include'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (UserArgs | UserFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'couponsUsedByUser' ? Array < CouponsUsedByUserGetPayload<S['select'][P]>>  :
+        P extends 'couponsForUser' ? Array < CouponsForUserGetPayload<S['select'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
   } 
       : User
@@ -1586,7 +1593,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-    couponsUsedByUser<T extends User$couponsUsedByUserArgs= {}>(args?: Subset<T, User$couponsUsedByUserArgs>): PrismaPromise<Array<CouponsUsedByUserGetPayload<T>>| Null>;
+    couponsForUser<T extends User$couponsForUserArgs= {}>(args?: Subset<T, User$couponsForUserArgs>): PrismaPromise<Array<CouponsForUserGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -1932,23 +1939,23 @@ export namespace Prisma {
 
 
   /**
-   * User.couponsUsedByUser
+   * User.couponsForUser
    */
-  export type User$couponsUsedByUserArgs = {
+  export type User$couponsForUserArgs = {
     /**
-     * Select specific fields to fetch from the CouponsUsedByUser
+     * Select specific fields to fetch from the CouponsForUser
      */
-    select?: CouponsUsedByUserSelect | null
+    select?: CouponsForUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CouponsUsedByUserInclude | null
-    where?: CouponsUsedByUserWhereInput
-    orderBy?: Enumerable<CouponsUsedByUserOrderByWithRelationInput>
-    cursor?: CouponsUsedByUserWhereUniqueInput
+    include?: CouponsForUserInclude | null
+    where?: CouponsForUserWhereInput
+    orderBy?: Enumerable<CouponsForUserOrderByWithRelationInput>
+    cursor?: CouponsForUserWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<CouponsUsedByUserScalarFieldEnum>
+    distinct?: Enumerable<CouponsForUserScalarFieldEnum>
   }
 
 
@@ -1969,353 +1976,361 @@ export namespace Prisma {
 
 
   /**
-   * Model CouponsUsedByUser
+   * Model CouponsForUser
    */
 
 
-  export type AggregateCouponsUsedByUser = {
-    _count: CouponsUsedByUserCountAggregateOutputType | null
-    _avg: CouponsUsedByUserAvgAggregateOutputType | null
-    _sum: CouponsUsedByUserSumAggregateOutputType | null
-    _min: CouponsUsedByUserMinAggregateOutputType | null
-    _max: CouponsUsedByUserMaxAggregateOutputType | null
+  export type AggregateCouponsForUser = {
+    _count: CouponsForUserCountAggregateOutputType | null
+    _avg: CouponsForUserAvgAggregateOutputType | null
+    _sum: CouponsForUserSumAggregateOutputType | null
+    _min: CouponsForUserMinAggregateOutputType | null
+    _max: CouponsForUserMaxAggregateOutputType | null
   }
 
-  export type CouponsUsedByUserAvgAggregateOutputType = {
+  export type CouponsForUserAvgAggregateOutputType = {
     id: number | null
     userId: number | null
   }
 
-  export type CouponsUsedByUserSumAggregateOutputType = {
+  export type CouponsForUserSumAggregateOutputType = {
     id: number | null
     userId: number | null
   }
 
-  export type CouponsUsedByUserMinAggregateOutputType = {
-    id: number | null
-    userId: number | null
-    couponsName: string | null
-  }
-
-  export type CouponsUsedByUserMaxAggregateOutputType = {
+  export type CouponsForUserMinAggregateOutputType = {
     id: number | null
     userId: number | null
     couponsName: string | null
+    used: boolean | null
   }
 
-  export type CouponsUsedByUserCountAggregateOutputType = {
+  export type CouponsForUserMaxAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    couponsName: string | null
+    used: boolean | null
+  }
+
+  export type CouponsForUserCountAggregateOutputType = {
     id: number
     userId: number
     couponsName: number
+    used: number
     _all: number
   }
 
 
-  export type CouponsUsedByUserAvgAggregateInputType = {
+  export type CouponsForUserAvgAggregateInputType = {
     id?: true
     userId?: true
   }
 
-  export type CouponsUsedByUserSumAggregateInputType = {
+  export type CouponsForUserSumAggregateInputType = {
     id?: true
     userId?: true
   }
 
-  export type CouponsUsedByUserMinAggregateInputType = {
+  export type CouponsForUserMinAggregateInputType = {
     id?: true
     userId?: true
     couponsName?: true
+    used?: true
   }
 
-  export type CouponsUsedByUserMaxAggregateInputType = {
+  export type CouponsForUserMaxAggregateInputType = {
     id?: true
     userId?: true
     couponsName?: true
+    used?: true
   }
 
-  export type CouponsUsedByUserCountAggregateInputType = {
+  export type CouponsForUserCountAggregateInputType = {
     id?: true
     userId?: true
     couponsName?: true
+    used?: true
     _all?: true
   }
 
-  export type CouponsUsedByUserAggregateArgs = {
+  export type CouponsForUserAggregateArgs = {
     /**
-     * Filter which CouponsUsedByUser to aggregate.
+     * Filter which CouponsForUser to aggregate.
      */
-    where?: CouponsUsedByUserWhereInput
+    where?: CouponsForUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CouponsUsedByUsers to fetch.
+     * Determine the order of CouponsForUsers to fetch.
      */
-    orderBy?: Enumerable<CouponsUsedByUserOrderByWithRelationInput>
+    orderBy?: Enumerable<CouponsForUserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: CouponsUsedByUserWhereUniqueInput
+    cursor?: CouponsForUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CouponsUsedByUsers from the position of the cursor.
+     * Take `±n` CouponsForUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CouponsUsedByUsers.
+     * Skip the first `n` CouponsForUsers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned CouponsUsedByUsers
+     * Count returned CouponsForUsers
     **/
-    _count?: true | CouponsUsedByUserCountAggregateInputType
+    _count?: true | CouponsForUserCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: CouponsUsedByUserAvgAggregateInputType
+    _avg?: CouponsForUserAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: CouponsUsedByUserSumAggregateInputType
+    _sum?: CouponsForUserSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: CouponsUsedByUserMinAggregateInputType
+    _min?: CouponsForUserMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: CouponsUsedByUserMaxAggregateInputType
+    _max?: CouponsForUserMaxAggregateInputType
   }
 
-  export type GetCouponsUsedByUserAggregateType<T extends CouponsUsedByUserAggregateArgs> = {
-        [P in keyof T & keyof AggregateCouponsUsedByUser]: P extends '_count' | 'count'
+  export type GetCouponsForUserAggregateType<T extends CouponsForUserAggregateArgs> = {
+        [P in keyof T & keyof AggregateCouponsForUser]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateCouponsUsedByUser[P]>
-      : GetScalarType<T[P], AggregateCouponsUsedByUser[P]>
+        : GetScalarType<T[P], AggregateCouponsForUser[P]>
+      : GetScalarType<T[P], AggregateCouponsForUser[P]>
   }
 
 
 
 
-  export type CouponsUsedByUserGroupByArgs = {
-    where?: CouponsUsedByUserWhereInput
-    orderBy?: Enumerable<CouponsUsedByUserOrderByWithAggregationInput>
-    by: CouponsUsedByUserScalarFieldEnum[]
-    having?: CouponsUsedByUserScalarWhereWithAggregatesInput
+  export type CouponsForUserGroupByArgs = {
+    where?: CouponsForUserWhereInput
+    orderBy?: Enumerable<CouponsForUserOrderByWithAggregationInput>
+    by: CouponsForUserScalarFieldEnum[]
+    having?: CouponsForUserScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: CouponsUsedByUserCountAggregateInputType | true
-    _avg?: CouponsUsedByUserAvgAggregateInputType
-    _sum?: CouponsUsedByUserSumAggregateInputType
-    _min?: CouponsUsedByUserMinAggregateInputType
-    _max?: CouponsUsedByUserMaxAggregateInputType
+    _count?: CouponsForUserCountAggregateInputType | true
+    _avg?: CouponsForUserAvgAggregateInputType
+    _sum?: CouponsForUserSumAggregateInputType
+    _min?: CouponsForUserMinAggregateInputType
+    _max?: CouponsForUserMaxAggregateInputType
   }
 
 
-  export type CouponsUsedByUserGroupByOutputType = {
+  export type CouponsForUserGroupByOutputType = {
     id: number
     userId: number | null
     couponsName: string | null
-    _count: CouponsUsedByUserCountAggregateOutputType | null
-    _avg: CouponsUsedByUserAvgAggregateOutputType | null
-    _sum: CouponsUsedByUserSumAggregateOutputType | null
-    _min: CouponsUsedByUserMinAggregateOutputType | null
-    _max: CouponsUsedByUserMaxAggregateOutputType | null
+    used: boolean
+    _count: CouponsForUserCountAggregateOutputType | null
+    _avg: CouponsForUserAvgAggregateOutputType | null
+    _sum: CouponsForUserSumAggregateOutputType | null
+    _min: CouponsForUserMinAggregateOutputType | null
+    _max: CouponsForUserMaxAggregateOutputType | null
   }
 
-  type GetCouponsUsedByUserGroupByPayload<T extends CouponsUsedByUserGroupByArgs> = PrismaPromise<
+  type GetCouponsForUserGroupByPayload<T extends CouponsForUserGroupByArgs> = PrismaPromise<
     Array<
-      PickArray<CouponsUsedByUserGroupByOutputType, T['by']> &
+      PickArray<CouponsForUserGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof CouponsUsedByUserGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof CouponsForUserGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], CouponsUsedByUserGroupByOutputType[P]>
-            : GetScalarType<T[P], CouponsUsedByUserGroupByOutputType[P]>
+              : GetScalarType<T[P], CouponsForUserGroupByOutputType[P]>
+            : GetScalarType<T[P], CouponsForUserGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type CouponsUsedByUserSelect = {
+  export type CouponsForUserSelect = {
     id?: boolean
     User?: boolean | UserArgs
     userId?: boolean
     Coupons?: boolean | CouponArgs
     couponsName?: boolean
+    used?: boolean
   }
 
 
-  export type CouponsUsedByUserInclude = {
+  export type CouponsForUserInclude = {
     User?: boolean | UserArgs
     Coupons?: boolean | CouponArgs
   }
 
-  export type CouponsUsedByUserGetPayload<S extends boolean | null | undefined | CouponsUsedByUserArgs> =
+  export type CouponsForUserGetPayload<S extends boolean | null | undefined | CouponsForUserArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? CouponsUsedByUser :
+    S extends true ? CouponsForUser :
     S extends undefined ? never :
-    S extends { include: any } & (CouponsUsedByUserArgs | CouponsUsedByUserFindManyArgs)
-    ? CouponsUsedByUser  & {
+    S extends { include: any } & (CouponsForUserArgs | CouponsForUserFindManyArgs)
+    ? CouponsForUser  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'User' ? UserGetPayload<S['include'][P]> | null :
         P extends 'Coupons' ? CouponGetPayload<S['include'][P]> | null :  never
   } 
-    : S extends { select: any } & (CouponsUsedByUserArgs | CouponsUsedByUserFindManyArgs)
+    : S extends { select: any } & (CouponsForUserArgs | CouponsForUserFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'User' ? UserGetPayload<S['select'][P]> | null :
-        P extends 'Coupons' ? CouponGetPayload<S['select'][P]> | null :  P extends keyof CouponsUsedByUser ? CouponsUsedByUser[P] : never
+        P extends 'Coupons' ? CouponGetPayload<S['select'][P]> | null :  P extends keyof CouponsForUser ? CouponsForUser[P] : never
   } 
-      : CouponsUsedByUser
+      : CouponsForUser
 
 
-  type CouponsUsedByUserCountArgs = 
-    Omit<CouponsUsedByUserFindManyArgs, 'select' | 'include'> & {
-      select?: CouponsUsedByUserCountAggregateInputType | true
+  type CouponsForUserCountArgs = 
+    Omit<CouponsForUserFindManyArgs, 'select' | 'include'> & {
+      select?: CouponsForUserCountAggregateInputType | true
     }
 
-  export interface CouponsUsedByUserDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface CouponsForUserDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one CouponsUsedByUser that matches the filter.
-     * @param {CouponsUsedByUserFindUniqueArgs} args - Arguments to find a CouponsUsedByUser
+     * Find zero or one CouponsForUser that matches the filter.
+     * @param {CouponsForUserFindUniqueArgs} args - Arguments to find a CouponsForUser
      * @example
-     * // Get one CouponsUsedByUser
-     * const couponsUsedByUser = await prisma.couponsUsedByUser.findUnique({
+     * // Get one CouponsForUser
+     * const couponsForUser = await prisma.couponsForUser.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends CouponsUsedByUserFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, CouponsUsedByUserFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CouponsUsedByUser'> extends True ? Prisma__CouponsUsedByUserClient<CouponsUsedByUserGetPayload<T>> : Prisma__CouponsUsedByUserClient<CouponsUsedByUserGetPayload<T> | null, null>
+    findUnique<T extends CouponsForUserFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, CouponsForUserFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'CouponsForUser'> extends True ? Prisma__CouponsForUserClient<CouponsForUserGetPayload<T>> : Prisma__CouponsForUserClient<CouponsForUserGetPayload<T> | null, null>
 
     /**
-     * Find one CouponsUsedByUser that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one CouponsForUser that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {CouponsUsedByUserFindUniqueOrThrowArgs} args - Arguments to find a CouponsUsedByUser
+     * @param {CouponsForUserFindUniqueOrThrowArgs} args - Arguments to find a CouponsForUser
      * @example
-     * // Get one CouponsUsedByUser
-     * const couponsUsedByUser = await prisma.couponsUsedByUser.findUniqueOrThrow({
+     * // Get one CouponsForUser
+     * const couponsForUser = await prisma.couponsForUser.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends CouponsUsedByUserFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, CouponsUsedByUserFindUniqueOrThrowArgs>
-    ): Prisma__CouponsUsedByUserClient<CouponsUsedByUserGetPayload<T>>
+    findUniqueOrThrow<T extends CouponsForUserFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, CouponsForUserFindUniqueOrThrowArgs>
+    ): Prisma__CouponsForUserClient<CouponsForUserGetPayload<T>>
 
     /**
-     * Find the first CouponsUsedByUser that matches the filter.
+     * Find the first CouponsForUser that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CouponsUsedByUserFindFirstArgs} args - Arguments to find a CouponsUsedByUser
+     * @param {CouponsForUserFindFirstArgs} args - Arguments to find a CouponsForUser
      * @example
-     * // Get one CouponsUsedByUser
-     * const couponsUsedByUser = await prisma.couponsUsedByUser.findFirst({
+     * // Get one CouponsForUser
+     * const couponsForUser = await prisma.couponsForUser.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends CouponsUsedByUserFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, CouponsUsedByUserFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CouponsUsedByUser'> extends True ? Prisma__CouponsUsedByUserClient<CouponsUsedByUserGetPayload<T>> : Prisma__CouponsUsedByUserClient<CouponsUsedByUserGetPayload<T> | null, null>
+    findFirst<T extends CouponsForUserFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, CouponsForUserFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'CouponsForUser'> extends True ? Prisma__CouponsForUserClient<CouponsForUserGetPayload<T>> : Prisma__CouponsForUserClient<CouponsForUserGetPayload<T> | null, null>
 
     /**
-     * Find the first CouponsUsedByUser that matches the filter or
+     * Find the first CouponsForUser that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CouponsUsedByUserFindFirstOrThrowArgs} args - Arguments to find a CouponsUsedByUser
+     * @param {CouponsForUserFindFirstOrThrowArgs} args - Arguments to find a CouponsForUser
      * @example
-     * // Get one CouponsUsedByUser
-     * const couponsUsedByUser = await prisma.couponsUsedByUser.findFirstOrThrow({
+     * // Get one CouponsForUser
+     * const couponsForUser = await prisma.couponsForUser.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends CouponsUsedByUserFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, CouponsUsedByUserFindFirstOrThrowArgs>
-    ): Prisma__CouponsUsedByUserClient<CouponsUsedByUserGetPayload<T>>
+    findFirstOrThrow<T extends CouponsForUserFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, CouponsForUserFindFirstOrThrowArgs>
+    ): Prisma__CouponsForUserClient<CouponsForUserGetPayload<T>>
 
     /**
-     * Find zero or more CouponsUsedByUsers that matches the filter.
+     * Find zero or more CouponsForUsers that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CouponsUsedByUserFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {CouponsForUserFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all CouponsUsedByUsers
-     * const couponsUsedByUsers = await prisma.couponsUsedByUser.findMany()
+     * // Get all CouponsForUsers
+     * const couponsForUsers = await prisma.couponsForUser.findMany()
      * 
-     * // Get first 10 CouponsUsedByUsers
-     * const couponsUsedByUsers = await prisma.couponsUsedByUser.findMany({ take: 10 })
+     * // Get first 10 CouponsForUsers
+     * const couponsForUsers = await prisma.couponsForUser.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const couponsUsedByUserWithIdOnly = await prisma.couponsUsedByUser.findMany({ select: { id: true } })
+     * const couponsForUserWithIdOnly = await prisma.couponsForUser.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends CouponsUsedByUserFindManyArgs>(
-      args?: SelectSubset<T, CouponsUsedByUserFindManyArgs>
-    ): PrismaPromise<Array<CouponsUsedByUserGetPayload<T>>>
+    findMany<T extends CouponsForUserFindManyArgs>(
+      args?: SelectSubset<T, CouponsForUserFindManyArgs>
+    ): PrismaPromise<Array<CouponsForUserGetPayload<T>>>
 
     /**
-     * Create a CouponsUsedByUser.
-     * @param {CouponsUsedByUserCreateArgs} args - Arguments to create a CouponsUsedByUser.
+     * Create a CouponsForUser.
+     * @param {CouponsForUserCreateArgs} args - Arguments to create a CouponsForUser.
      * @example
-     * // Create one CouponsUsedByUser
-     * const CouponsUsedByUser = await prisma.couponsUsedByUser.create({
+     * // Create one CouponsForUser
+     * const CouponsForUser = await prisma.couponsForUser.create({
      *   data: {
-     *     // ... data to create a CouponsUsedByUser
+     *     // ... data to create a CouponsForUser
      *   }
      * })
      * 
     **/
-    create<T extends CouponsUsedByUserCreateArgs>(
-      args: SelectSubset<T, CouponsUsedByUserCreateArgs>
-    ): Prisma__CouponsUsedByUserClient<CouponsUsedByUserGetPayload<T>>
+    create<T extends CouponsForUserCreateArgs>(
+      args: SelectSubset<T, CouponsForUserCreateArgs>
+    ): Prisma__CouponsForUserClient<CouponsForUserGetPayload<T>>
 
     /**
-     * Delete a CouponsUsedByUser.
-     * @param {CouponsUsedByUserDeleteArgs} args - Arguments to delete one CouponsUsedByUser.
+     * Delete a CouponsForUser.
+     * @param {CouponsForUserDeleteArgs} args - Arguments to delete one CouponsForUser.
      * @example
-     * // Delete one CouponsUsedByUser
-     * const CouponsUsedByUser = await prisma.couponsUsedByUser.delete({
+     * // Delete one CouponsForUser
+     * const CouponsForUser = await prisma.couponsForUser.delete({
      *   where: {
-     *     // ... filter to delete one CouponsUsedByUser
+     *     // ... filter to delete one CouponsForUser
      *   }
      * })
      * 
     **/
-    delete<T extends CouponsUsedByUserDeleteArgs>(
-      args: SelectSubset<T, CouponsUsedByUserDeleteArgs>
-    ): Prisma__CouponsUsedByUserClient<CouponsUsedByUserGetPayload<T>>
+    delete<T extends CouponsForUserDeleteArgs>(
+      args: SelectSubset<T, CouponsForUserDeleteArgs>
+    ): Prisma__CouponsForUserClient<CouponsForUserGetPayload<T>>
 
     /**
-     * Update one CouponsUsedByUser.
-     * @param {CouponsUsedByUserUpdateArgs} args - Arguments to update one CouponsUsedByUser.
+     * Update one CouponsForUser.
+     * @param {CouponsForUserUpdateArgs} args - Arguments to update one CouponsForUser.
      * @example
-     * // Update one CouponsUsedByUser
-     * const couponsUsedByUser = await prisma.couponsUsedByUser.update({
+     * // Update one CouponsForUser
+     * const couponsForUser = await prisma.couponsForUser.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2325,34 +2340,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends CouponsUsedByUserUpdateArgs>(
-      args: SelectSubset<T, CouponsUsedByUserUpdateArgs>
-    ): Prisma__CouponsUsedByUserClient<CouponsUsedByUserGetPayload<T>>
+    update<T extends CouponsForUserUpdateArgs>(
+      args: SelectSubset<T, CouponsForUserUpdateArgs>
+    ): Prisma__CouponsForUserClient<CouponsForUserGetPayload<T>>
 
     /**
-     * Delete zero or more CouponsUsedByUsers.
-     * @param {CouponsUsedByUserDeleteManyArgs} args - Arguments to filter CouponsUsedByUsers to delete.
+     * Delete zero or more CouponsForUsers.
+     * @param {CouponsForUserDeleteManyArgs} args - Arguments to filter CouponsForUsers to delete.
      * @example
-     * // Delete a few CouponsUsedByUsers
-     * const { count } = await prisma.couponsUsedByUser.deleteMany({
+     * // Delete a few CouponsForUsers
+     * const { count } = await prisma.couponsForUser.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends CouponsUsedByUserDeleteManyArgs>(
-      args?: SelectSubset<T, CouponsUsedByUserDeleteManyArgs>
+    deleteMany<T extends CouponsForUserDeleteManyArgs>(
+      args?: SelectSubset<T, CouponsForUserDeleteManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more CouponsUsedByUsers.
+     * Update zero or more CouponsForUsers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CouponsUsedByUserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {CouponsForUserUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many CouponsUsedByUsers
-     * const couponsUsedByUser = await prisma.couponsUsedByUser.updateMany({
+     * // Update many CouponsForUsers
+     * const couponsForUser = await prisma.couponsForUser.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2362,59 +2377,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends CouponsUsedByUserUpdateManyArgs>(
-      args: SelectSubset<T, CouponsUsedByUserUpdateManyArgs>
+    updateMany<T extends CouponsForUserUpdateManyArgs>(
+      args: SelectSubset<T, CouponsForUserUpdateManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one CouponsUsedByUser.
-     * @param {CouponsUsedByUserUpsertArgs} args - Arguments to update or create a CouponsUsedByUser.
+     * Create or update one CouponsForUser.
+     * @param {CouponsForUserUpsertArgs} args - Arguments to update or create a CouponsForUser.
      * @example
-     * // Update or create a CouponsUsedByUser
-     * const couponsUsedByUser = await prisma.couponsUsedByUser.upsert({
+     * // Update or create a CouponsForUser
+     * const couponsForUser = await prisma.couponsForUser.upsert({
      *   create: {
-     *     // ... data to create a CouponsUsedByUser
+     *     // ... data to create a CouponsForUser
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the CouponsUsedByUser we want to update
+     *     // ... the filter for the CouponsForUser we want to update
      *   }
      * })
     **/
-    upsert<T extends CouponsUsedByUserUpsertArgs>(
-      args: SelectSubset<T, CouponsUsedByUserUpsertArgs>
-    ): Prisma__CouponsUsedByUserClient<CouponsUsedByUserGetPayload<T>>
+    upsert<T extends CouponsForUserUpsertArgs>(
+      args: SelectSubset<T, CouponsForUserUpsertArgs>
+    ): Prisma__CouponsForUserClient<CouponsForUserGetPayload<T>>
 
     /**
-     * Count the number of CouponsUsedByUsers.
+     * Count the number of CouponsForUsers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CouponsUsedByUserCountArgs} args - Arguments to filter CouponsUsedByUsers to count.
+     * @param {CouponsForUserCountArgs} args - Arguments to filter CouponsForUsers to count.
      * @example
-     * // Count the number of CouponsUsedByUsers
-     * const count = await prisma.couponsUsedByUser.count({
+     * // Count the number of CouponsForUsers
+     * const count = await prisma.couponsForUser.count({
      *   where: {
-     *     // ... the filter for the CouponsUsedByUsers we want to count
+     *     // ... the filter for the CouponsForUsers we want to count
      *   }
      * })
     **/
-    count<T extends CouponsUsedByUserCountArgs>(
-      args?: Subset<T, CouponsUsedByUserCountArgs>,
+    count<T extends CouponsForUserCountArgs>(
+      args?: Subset<T, CouponsForUserCountArgs>,
     ): PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], CouponsUsedByUserCountAggregateOutputType>
+          : GetScalarType<T['select'], CouponsForUserCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a CouponsUsedByUser.
+     * Allows you to perform aggregations operations on a CouponsForUser.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CouponsUsedByUserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {CouponsForUserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -2434,13 +2449,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends CouponsUsedByUserAggregateArgs>(args: Subset<T, CouponsUsedByUserAggregateArgs>): PrismaPromise<GetCouponsUsedByUserAggregateType<T>>
+    aggregate<T extends CouponsForUserAggregateArgs>(args: Subset<T, CouponsForUserAggregateArgs>): PrismaPromise<GetCouponsForUserAggregateType<T>>
 
     /**
-     * Group by CouponsUsedByUser.
+     * Group by CouponsForUser.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CouponsUsedByUserGroupByArgs} args - Group by arguments.
+     * @param {CouponsForUserGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -2455,14 +2470,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends CouponsUsedByUserGroupByArgs,
+      T extends CouponsForUserGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CouponsUsedByUserGroupByArgs['orderBy'] }
-        : { orderBy?: CouponsUsedByUserGroupByArgs['orderBy'] },
+        ? { orderBy: CouponsForUserGroupByArgs['orderBy'] }
+        : { orderBy?: CouponsForUserGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -2511,17 +2526,17 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, CouponsUsedByUserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCouponsUsedByUserGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, CouponsForUserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCouponsForUserGroupByPayload<T> : PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for CouponsUsedByUser.
+   * The delegate class that acts as a "Promise-like" for CouponsForUser.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__CouponsUsedByUserClient<T, Null = never> implements PrismaPromise<T> {
+  export class Prisma__CouponsForUserClient<T, Null = never> implements PrismaPromise<T> {
     [prisma]: true;
     private readonly _dmmf;
     private readonly _fetcher;
@@ -2570,27 +2585,27 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * CouponsUsedByUser base type for findUnique actions
+   * CouponsForUser base type for findUnique actions
    */
-  export type CouponsUsedByUserFindUniqueArgsBase = {
+  export type CouponsForUserFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the CouponsUsedByUser
+     * Select specific fields to fetch from the CouponsForUser
      */
-    select?: CouponsUsedByUserSelect | null
+    select?: CouponsForUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CouponsUsedByUserInclude | null
+    include?: CouponsForUserInclude | null
     /**
-     * Filter, which CouponsUsedByUser to fetch.
+     * Filter, which CouponsForUser to fetch.
      */
-    where: CouponsUsedByUserWhereUniqueInput
+    where: CouponsForUserWhereUniqueInput
   }
 
   /**
-   * CouponsUsedByUser findUnique
+   * CouponsForUser findUnique
    */
-  export interface CouponsUsedByUserFindUniqueArgs extends CouponsUsedByUserFindUniqueArgsBase {
+  export interface CouponsForUserFindUniqueArgs extends CouponsForUserFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -2600,76 +2615,76 @@ export namespace Prisma {
       
 
   /**
-   * CouponsUsedByUser findUniqueOrThrow
+   * CouponsForUser findUniqueOrThrow
    */
-  export type CouponsUsedByUserFindUniqueOrThrowArgs = {
+  export type CouponsForUserFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the CouponsUsedByUser
+     * Select specific fields to fetch from the CouponsForUser
      */
-    select?: CouponsUsedByUserSelect | null
+    select?: CouponsForUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CouponsUsedByUserInclude | null
+    include?: CouponsForUserInclude | null
     /**
-     * Filter, which CouponsUsedByUser to fetch.
+     * Filter, which CouponsForUser to fetch.
      */
-    where: CouponsUsedByUserWhereUniqueInput
+    where: CouponsForUserWhereUniqueInput
   }
 
 
   /**
-   * CouponsUsedByUser base type for findFirst actions
+   * CouponsForUser base type for findFirst actions
    */
-  export type CouponsUsedByUserFindFirstArgsBase = {
+  export type CouponsForUserFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the CouponsUsedByUser
+     * Select specific fields to fetch from the CouponsForUser
      */
-    select?: CouponsUsedByUserSelect | null
+    select?: CouponsForUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CouponsUsedByUserInclude | null
+    include?: CouponsForUserInclude | null
     /**
-     * Filter, which CouponsUsedByUser to fetch.
+     * Filter, which CouponsForUser to fetch.
      */
-    where?: CouponsUsedByUserWhereInput
+    where?: CouponsForUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CouponsUsedByUsers to fetch.
+     * Determine the order of CouponsForUsers to fetch.
      */
-    orderBy?: Enumerable<CouponsUsedByUserOrderByWithRelationInput>
+    orderBy?: Enumerable<CouponsForUserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for CouponsUsedByUsers.
+     * Sets the position for searching for CouponsForUsers.
      */
-    cursor?: CouponsUsedByUserWhereUniqueInput
+    cursor?: CouponsForUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CouponsUsedByUsers from the position of the cursor.
+     * Take `±n` CouponsForUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CouponsUsedByUsers.
+     * Skip the first `n` CouponsForUsers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of CouponsUsedByUsers.
+     * Filter by unique combinations of CouponsForUsers.
      */
-    distinct?: Enumerable<CouponsUsedByUserScalarFieldEnum>
+    distinct?: Enumerable<CouponsForUserScalarFieldEnum>
   }
 
   /**
-   * CouponsUsedByUser findFirst
+   * CouponsForUser findFirst
    */
-  export interface CouponsUsedByUserFindFirstArgs extends CouponsUsedByUserFindFirstArgsBase {
+  export interface CouponsForUserFindFirstArgs extends CouponsForUserFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -2679,224 +2694,224 @@ export namespace Prisma {
       
 
   /**
-   * CouponsUsedByUser findFirstOrThrow
+   * CouponsForUser findFirstOrThrow
    */
-  export type CouponsUsedByUserFindFirstOrThrowArgs = {
+  export type CouponsForUserFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the CouponsUsedByUser
+     * Select specific fields to fetch from the CouponsForUser
      */
-    select?: CouponsUsedByUserSelect | null
+    select?: CouponsForUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CouponsUsedByUserInclude | null
+    include?: CouponsForUserInclude | null
     /**
-     * Filter, which CouponsUsedByUser to fetch.
+     * Filter, which CouponsForUser to fetch.
      */
-    where?: CouponsUsedByUserWhereInput
+    where?: CouponsForUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CouponsUsedByUsers to fetch.
+     * Determine the order of CouponsForUsers to fetch.
      */
-    orderBy?: Enumerable<CouponsUsedByUserOrderByWithRelationInput>
+    orderBy?: Enumerable<CouponsForUserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for CouponsUsedByUsers.
+     * Sets the position for searching for CouponsForUsers.
      */
-    cursor?: CouponsUsedByUserWhereUniqueInput
+    cursor?: CouponsForUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CouponsUsedByUsers from the position of the cursor.
+     * Take `±n` CouponsForUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CouponsUsedByUsers.
+     * Skip the first `n` CouponsForUsers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of CouponsUsedByUsers.
+     * Filter by unique combinations of CouponsForUsers.
      */
-    distinct?: Enumerable<CouponsUsedByUserScalarFieldEnum>
+    distinct?: Enumerable<CouponsForUserScalarFieldEnum>
   }
 
 
   /**
-   * CouponsUsedByUser findMany
+   * CouponsForUser findMany
    */
-  export type CouponsUsedByUserFindManyArgs = {
+  export type CouponsForUserFindManyArgs = {
     /**
-     * Select specific fields to fetch from the CouponsUsedByUser
+     * Select specific fields to fetch from the CouponsForUser
      */
-    select?: CouponsUsedByUserSelect | null
+    select?: CouponsForUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CouponsUsedByUserInclude | null
+    include?: CouponsForUserInclude | null
     /**
-     * Filter, which CouponsUsedByUsers to fetch.
+     * Filter, which CouponsForUsers to fetch.
      */
-    where?: CouponsUsedByUserWhereInput
+    where?: CouponsForUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CouponsUsedByUsers to fetch.
+     * Determine the order of CouponsForUsers to fetch.
      */
-    orderBy?: Enumerable<CouponsUsedByUserOrderByWithRelationInput>
+    orderBy?: Enumerable<CouponsForUserOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing CouponsUsedByUsers.
+     * Sets the position for listing CouponsForUsers.
      */
-    cursor?: CouponsUsedByUserWhereUniqueInput
+    cursor?: CouponsForUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CouponsUsedByUsers from the position of the cursor.
+     * Take `±n` CouponsForUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CouponsUsedByUsers.
+     * Skip the first `n` CouponsForUsers.
      */
     skip?: number
-    distinct?: Enumerable<CouponsUsedByUserScalarFieldEnum>
+    distinct?: Enumerable<CouponsForUserScalarFieldEnum>
   }
 
 
   /**
-   * CouponsUsedByUser create
+   * CouponsForUser create
    */
-  export type CouponsUsedByUserCreateArgs = {
+  export type CouponsForUserCreateArgs = {
     /**
-     * Select specific fields to fetch from the CouponsUsedByUser
+     * Select specific fields to fetch from the CouponsForUser
      */
-    select?: CouponsUsedByUserSelect | null
+    select?: CouponsForUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CouponsUsedByUserInclude | null
+    include?: CouponsForUserInclude | null
     /**
-     * The data needed to create a CouponsUsedByUser.
+     * The data needed to create a CouponsForUser.
      */
-    data: XOR<CouponsUsedByUserCreateInput, CouponsUsedByUserUncheckedCreateInput>
+    data: XOR<CouponsForUserCreateInput, CouponsForUserUncheckedCreateInput>
   }
 
 
   /**
-   * CouponsUsedByUser update
+   * CouponsForUser update
    */
-  export type CouponsUsedByUserUpdateArgs = {
+  export type CouponsForUserUpdateArgs = {
     /**
-     * Select specific fields to fetch from the CouponsUsedByUser
+     * Select specific fields to fetch from the CouponsForUser
      */
-    select?: CouponsUsedByUserSelect | null
+    select?: CouponsForUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CouponsUsedByUserInclude | null
+    include?: CouponsForUserInclude | null
     /**
-     * The data needed to update a CouponsUsedByUser.
+     * The data needed to update a CouponsForUser.
      */
-    data: XOR<CouponsUsedByUserUpdateInput, CouponsUsedByUserUncheckedUpdateInput>
+    data: XOR<CouponsForUserUpdateInput, CouponsForUserUncheckedUpdateInput>
     /**
-     * Choose, which CouponsUsedByUser to update.
+     * Choose, which CouponsForUser to update.
      */
-    where: CouponsUsedByUserWhereUniqueInput
+    where: CouponsForUserWhereUniqueInput
   }
 
 
   /**
-   * CouponsUsedByUser updateMany
+   * CouponsForUser updateMany
    */
-  export type CouponsUsedByUserUpdateManyArgs = {
+  export type CouponsForUserUpdateManyArgs = {
     /**
-     * The data used to update CouponsUsedByUsers.
+     * The data used to update CouponsForUsers.
      */
-    data: XOR<CouponsUsedByUserUpdateManyMutationInput, CouponsUsedByUserUncheckedUpdateManyInput>
+    data: XOR<CouponsForUserUpdateManyMutationInput, CouponsForUserUncheckedUpdateManyInput>
     /**
-     * Filter which CouponsUsedByUsers to update
+     * Filter which CouponsForUsers to update
      */
-    where?: CouponsUsedByUserWhereInput
+    where?: CouponsForUserWhereInput
   }
 
 
   /**
-   * CouponsUsedByUser upsert
+   * CouponsForUser upsert
    */
-  export type CouponsUsedByUserUpsertArgs = {
+  export type CouponsForUserUpsertArgs = {
     /**
-     * Select specific fields to fetch from the CouponsUsedByUser
+     * Select specific fields to fetch from the CouponsForUser
      */
-    select?: CouponsUsedByUserSelect | null
+    select?: CouponsForUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CouponsUsedByUserInclude | null
+    include?: CouponsForUserInclude | null
     /**
-     * The filter to search for the CouponsUsedByUser to update in case it exists.
+     * The filter to search for the CouponsForUser to update in case it exists.
      */
-    where: CouponsUsedByUserWhereUniqueInput
+    where: CouponsForUserWhereUniqueInput
     /**
-     * In case the CouponsUsedByUser found by the `where` argument doesn't exist, create a new CouponsUsedByUser with this data.
+     * In case the CouponsForUser found by the `where` argument doesn't exist, create a new CouponsForUser with this data.
      */
-    create: XOR<CouponsUsedByUserCreateInput, CouponsUsedByUserUncheckedCreateInput>
+    create: XOR<CouponsForUserCreateInput, CouponsForUserUncheckedCreateInput>
     /**
-     * In case the CouponsUsedByUser was found with the provided `where` argument, update it with this data.
+     * In case the CouponsForUser was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<CouponsUsedByUserUpdateInput, CouponsUsedByUserUncheckedUpdateInput>
+    update: XOR<CouponsForUserUpdateInput, CouponsForUserUncheckedUpdateInput>
   }
 
 
   /**
-   * CouponsUsedByUser delete
+   * CouponsForUser delete
    */
-  export type CouponsUsedByUserDeleteArgs = {
+  export type CouponsForUserDeleteArgs = {
     /**
-     * Select specific fields to fetch from the CouponsUsedByUser
+     * Select specific fields to fetch from the CouponsForUser
      */
-    select?: CouponsUsedByUserSelect | null
+    select?: CouponsForUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CouponsUsedByUserInclude | null
+    include?: CouponsForUserInclude | null
     /**
-     * Filter which CouponsUsedByUser to delete.
+     * Filter which CouponsForUser to delete.
      */
-    where: CouponsUsedByUserWhereUniqueInput
+    where: CouponsForUserWhereUniqueInput
   }
 
 
   /**
-   * CouponsUsedByUser deleteMany
+   * CouponsForUser deleteMany
    */
-  export type CouponsUsedByUserDeleteManyArgs = {
+  export type CouponsForUserDeleteManyArgs = {
     /**
-     * Filter which CouponsUsedByUsers to delete
+     * Filter which CouponsForUsers to delete
      */
-    where?: CouponsUsedByUserWhereInput
+    where?: CouponsForUserWhereInput
   }
 
 
   /**
-   * CouponsUsedByUser without action
+   * CouponsForUser without action
    */
-  export type CouponsUsedByUserArgs = {
+  export type CouponsForUserArgs = {
     /**
-     * Select specific fields to fetch from the CouponsUsedByUser
+     * Select specific fields to fetch from the CouponsForUser
      */
-    select?: CouponsUsedByUserSelect | null
+    select?: CouponsForUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CouponsUsedByUserInclude | null
+    include?: CouponsForUserInclude | null
   }
 
 
@@ -3125,14 +3140,14 @@ export namespace Prisma {
     ? Coupon  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'listing' ? ListingGetPayload<S['include'][P]> | null :
-        P extends 'couponsUsedByUser' ? Array < CouponsUsedByUserGetPayload<S['include'][P]>>  :
+        P extends 'couponsUsedByUser' ? Array < CouponsForUserGetPayload<S['include'][P]>>  :
         P extends '_count' ? CouponCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (CouponArgs | CouponFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'listing' ? ListingGetPayload<S['select'][P]> | null :
-        P extends 'couponsUsedByUser' ? Array < CouponsUsedByUserGetPayload<S['select'][P]>>  :
+        P extends 'couponsUsedByUser' ? Array < CouponsForUserGetPayload<S['select'][P]>>  :
         P extends '_count' ? CouponCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Coupon ? Coupon[P] : never
   } 
       : Coupon
@@ -3493,7 +3508,7 @@ export namespace Prisma {
 
     listing<T extends ListingArgs= {}>(args?: Subset<T, ListingArgs>): Prisma__ListingClient<ListingGetPayload<T> | Null>;
 
-    couponsUsedByUser<T extends Coupon$couponsUsedByUserArgs= {}>(args?: Subset<T, Coupon$couponsUsedByUserArgs>): PrismaPromise<Array<CouponsUsedByUserGetPayload<T>>| Null>;
+    couponsUsedByUser<T extends Coupon$couponsUsedByUserArgs= {}>(args?: Subset<T, Coupon$couponsUsedByUserArgs>): PrismaPromise<Array<CouponsForUserGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -3843,19 +3858,19 @@ export namespace Prisma {
    */
   export type Coupon$couponsUsedByUserArgs = {
     /**
-     * Select specific fields to fetch from the CouponsUsedByUser
+     * Select specific fields to fetch from the CouponsForUser
      */
-    select?: CouponsUsedByUserSelect | null
+    select?: CouponsForUserSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: CouponsUsedByUserInclude | null
-    where?: CouponsUsedByUserWhereInput
-    orderBy?: Enumerable<CouponsUsedByUserOrderByWithRelationInput>
-    cursor?: CouponsUsedByUserWhereUniqueInput
+    include?: CouponsForUserInclude | null
+    where?: CouponsForUserWhereInput
+    orderBy?: Enumerable<CouponsForUserOrderByWithRelationInput>
+    cursor?: CouponsForUserWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<CouponsUsedByUserScalarFieldEnum>
+    distinct?: Enumerable<CouponsForUserScalarFieldEnum>
   }
 
 
@@ -3900,33 +3915,51 @@ export namespace Prisma {
     id: number | null
     name: string | null
     address: string | null
+    city: string | null
+    zipcode: string | null
+    displayTitle: string | null
+    subTitle: string | null
     category: string | null
+    attributes: string | null
     description: string | null
     email: string | null
     phone: string | null
     website: string | null
+    images: string | null
   }
 
   export type ListingMaxAggregateOutputType = {
     id: number | null
     name: string | null
     address: string | null
+    city: string | null
+    zipcode: string | null
+    displayTitle: string | null
+    subTitle: string | null
     category: string | null
+    attributes: string | null
     description: string | null
     email: string | null
     phone: string | null
     website: string | null
+    images: string | null
   }
 
   export type ListingCountAggregateOutputType = {
     id: number
     name: number
     address: number
+    city: number
+    zipcode: number
+    displayTitle: number
+    subTitle: number
     category: number
+    attributes: number
     description: number
     email: number
     phone: number
     website: number
+    images: number
     _all: number
   }
 
@@ -3943,33 +3976,51 @@ export namespace Prisma {
     id?: true
     name?: true
     address?: true
+    city?: true
+    zipcode?: true
+    displayTitle?: true
+    subTitle?: true
     category?: true
+    attributes?: true
     description?: true
     email?: true
     phone?: true
     website?: true
+    images?: true
   }
 
   export type ListingMaxAggregateInputType = {
     id?: true
     name?: true
     address?: true
+    city?: true
+    zipcode?: true
+    displayTitle?: true
+    subTitle?: true
     category?: true
+    attributes?: true
     description?: true
     email?: true
     phone?: true
     website?: true
+    images?: true
   }
 
   export type ListingCountAggregateInputType = {
     id?: true
     name?: true
     address?: true
+    city?: true
+    zipcode?: true
+    displayTitle?: true
+    subTitle?: true
     category?: true
+    attributes?: true
     description?: true
     email?: true
     phone?: true
     website?: true
+    images?: true
     _all?: true
   }
 
@@ -4064,11 +4115,17 @@ export namespace Prisma {
     id: number
     name: string
     address: string
-    category: string
+    city: string
+    zipcode: string
+    displayTitle: string
+    subTitle: string | null
+    category: string | null
+    attributes: string
     description: string
     email: string
     phone: string
     website: string
+    images: string
     _count: ListingCountAggregateOutputType | null
     _avg: ListingAvgAggregateOutputType | null
     _sum: ListingSumAggregateOutputType | null
@@ -4094,11 +4151,17 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     address?: boolean
+    city?: boolean
+    zipcode?: boolean
+    displayTitle?: boolean
+    subTitle?: boolean
     category?: boolean
+    attributes?: boolean
     description?: boolean
     email?: boolean
     phone?: boolean
     website?: boolean
+    images?: boolean
     coupons?: boolean | Listing$couponsArgs
     _count?: boolean | ListingCountOutputTypeArgs
   }
@@ -4881,24 +4944,31 @@ export namespace Prisma {
   export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
 
 
-  export const CouponsUsedByUserScalarFieldEnum: {
+  export const CouponsForUserScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    couponsName: 'couponsName'
+    couponsName: 'couponsName',
+    used: 'used'
   };
 
-  export type CouponsUsedByUserScalarFieldEnum = (typeof CouponsUsedByUserScalarFieldEnum)[keyof typeof CouponsUsedByUserScalarFieldEnum]
+  export type CouponsForUserScalarFieldEnum = (typeof CouponsForUserScalarFieldEnum)[keyof typeof CouponsForUserScalarFieldEnum]
 
 
   export const ListingScalarFieldEnum: {
     id: 'id',
     name: 'name',
     address: 'address',
+    city: 'city',
+    zipcode: 'zipcode',
+    displayTitle: 'displayTitle',
+    subTitle: 'subTitle',
     category: 'category',
+    attributes: 'attributes',
     description: 'description',
     email: 'email',
     phone: 'phone',
-    website: 'website'
+    website: 'website',
+    images: 'images'
   };
 
   export type ListingScalarFieldEnum = (typeof ListingScalarFieldEnum)[keyof typeof ListingScalarFieldEnum]
@@ -4946,7 +5016,7 @@ export namespace Prisma {
     firstName?: StringNullableFilter | string | null
     lastName?: StringNullableFilter | string | null
     role?: StringFilter | string
-    couponsUsedByUser?: CouponsUsedByUserListRelationFilter
+    couponsForUser?: CouponsForUserListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4956,7 +5026,7 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     role?: SortOrder
-    couponsUsedByUser?: CouponsUsedByUserOrderByRelationAggregateInput
+    couponsForUser?: CouponsForUserOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = {
@@ -4990,47 +5060,51 @@ export namespace Prisma {
     role?: StringWithAggregatesFilter | string
   }
 
-  export type CouponsUsedByUserWhereInput = {
-    AND?: Enumerable<CouponsUsedByUserWhereInput>
-    OR?: Enumerable<CouponsUsedByUserWhereInput>
-    NOT?: Enumerable<CouponsUsedByUserWhereInput>
+  export type CouponsForUserWhereInput = {
+    AND?: Enumerable<CouponsForUserWhereInput>
+    OR?: Enumerable<CouponsForUserWhereInput>
+    NOT?: Enumerable<CouponsForUserWhereInput>
     id?: IntFilter | number
     User?: XOR<UserRelationFilter, UserWhereInput> | null
     userId?: IntNullableFilter | number | null
     Coupons?: XOR<CouponRelationFilter, CouponWhereInput> | null
     couponsName?: StringNullableFilter | string | null
+    used?: BoolFilter | boolean
   }
 
-  export type CouponsUsedByUserOrderByWithRelationInput = {
+  export type CouponsForUserOrderByWithRelationInput = {
     id?: SortOrder
     User?: UserOrderByWithRelationInput
     userId?: SortOrder
     Coupons?: CouponOrderByWithRelationInput
     couponsName?: SortOrder
+    used?: SortOrder
   }
 
-  export type CouponsUsedByUserWhereUniqueInput = {
+  export type CouponsForUserWhereUniqueInput = {
     id?: number
   }
 
-  export type CouponsUsedByUserOrderByWithAggregationInput = {
+  export type CouponsForUserOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
     couponsName?: SortOrder
-    _count?: CouponsUsedByUserCountOrderByAggregateInput
-    _avg?: CouponsUsedByUserAvgOrderByAggregateInput
-    _max?: CouponsUsedByUserMaxOrderByAggregateInput
-    _min?: CouponsUsedByUserMinOrderByAggregateInput
-    _sum?: CouponsUsedByUserSumOrderByAggregateInput
+    used?: SortOrder
+    _count?: CouponsForUserCountOrderByAggregateInput
+    _avg?: CouponsForUserAvgOrderByAggregateInput
+    _max?: CouponsForUserMaxOrderByAggregateInput
+    _min?: CouponsForUserMinOrderByAggregateInput
+    _sum?: CouponsForUserSumOrderByAggregateInput
   }
 
-  export type CouponsUsedByUserScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<CouponsUsedByUserScalarWhereWithAggregatesInput>
-    OR?: Enumerable<CouponsUsedByUserScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<CouponsUsedByUserScalarWhereWithAggregatesInput>
+  export type CouponsForUserScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<CouponsForUserScalarWhereWithAggregatesInput>
+    OR?: Enumerable<CouponsForUserScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<CouponsForUserScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
     userId?: IntNullableWithAggregatesFilter | number | null
     couponsName?: StringNullableWithAggregatesFilter | string | null
+    used?: BoolWithAggregatesFilter | boolean
   }
 
   export type CouponWhereInput = {
@@ -5043,7 +5117,7 @@ export namespace Prisma {
     listingId?: IntNullableFilter | number | null
     deal?: StringFilter | string
     expires?: DateTimeFilter | Date | string
-    couponsUsedByUser?: CouponsUsedByUserListRelationFilter
+    couponsUsedByUser?: CouponsForUserListRelationFilter
   }
 
   export type CouponOrderByWithRelationInput = {
@@ -5053,7 +5127,7 @@ export namespace Prisma {
     listingId?: SortOrder
     deal?: SortOrder
     expires?: SortOrder
-    couponsUsedByUser?: CouponsUsedByUserOrderByRelationAggregateInput
+    couponsUsedByUser?: CouponsForUserOrderByRelationAggregateInput
   }
 
   export type CouponWhereUniqueInput = {
@@ -5092,11 +5166,17 @@ export namespace Prisma {
     id?: IntFilter | number
     name?: StringFilter | string
     address?: StringFilter | string
-    category?: StringFilter | string
+    city?: StringFilter | string
+    zipcode?: StringFilter | string
+    displayTitle?: StringFilter | string
+    subTitle?: StringNullableFilter | string | null
+    category?: StringNullableFilter | string | null
+    attributes?: StringFilter | string
     description?: StringFilter | string
     email?: StringFilter | string
     phone?: StringFilter | string
     website?: StringFilter | string
+    images?: StringFilter | string
     coupons?: CouponListRelationFilter
   }
 
@@ -5104,11 +5184,17 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     address?: SortOrder
+    city?: SortOrder
+    zipcode?: SortOrder
+    displayTitle?: SortOrder
+    subTitle?: SortOrder
     category?: SortOrder
+    attributes?: SortOrder
     description?: SortOrder
     email?: SortOrder
     phone?: SortOrder
     website?: SortOrder
+    images?: SortOrder
     coupons?: CouponOrderByRelationAggregateInput
   }
 
@@ -5121,11 +5207,17 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     address?: SortOrder
+    city?: SortOrder
+    zipcode?: SortOrder
+    displayTitle?: SortOrder
+    subTitle?: SortOrder
     category?: SortOrder
+    attributes?: SortOrder
     description?: SortOrder
     email?: SortOrder
     phone?: SortOrder
     website?: SortOrder
+    images?: SortOrder
     _count?: ListingCountOrderByAggregateInput
     _avg?: ListingAvgOrderByAggregateInput
     _max?: ListingMaxOrderByAggregateInput
@@ -5140,11 +5232,17 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter | number
     name?: StringWithAggregatesFilter | string
     address?: StringWithAggregatesFilter | string
-    category?: StringWithAggregatesFilter | string
+    city?: StringWithAggregatesFilter | string
+    zipcode?: StringWithAggregatesFilter | string
+    displayTitle?: StringWithAggregatesFilter | string
+    subTitle?: StringNullableWithAggregatesFilter | string | null
+    category?: StringNullableWithAggregatesFilter | string | null
+    attributes?: StringWithAggregatesFilter | string
     description?: StringWithAggregatesFilter | string
     email?: StringWithAggregatesFilter | string
     phone?: StringWithAggregatesFilter | string
     website?: StringWithAggregatesFilter | string
+    images?: StringWithAggregatesFilter | string
   }
 
   export type UserCreateInput = {
@@ -5153,7 +5251,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     role?: string
-    couponsUsedByUser?: CouponsUsedByUserCreateNestedManyWithoutUserInput
+    couponsForUser?: CouponsForUserCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -5163,7 +5261,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     role?: string
-    couponsUsedByUser?: CouponsUsedByUserUncheckedCreateNestedManyWithoutUserInput
+    couponsForUser?: CouponsForUserUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -5172,7 +5270,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    couponsUsedByUser?: CouponsUsedByUserUpdateManyWithoutUserNestedInput
+    couponsForUser?: CouponsForUserUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -5182,7 +5280,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
-    couponsUsedByUser?: CouponsUsedByUserUncheckedUpdateManyWithoutUserNestedInput
+    couponsForUser?: CouponsForUserUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpdateManyMutationInput = {
@@ -5202,36 +5300,41 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
   }
 
-  export type CouponsUsedByUserCreateInput = {
-    User?: UserCreateNestedOneWithoutCouponsUsedByUserInput
+  export type CouponsForUserCreateInput = {
+    User?: UserCreateNestedOneWithoutCouponsForUserInput
     Coupons?: CouponCreateNestedOneWithoutCouponsUsedByUserInput
+    used?: boolean
   }
 
-  export type CouponsUsedByUserUncheckedCreateInput = {
+  export type CouponsForUserUncheckedCreateInput = {
     id?: number
     userId?: number | null
     couponsName?: string | null
+    used?: boolean
   }
 
-  export type CouponsUsedByUserUpdateInput = {
-    User?: UserUpdateOneWithoutCouponsUsedByUserNestedInput
+  export type CouponsForUserUpdateInput = {
+    User?: UserUpdateOneWithoutCouponsForUserNestedInput
     Coupons?: CouponUpdateOneWithoutCouponsUsedByUserNestedInput
+    used?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type CouponsUsedByUserUncheckedUpdateInput = {
+  export type CouponsForUserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: NullableIntFieldUpdateOperationsInput | number | null
     couponsName?: NullableStringFieldUpdateOperationsInput | string | null
+    used?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type CouponsUsedByUserUpdateManyMutationInput = {
-
+  export type CouponsForUserUpdateManyMutationInput = {
+    used?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type CouponsUsedByUserUncheckedUpdateManyInput = {
+  export type CouponsForUserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: NullableIntFieldUpdateOperationsInput | number | null
     couponsName?: NullableStringFieldUpdateOperationsInput | string | null
+    used?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CouponCreateInput = {
@@ -5239,7 +5342,7 @@ export namespace Prisma {
     listing?: ListingCreateNestedOneWithoutCouponsInput
     deal: string
     expires: Date | string
-    couponsUsedByUser?: CouponsUsedByUserCreateNestedManyWithoutCouponsInput
+    couponsUsedByUser?: CouponsForUserCreateNestedManyWithoutCouponsInput
   }
 
   export type CouponUncheckedCreateInput = {
@@ -5248,7 +5351,7 @@ export namespace Prisma {
     listingId?: number | null
     deal: string
     expires: Date | string
-    couponsUsedByUser?: CouponsUsedByUserUncheckedCreateNestedManyWithoutCouponsInput
+    couponsUsedByUser?: CouponsForUserUncheckedCreateNestedManyWithoutCouponsInput
   }
 
   export type CouponUpdateInput = {
@@ -5256,7 +5359,7 @@ export namespace Prisma {
     listing?: ListingUpdateOneWithoutCouponsNestedInput
     deal?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
-    couponsUsedByUser?: CouponsUsedByUserUpdateManyWithoutCouponsNestedInput
+    couponsUsedByUser?: CouponsForUserUpdateManyWithoutCouponsNestedInput
   }
 
   export type CouponUncheckedUpdateInput = {
@@ -5265,7 +5368,7 @@ export namespace Prisma {
     listingId?: NullableIntFieldUpdateOperationsInput | number | null
     deal?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
-    couponsUsedByUser?: CouponsUsedByUserUncheckedUpdateManyWithoutCouponsNestedInput
+    couponsUsedByUser?: CouponsForUserUncheckedUpdateManyWithoutCouponsNestedInput
   }
 
   export type CouponUpdateManyMutationInput = {
@@ -5285,11 +5388,17 @@ export namespace Prisma {
   export type ListingCreateInput = {
     name: string
     address: string
-    category: string
+    city: string
+    zipcode: string
+    displayTitle: string
+    subTitle?: string | null
+    category?: string | null
+    attributes: string
     description: string
     email: string
     phone: string
     website: string
+    images: string
     coupons?: CouponCreateNestedManyWithoutListingInput
   }
 
@@ -5297,22 +5406,34 @@ export namespace Prisma {
     id?: number
     name: string
     address: string
-    category: string
+    city: string
+    zipcode: string
+    displayTitle: string
+    subTitle?: string | null
+    category?: string | null
+    attributes: string
     description: string
     email: string
     phone: string
     website: string
+    images: string
     coupons?: CouponUncheckedCreateNestedManyWithoutListingInput
   }
 
   export type ListingUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipcode?: StringFieldUpdateOperationsInput | string
+    displayTitle?: StringFieldUpdateOperationsInput | string
+    subTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     website?: StringFieldUpdateOperationsInput | string
+    images?: StringFieldUpdateOperationsInput | string
     coupons?: CouponUpdateManyWithoutListingNestedInput
   }
 
@@ -5320,33 +5441,51 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipcode?: StringFieldUpdateOperationsInput | string
+    displayTitle?: StringFieldUpdateOperationsInput | string
+    subTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     website?: StringFieldUpdateOperationsInput | string
+    images?: StringFieldUpdateOperationsInput | string
     coupons?: CouponUncheckedUpdateManyWithoutListingNestedInput
   }
 
   export type ListingUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipcode?: StringFieldUpdateOperationsInput | string
+    displayTitle?: StringFieldUpdateOperationsInput | string
+    subTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     website?: StringFieldUpdateOperationsInput | string
+    images?: StringFieldUpdateOperationsInput | string
   }
 
   export type ListingUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipcode?: StringFieldUpdateOperationsInput | string
+    displayTitle?: StringFieldUpdateOperationsInput | string
+    subTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     website?: StringFieldUpdateOperationsInput | string
+    images?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter = {
@@ -5399,13 +5538,13 @@ export namespace Prisma {
     not?: NestedStringNullableFilter | string | null
   }
 
-  export type CouponsUsedByUserListRelationFilter = {
-    every?: CouponsUsedByUserWhereInput
-    some?: CouponsUsedByUserWhereInput
-    none?: CouponsUsedByUserWhereInput
+  export type CouponsForUserListRelationFilter = {
+    every?: CouponsForUserWhereInput
+    some?: CouponsForUserWhereInput
+    none?: CouponsForUserWhereInput
   }
 
-  export type CouponsUsedByUserOrderByRelationAggregateInput = {
+  export type CouponsForUserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5529,30 +5668,38 @@ export namespace Prisma {
     isNot?: CouponWhereInput | null
   }
 
-  export type CouponsUsedByUserCountOrderByAggregateInput = {
+  export type BoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
+  export type CouponsForUserCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     couponsName?: SortOrder
+    used?: SortOrder
   }
 
-  export type CouponsUsedByUserAvgOrderByAggregateInput = {
+  export type CouponsForUserAvgOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
   }
 
-  export type CouponsUsedByUserMaxOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    couponsName?: SortOrder
-  }
-
-  export type CouponsUsedByUserMinOrderByAggregateInput = {
+  export type CouponsForUserMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     couponsName?: SortOrder
+    used?: SortOrder
   }
 
-  export type CouponsUsedByUserSumOrderByAggregateInput = {
+  export type CouponsForUserMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    couponsName?: SortOrder
+    used?: SortOrder
+  }
+
+  export type CouponsForUserSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
   }
@@ -5571,6 +5718,14 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter
     _min?: NestedIntNullableFilter
     _max?: NestedIntNullableFilter
+  }
+
+  export type BoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
   }
 
   export type ListingRelationFilter = {
@@ -5626,11 +5781,17 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     address?: SortOrder
+    city?: SortOrder
+    zipcode?: SortOrder
+    displayTitle?: SortOrder
+    subTitle?: SortOrder
     category?: SortOrder
+    attributes?: SortOrder
     description?: SortOrder
     email?: SortOrder
     phone?: SortOrder
     website?: SortOrder
+    images?: SortOrder
   }
 
   export type ListingAvgOrderByAggregateInput = {
@@ -5641,38 +5802,50 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     address?: SortOrder
+    city?: SortOrder
+    zipcode?: SortOrder
+    displayTitle?: SortOrder
+    subTitle?: SortOrder
     category?: SortOrder
+    attributes?: SortOrder
     description?: SortOrder
     email?: SortOrder
     phone?: SortOrder
     website?: SortOrder
+    images?: SortOrder
   }
 
   export type ListingMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     address?: SortOrder
+    city?: SortOrder
+    zipcode?: SortOrder
+    displayTitle?: SortOrder
+    subTitle?: SortOrder
     category?: SortOrder
+    attributes?: SortOrder
     description?: SortOrder
     email?: SortOrder
     phone?: SortOrder
     website?: SortOrder
+    images?: SortOrder
   }
 
   export type ListingSumOrderByAggregateInput = {
     id?: SortOrder
   }
 
-  export type CouponsUsedByUserCreateNestedManyWithoutUserInput = {
-    create?: XOR<Enumerable<CouponsUsedByUserCreateWithoutUserInput>, Enumerable<CouponsUsedByUserUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<CouponsUsedByUserCreateOrConnectWithoutUserInput>
-    connect?: Enumerable<CouponsUsedByUserWhereUniqueInput>
+  export type CouponsForUserCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CouponsForUserCreateWithoutUserInput>, Enumerable<CouponsForUserUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CouponsForUserCreateOrConnectWithoutUserInput>
+    connect?: Enumerable<CouponsForUserWhereUniqueInput>
   }
 
-  export type CouponsUsedByUserUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<Enumerable<CouponsUsedByUserCreateWithoutUserInput>, Enumerable<CouponsUsedByUserUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<CouponsUsedByUserCreateOrConnectWithoutUserInput>
-    connect?: Enumerable<CouponsUsedByUserWhereUniqueInput>
+  export type CouponsForUserUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CouponsForUserCreateWithoutUserInput>, Enumerable<CouponsForUserUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CouponsForUserCreateOrConnectWithoutUserInput>
+    connect?: Enumerable<CouponsForUserWhereUniqueInput>
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -5687,17 +5860,17 @@ export namespace Prisma {
     set?: string | null
   }
 
-  export type CouponsUsedByUserUpdateManyWithoutUserNestedInput = {
-    create?: XOR<Enumerable<CouponsUsedByUserCreateWithoutUserInput>, Enumerable<CouponsUsedByUserUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<CouponsUsedByUserCreateOrConnectWithoutUserInput>
-    upsert?: Enumerable<CouponsUsedByUserUpsertWithWhereUniqueWithoutUserInput>
-    set?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    disconnect?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    delete?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    connect?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    update?: Enumerable<CouponsUsedByUserUpdateWithWhereUniqueWithoutUserInput>
-    updateMany?: Enumerable<CouponsUsedByUserUpdateManyWithWhereWithoutUserInput>
-    deleteMany?: Enumerable<CouponsUsedByUserScalarWhereInput>
+  export type CouponsForUserUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CouponsForUserCreateWithoutUserInput>, Enumerable<CouponsForUserUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CouponsForUserCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CouponsForUserUpsertWithWhereUniqueWithoutUserInput>
+    set?: Enumerable<CouponsForUserWhereUniqueInput>
+    disconnect?: Enumerable<CouponsForUserWhereUniqueInput>
+    delete?: Enumerable<CouponsForUserWhereUniqueInput>
+    connect?: Enumerable<CouponsForUserWhereUniqueInput>
+    update?: Enumerable<CouponsForUserUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CouponsForUserUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CouponsForUserScalarWhereInput>
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -5708,22 +5881,22 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type CouponsUsedByUserUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<Enumerable<CouponsUsedByUserCreateWithoutUserInput>, Enumerable<CouponsUsedByUserUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<CouponsUsedByUserCreateOrConnectWithoutUserInput>
-    upsert?: Enumerable<CouponsUsedByUserUpsertWithWhereUniqueWithoutUserInput>
-    set?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    disconnect?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    delete?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    connect?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    update?: Enumerable<CouponsUsedByUserUpdateWithWhereUniqueWithoutUserInput>
-    updateMany?: Enumerable<CouponsUsedByUserUpdateManyWithWhereWithoutUserInput>
-    deleteMany?: Enumerable<CouponsUsedByUserScalarWhereInput>
+  export type CouponsForUserUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CouponsForUserCreateWithoutUserInput>, Enumerable<CouponsForUserUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CouponsForUserCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CouponsForUserUpsertWithWhereUniqueWithoutUserInput>
+    set?: Enumerable<CouponsForUserWhereUniqueInput>
+    disconnect?: Enumerable<CouponsForUserWhereUniqueInput>
+    delete?: Enumerable<CouponsForUserWhereUniqueInput>
+    connect?: Enumerable<CouponsForUserWhereUniqueInput>
+    update?: Enumerable<CouponsForUserUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CouponsForUserUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CouponsForUserScalarWhereInput>
   }
 
-  export type UserCreateNestedOneWithoutCouponsUsedByUserInput = {
-    create?: XOR<UserCreateWithoutCouponsUsedByUserInput, UserUncheckedCreateWithoutCouponsUsedByUserInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCouponsUsedByUserInput
+  export type UserCreateNestedOneWithoutCouponsForUserInput = {
+    create?: XOR<UserCreateWithoutCouponsForUserInput, UserUncheckedCreateWithoutCouponsForUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCouponsForUserInput
     connect?: UserWhereUniqueInput
   }
 
@@ -5733,14 +5906,14 @@ export namespace Prisma {
     connect?: CouponWhereUniqueInput
   }
 
-  export type UserUpdateOneWithoutCouponsUsedByUserNestedInput = {
-    create?: XOR<UserCreateWithoutCouponsUsedByUserInput, UserUncheckedCreateWithoutCouponsUsedByUserInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCouponsUsedByUserInput
-    upsert?: UserUpsertWithoutCouponsUsedByUserInput
+  export type UserUpdateOneWithoutCouponsForUserNestedInput = {
+    create?: XOR<UserCreateWithoutCouponsForUserInput, UserUncheckedCreateWithoutCouponsForUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCouponsForUserInput
+    upsert?: UserUpsertWithoutCouponsForUserInput
     disconnect?: boolean
     delete?: boolean
     connect?: UserWhereUniqueInput
-    update?: XOR<UserUpdateWithoutCouponsUsedByUserInput, UserUncheckedUpdateWithoutCouponsUsedByUserInput>
+    update?: XOR<UserUpdateWithoutCouponsForUserInput, UserUncheckedUpdateWithoutCouponsForUserInput>
   }
 
   export type CouponUpdateOneWithoutCouponsUsedByUserNestedInput = {
@@ -5751,6 +5924,10 @@ export namespace Prisma {
     delete?: boolean
     connect?: CouponWhereUniqueInput
     update?: XOR<CouponUpdateWithoutCouponsUsedByUserInput, CouponUncheckedUpdateWithoutCouponsUsedByUserInput>
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -5767,16 +5944,16 @@ export namespace Prisma {
     connect?: ListingWhereUniqueInput
   }
 
-  export type CouponsUsedByUserCreateNestedManyWithoutCouponsInput = {
-    create?: XOR<Enumerable<CouponsUsedByUserCreateWithoutCouponsInput>, Enumerable<CouponsUsedByUserUncheckedCreateWithoutCouponsInput>>
-    connectOrCreate?: Enumerable<CouponsUsedByUserCreateOrConnectWithoutCouponsInput>
-    connect?: Enumerable<CouponsUsedByUserWhereUniqueInput>
+  export type CouponsForUserCreateNestedManyWithoutCouponsInput = {
+    create?: XOR<Enumerable<CouponsForUserCreateWithoutCouponsInput>, Enumerable<CouponsForUserUncheckedCreateWithoutCouponsInput>>
+    connectOrCreate?: Enumerable<CouponsForUserCreateOrConnectWithoutCouponsInput>
+    connect?: Enumerable<CouponsForUserWhereUniqueInput>
   }
 
-  export type CouponsUsedByUserUncheckedCreateNestedManyWithoutCouponsInput = {
-    create?: XOR<Enumerable<CouponsUsedByUserCreateWithoutCouponsInput>, Enumerable<CouponsUsedByUserUncheckedCreateWithoutCouponsInput>>
-    connectOrCreate?: Enumerable<CouponsUsedByUserCreateOrConnectWithoutCouponsInput>
-    connect?: Enumerable<CouponsUsedByUserWhereUniqueInput>
+  export type CouponsForUserUncheckedCreateNestedManyWithoutCouponsInput = {
+    create?: XOR<Enumerable<CouponsForUserCreateWithoutCouponsInput>, Enumerable<CouponsForUserUncheckedCreateWithoutCouponsInput>>
+    connectOrCreate?: Enumerable<CouponsForUserCreateOrConnectWithoutCouponsInput>
+    connect?: Enumerable<CouponsForUserWhereUniqueInput>
   }
 
   export type ListingUpdateOneWithoutCouponsNestedInput = {
@@ -5789,30 +5966,30 @@ export namespace Prisma {
     update?: XOR<ListingUpdateWithoutCouponsInput, ListingUncheckedUpdateWithoutCouponsInput>
   }
 
-  export type CouponsUsedByUserUpdateManyWithoutCouponsNestedInput = {
-    create?: XOR<Enumerable<CouponsUsedByUserCreateWithoutCouponsInput>, Enumerable<CouponsUsedByUserUncheckedCreateWithoutCouponsInput>>
-    connectOrCreate?: Enumerable<CouponsUsedByUserCreateOrConnectWithoutCouponsInput>
-    upsert?: Enumerable<CouponsUsedByUserUpsertWithWhereUniqueWithoutCouponsInput>
-    set?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    disconnect?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    delete?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    connect?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    update?: Enumerable<CouponsUsedByUserUpdateWithWhereUniqueWithoutCouponsInput>
-    updateMany?: Enumerable<CouponsUsedByUserUpdateManyWithWhereWithoutCouponsInput>
-    deleteMany?: Enumerable<CouponsUsedByUserScalarWhereInput>
+  export type CouponsForUserUpdateManyWithoutCouponsNestedInput = {
+    create?: XOR<Enumerable<CouponsForUserCreateWithoutCouponsInput>, Enumerable<CouponsForUserUncheckedCreateWithoutCouponsInput>>
+    connectOrCreate?: Enumerable<CouponsForUserCreateOrConnectWithoutCouponsInput>
+    upsert?: Enumerable<CouponsForUserUpsertWithWhereUniqueWithoutCouponsInput>
+    set?: Enumerable<CouponsForUserWhereUniqueInput>
+    disconnect?: Enumerable<CouponsForUserWhereUniqueInput>
+    delete?: Enumerable<CouponsForUserWhereUniqueInput>
+    connect?: Enumerable<CouponsForUserWhereUniqueInput>
+    update?: Enumerable<CouponsForUserUpdateWithWhereUniqueWithoutCouponsInput>
+    updateMany?: Enumerable<CouponsForUserUpdateManyWithWhereWithoutCouponsInput>
+    deleteMany?: Enumerable<CouponsForUserScalarWhereInput>
   }
 
-  export type CouponsUsedByUserUncheckedUpdateManyWithoutCouponsNestedInput = {
-    create?: XOR<Enumerable<CouponsUsedByUserCreateWithoutCouponsInput>, Enumerable<CouponsUsedByUserUncheckedCreateWithoutCouponsInput>>
-    connectOrCreate?: Enumerable<CouponsUsedByUserCreateOrConnectWithoutCouponsInput>
-    upsert?: Enumerable<CouponsUsedByUserUpsertWithWhereUniqueWithoutCouponsInput>
-    set?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    disconnect?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    delete?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    connect?: Enumerable<CouponsUsedByUserWhereUniqueInput>
-    update?: Enumerable<CouponsUsedByUserUpdateWithWhereUniqueWithoutCouponsInput>
-    updateMany?: Enumerable<CouponsUsedByUserUpdateManyWithWhereWithoutCouponsInput>
-    deleteMany?: Enumerable<CouponsUsedByUserScalarWhereInput>
+  export type CouponsForUserUncheckedUpdateManyWithoutCouponsNestedInput = {
+    create?: XOR<Enumerable<CouponsForUserCreateWithoutCouponsInput>, Enumerable<CouponsForUserUncheckedCreateWithoutCouponsInput>>
+    connectOrCreate?: Enumerable<CouponsForUserCreateOrConnectWithoutCouponsInput>
+    upsert?: Enumerable<CouponsForUserUpsertWithWhereUniqueWithoutCouponsInput>
+    set?: Enumerable<CouponsForUserWhereUniqueInput>
+    disconnect?: Enumerable<CouponsForUserWhereUniqueInput>
+    delete?: Enumerable<CouponsForUserWhereUniqueInput>
+    connect?: Enumerable<CouponsForUserWhereUniqueInput>
+    update?: Enumerable<CouponsForUserUpdateWithWhereUniqueWithoutCouponsInput>
+    updateMany?: Enumerable<CouponsForUserUpdateManyWithWhereWithoutCouponsInput>
+    deleteMany?: Enumerable<CouponsForUserScalarWhereInput>
   }
 
   export type CouponCreateNestedManyWithoutListingInput = {
@@ -5989,6 +6166,11 @@ export namespace Prisma {
     not?: NestedIntNullableFilter | number | null
   }
 
+  export type NestedBoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
   export type NestedIntNullableWithAggregatesFilter = {
     equals?: number | null
     in?: Enumerable<number> | null
@@ -6016,46 +6198,57 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter | number | null
   }
 
-  export type CouponsUsedByUserCreateWithoutUserInput = {
-    Coupons?: CouponCreateNestedOneWithoutCouponsUsedByUserInput
+  export type NestedBoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
   }
 
-  export type CouponsUsedByUserUncheckedCreateWithoutUserInput = {
+  export type CouponsForUserCreateWithoutUserInput = {
+    Coupons?: CouponCreateNestedOneWithoutCouponsUsedByUserInput
+    used?: boolean
+  }
+
+  export type CouponsForUserUncheckedCreateWithoutUserInput = {
     id?: number
     couponsName?: string | null
+    used?: boolean
   }
 
-  export type CouponsUsedByUserCreateOrConnectWithoutUserInput = {
-    where: CouponsUsedByUserWhereUniqueInput
-    create: XOR<CouponsUsedByUserCreateWithoutUserInput, CouponsUsedByUserUncheckedCreateWithoutUserInput>
+  export type CouponsForUserCreateOrConnectWithoutUserInput = {
+    where: CouponsForUserWhereUniqueInput
+    create: XOR<CouponsForUserCreateWithoutUserInput, CouponsForUserUncheckedCreateWithoutUserInput>
   }
 
-  export type CouponsUsedByUserUpsertWithWhereUniqueWithoutUserInput = {
-    where: CouponsUsedByUserWhereUniqueInput
-    update: XOR<CouponsUsedByUserUpdateWithoutUserInput, CouponsUsedByUserUncheckedUpdateWithoutUserInput>
-    create: XOR<CouponsUsedByUserCreateWithoutUserInput, CouponsUsedByUserUncheckedCreateWithoutUserInput>
+  export type CouponsForUserUpsertWithWhereUniqueWithoutUserInput = {
+    where: CouponsForUserWhereUniqueInput
+    update: XOR<CouponsForUserUpdateWithoutUserInput, CouponsForUserUncheckedUpdateWithoutUserInput>
+    create: XOR<CouponsForUserCreateWithoutUserInput, CouponsForUserUncheckedCreateWithoutUserInput>
   }
 
-  export type CouponsUsedByUserUpdateWithWhereUniqueWithoutUserInput = {
-    where: CouponsUsedByUserWhereUniqueInput
-    data: XOR<CouponsUsedByUserUpdateWithoutUserInput, CouponsUsedByUserUncheckedUpdateWithoutUserInput>
+  export type CouponsForUserUpdateWithWhereUniqueWithoutUserInput = {
+    where: CouponsForUserWhereUniqueInput
+    data: XOR<CouponsForUserUpdateWithoutUserInput, CouponsForUserUncheckedUpdateWithoutUserInput>
   }
 
-  export type CouponsUsedByUserUpdateManyWithWhereWithoutUserInput = {
-    where: CouponsUsedByUserScalarWhereInput
-    data: XOR<CouponsUsedByUserUpdateManyMutationInput, CouponsUsedByUserUncheckedUpdateManyWithoutCouponsUsedByUserInput>
+  export type CouponsForUserUpdateManyWithWhereWithoutUserInput = {
+    where: CouponsForUserScalarWhereInput
+    data: XOR<CouponsForUserUpdateManyMutationInput, CouponsForUserUncheckedUpdateManyWithoutCouponsForUserInput>
   }
 
-  export type CouponsUsedByUserScalarWhereInput = {
-    AND?: Enumerable<CouponsUsedByUserScalarWhereInput>
-    OR?: Enumerable<CouponsUsedByUserScalarWhereInput>
-    NOT?: Enumerable<CouponsUsedByUserScalarWhereInput>
+  export type CouponsForUserScalarWhereInput = {
+    AND?: Enumerable<CouponsForUserScalarWhereInput>
+    OR?: Enumerable<CouponsForUserScalarWhereInput>
+    NOT?: Enumerable<CouponsForUserScalarWhereInput>
     id?: IntFilter | number
     userId?: IntNullableFilter | number | null
     couponsName?: StringNullableFilter | string | null
+    used?: BoolFilter | boolean
   }
 
-  export type UserCreateWithoutCouponsUsedByUserInput = {
+  export type UserCreateWithoutCouponsForUserInput = {
     createdAt?: Date | string
     email: string
     firstName?: string | null
@@ -6063,7 +6256,7 @@ export namespace Prisma {
     role?: string
   }
 
-  export type UserUncheckedCreateWithoutCouponsUsedByUserInput = {
+  export type UserUncheckedCreateWithoutCouponsForUserInput = {
     id?: number
     createdAt?: Date | string
     email: string
@@ -6072,9 +6265,9 @@ export namespace Prisma {
     role?: string
   }
 
-  export type UserCreateOrConnectWithoutCouponsUsedByUserInput = {
+  export type UserCreateOrConnectWithoutCouponsForUserInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutCouponsUsedByUserInput, UserUncheckedCreateWithoutCouponsUsedByUserInput>
+    create: XOR<UserCreateWithoutCouponsForUserInput, UserUncheckedCreateWithoutCouponsForUserInput>
   }
 
   export type CouponCreateWithoutCouponsUsedByUserInput = {
@@ -6097,12 +6290,12 @@ export namespace Prisma {
     create: XOR<CouponCreateWithoutCouponsUsedByUserInput, CouponUncheckedCreateWithoutCouponsUsedByUserInput>
   }
 
-  export type UserUpsertWithoutCouponsUsedByUserInput = {
-    update: XOR<UserUpdateWithoutCouponsUsedByUserInput, UserUncheckedUpdateWithoutCouponsUsedByUserInput>
-    create: XOR<UserCreateWithoutCouponsUsedByUserInput, UserUncheckedCreateWithoutCouponsUsedByUserInput>
+  export type UserUpsertWithoutCouponsForUserInput = {
+    update: XOR<UserUpdateWithoutCouponsForUserInput, UserUncheckedUpdateWithoutCouponsForUserInput>
+    create: XOR<UserCreateWithoutCouponsForUserInput, UserUncheckedCreateWithoutCouponsForUserInput>
   }
 
-  export type UserUpdateWithoutCouponsUsedByUserInput = {
+  export type UserUpdateWithoutCouponsForUserInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6110,7 +6303,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserUncheckedUpdateWithoutCouponsUsedByUserInput = {
+  export type UserUncheckedUpdateWithoutCouponsForUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: StringFieldUpdateOperationsInput | string
@@ -6142,22 +6335,34 @@ export namespace Prisma {
   export type ListingCreateWithoutCouponsInput = {
     name: string
     address: string
-    category: string
+    city: string
+    zipcode: string
+    displayTitle: string
+    subTitle?: string | null
+    category?: string | null
+    attributes: string
     description: string
     email: string
     phone: string
     website: string
+    images: string
   }
 
   export type ListingUncheckedCreateWithoutCouponsInput = {
     id?: number
     name: string
     address: string
-    category: string
+    city: string
+    zipcode: string
+    displayTitle: string
+    subTitle?: string | null
+    category?: string | null
+    attributes: string
     description: string
     email: string
     phone: string
     website: string
+    images: string
   }
 
   export type ListingCreateOrConnectWithoutCouponsInput = {
@@ -6165,18 +6370,20 @@ export namespace Prisma {
     create: XOR<ListingCreateWithoutCouponsInput, ListingUncheckedCreateWithoutCouponsInput>
   }
 
-  export type CouponsUsedByUserCreateWithoutCouponsInput = {
-    User?: UserCreateNestedOneWithoutCouponsUsedByUserInput
+  export type CouponsForUserCreateWithoutCouponsInput = {
+    User?: UserCreateNestedOneWithoutCouponsForUserInput
+    used?: boolean
   }
 
-  export type CouponsUsedByUserUncheckedCreateWithoutCouponsInput = {
+  export type CouponsForUserUncheckedCreateWithoutCouponsInput = {
     id?: number
     userId?: number | null
+    used?: boolean
   }
 
-  export type CouponsUsedByUserCreateOrConnectWithoutCouponsInput = {
-    where: CouponsUsedByUserWhereUniqueInput
-    create: XOR<CouponsUsedByUserCreateWithoutCouponsInput, CouponsUsedByUserUncheckedCreateWithoutCouponsInput>
+  export type CouponsForUserCreateOrConnectWithoutCouponsInput = {
+    where: CouponsForUserWhereUniqueInput
+    create: XOR<CouponsForUserCreateWithoutCouponsInput, CouponsForUserUncheckedCreateWithoutCouponsInput>
   }
 
   export type ListingUpsertWithoutCouponsInput = {
@@ -6187,45 +6394,57 @@ export namespace Prisma {
   export type ListingUpdateWithoutCouponsInput = {
     name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipcode?: StringFieldUpdateOperationsInput | string
+    displayTitle?: StringFieldUpdateOperationsInput | string
+    subTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     website?: StringFieldUpdateOperationsInput | string
+    images?: StringFieldUpdateOperationsInput | string
   }
 
   export type ListingUncheckedUpdateWithoutCouponsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipcode?: StringFieldUpdateOperationsInput | string
+    displayTitle?: StringFieldUpdateOperationsInput | string
+    subTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     website?: StringFieldUpdateOperationsInput | string
+    images?: StringFieldUpdateOperationsInput | string
   }
 
-  export type CouponsUsedByUserUpsertWithWhereUniqueWithoutCouponsInput = {
-    where: CouponsUsedByUserWhereUniqueInput
-    update: XOR<CouponsUsedByUserUpdateWithoutCouponsInput, CouponsUsedByUserUncheckedUpdateWithoutCouponsInput>
-    create: XOR<CouponsUsedByUserCreateWithoutCouponsInput, CouponsUsedByUserUncheckedCreateWithoutCouponsInput>
+  export type CouponsForUserUpsertWithWhereUniqueWithoutCouponsInput = {
+    where: CouponsForUserWhereUniqueInput
+    update: XOR<CouponsForUserUpdateWithoutCouponsInput, CouponsForUserUncheckedUpdateWithoutCouponsInput>
+    create: XOR<CouponsForUserCreateWithoutCouponsInput, CouponsForUserUncheckedCreateWithoutCouponsInput>
   }
 
-  export type CouponsUsedByUserUpdateWithWhereUniqueWithoutCouponsInput = {
-    where: CouponsUsedByUserWhereUniqueInput
-    data: XOR<CouponsUsedByUserUpdateWithoutCouponsInput, CouponsUsedByUserUncheckedUpdateWithoutCouponsInput>
+  export type CouponsForUserUpdateWithWhereUniqueWithoutCouponsInput = {
+    where: CouponsForUserWhereUniqueInput
+    data: XOR<CouponsForUserUpdateWithoutCouponsInput, CouponsForUserUncheckedUpdateWithoutCouponsInput>
   }
 
-  export type CouponsUsedByUserUpdateManyWithWhereWithoutCouponsInput = {
-    where: CouponsUsedByUserScalarWhereInput
-    data: XOR<CouponsUsedByUserUpdateManyMutationInput, CouponsUsedByUserUncheckedUpdateManyWithoutCouponsUsedByUserInput>
+  export type CouponsForUserUpdateManyWithWhereWithoutCouponsInput = {
+    where: CouponsForUserScalarWhereInput
+    data: XOR<CouponsForUserUpdateManyMutationInput, CouponsForUserUncheckedUpdateManyWithoutCouponsUsedByUserInput>
   }
 
   export type CouponCreateWithoutListingInput = {
     name: string
     deal: string
     expires: Date | string
-    couponsUsedByUser?: CouponsUsedByUserCreateNestedManyWithoutCouponsInput
+    couponsUsedByUser?: CouponsForUserCreateNestedManyWithoutCouponsInput
   }
 
   export type CouponUncheckedCreateWithoutListingInput = {
@@ -6233,7 +6452,7 @@ export namespace Prisma {
     name: string
     deal: string
     expires: Date | string
-    couponsUsedByUser?: CouponsUsedByUserUncheckedCreateNestedManyWithoutCouponsInput
+    couponsUsedByUser?: CouponsForUserUncheckedCreateNestedManyWithoutCouponsInput
   }
 
   export type CouponCreateOrConnectWithoutListingInput = {
@@ -6268,34 +6487,45 @@ export namespace Prisma {
     expires?: DateTimeFilter | Date | string
   }
 
-  export type CouponsUsedByUserUpdateWithoutUserInput = {
+  export type CouponsForUserUpdateWithoutUserInput = {
     Coupons?: CouponUpdateOneWithoutCouponsUsedByUserNestedInput
+    used?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type CouponsUsedByUserUncheckedUpdateWithoutUserInput = {
+  export type CouponsForUserUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     couponsName?: NullableStringFieldUpdateOperationsInput | string | null
+    used?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type CouponsUsedByUserUncheckedUpdateManyWithoutCouponsUsedByUserInput = {
+  export type CouponsForUserUncheckedUpdateManyWithoutCouponsForUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     couponsName?: NullableStringFieldUpdateOperationsInput | string | null
+    used?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type CouponsUsedByUserUpdateWithoutCouponsInput = {
-    User?: UserUpdateOneWithoutCouponsUsedByUserNestedInput
+  export type CouponsForUserUpdateWithoutCouponsInput = {
+    User?: UserUpdateOneWithoutCouponsForUserNestedInput
+    used?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type CouponsUsedByUserUncheckedUpdateWithoutCouponsInput = {
+  export type CouponsForUserUncheckedUpdateWithoutCouponsInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: NullableIntFieldUpdateOperationsInput | number | null
+    used?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type CouponsForUserUncheckedUpdateManyWithoutCouponsUsedByUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
+    used?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CouponUpdateWithoutListingInput = {
     name?: StringFieldUpdateOperationsInput | string
     deal?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
-    couponsUsedByUser?: CouponsUsedByUserUpdateManyWithoutCouponsNestedInput
+    couponsUsedByUser?: CouponsForUserUpdateManyWithoutCouponsNestedInput
   }
 
   export type CouponUncheckedUpdateWithoutListingInput = {
@@ -6303,7 +6533,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     deal?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
-    couponsUsedByUser?: CouponsUsedByUserUncheckedUpdateManyWithoutCouponsNestedInput
+    couponsUsedByUser?: CouponsForUserUncheckedUpdateManyWithoutCouponsNestedInput
   }
 
   export type CouponUncheckedUpdateManyWithoutCouponsInput = {
