@@ -61,7 +61,7 @@ export type Listing = {
   displayTitle: string
   subTitle: string | null
   category: string | null
-  attributes: string
+  attributes: string | null
   description: string
   email: string
   phone: string
@@ -4120,7 +4120,7 @@ export namespace Prisma {
     displayTitle: string
     subTitle: string | null
     category: string | null
-    attributes: string
+    attributes: string | null
     description: string
     email: string
     phone: string
@@ -5171,7 +5171,7 @@ export namespace Prisma {
     displayTitle?: StringFilter | string
     subTitle?: StringNullableFilter | string | null
     category?: StringNullableFilter | string | null
-    attributes?: StringFilter | string
+    attributes?: StringNullableFilter | string | null
     description?: StringFilter | string
     email?: StringFilter | string
     phone?: StringFilter | string
@@ -5237,7 +5237,7 @@ export namespace Prisma {
     displayTitle?: StringWithAggregatesFilter | string
     subTitle?: StringNullableWithAggregatesFilter | string | null
     category?: StringNullableWithAggregatesFilter | string | null
-    attributes?: StringWithAggregatesFilter | string
+    attributes?: StringNullableWithAggregatesFilter | string | null
     description?: StringWithAggregatesFilter | string
     email?: StringWithAggregatesFilter | string
     phone?: StringWithAggregatesFilter | string
@@ -5393,7 +5393,7 @@ export namespace Prisma {
     displayTitle: string
     subTitle?: string | null
     category?: string | null
-    attributes: string
+    attributes?: string | null
     description: string
     email: string
     phone: string
@@ -5411,7 +5411,7 @@ export namespace Prisma {
     displayTitle: string
     subTitle?: string | null
     category?: string | null
-    attributes: string
+    attributes?: string | null
     description: string
     email: string
     phone: string
@@ -5428,7 +5428,7 @@ export namespace Prisma {
     displayTitle?: StringFieldUpdateOperationsInput | string
     subTitle?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
-    attributes?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
@@ -5446,7 +5446,7 @@ export namespace Prisma {
     displayTitle?: StringFieldUpdateOperationsInput | string
     subTitle?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
-    attributes?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
@@ -5463,7 +5463,7 @@ export namespace Prisma {
     displayTitle?: StringFieldUpdateOperationsInput | string
     subTitle?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
-    attributes?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
@@ -5480,7 +5480,7 @@ export namespace Prisma {
     displayTitle?: StringFieldUpdateOperationsInput | string
     subTitle?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
-    attributes?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
@@ -6340,7 +6340,7 @@ export namespace Prisma {
     displayTitle: string
     subTitle?: string | null
     category?: string | null
-    attributes: string
+    attributes?: string | null
     description: string
     email: string
     phone: string
@@ -6357,7 +6357,7 @@ export namespace Prisma {
     displayTitle: string
     subTitle?: string | null
     category?: string | null
-    attributes: string
+    attributes?: string | null
     description: string
     email: string
     phone: string
@@ -6399,7 +6399,7 @@ export namespace Prisma {
     displayTitle?: StringFieldUpdateOperationsInput | string
     subTitle?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
-    attributes?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
@@ -6416,7 +6416,7 @@ export namespace Prisma {
     displayTitle?: StringFieldUpdateOperationsInput | string
     subTitle?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
-    attributes?: StringFieldUpdateOperationsInput | string
+    attributes?: NullableStringFieldUpdateOperationsInput | string | null
     description?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string

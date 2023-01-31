@@ -1,33 +1,26 @@
 import { z } from "zod";
 
-export const createListingSchema = z.object({
-  name: z.string(),
-  address: z.string(),
-  category: z.string(),
-  description: z.string(),
-  email: z.string(),
-  phone: z.string(),
-  website: z.string(),
-  city: z.string(),
-  zipcode: z.string(),
-  displayTitle: z.string(),
-  attributes: z.string(),
-  images: z.string(),
+export const listingSchema = z.object({
+  // id: z.string().optional(),
+  address: z.string().min(1),
+  attributes: z.string().optional(),
+  category: z.string().optional(),
+  city: z.string().min(1),
+  description: z.string().min(1),
+  displayTitle: z.string().min(1),
+  email: z.string().email().min(1),
+  images: z.string().min(1),
+  name: z.string().min(1),
+  phone: z.string().min(10),
+  subTitle: z.string().optional(),
+  website: z.string().min(1),
+  zipcode: z.string().min(5),
 });
+
 export const getListingSchema = z.string();
 
 export const getAllListingsParams = z.object({
   name: z.string().default(""),
-});
-
-export const updatedListingSchema = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  address: z.string(),
-  category: z.string(),
-  description: z.string(),
-  email: z.string(),
-  phone: z.string(),
 });
 
 export const deleteListingSchema = z.string(); //validate the incoming object
