@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const listingSchema = z.object({
-  // id: z.string().optional(),
   address: z.string().min(1),
   attributes: z.string().optional(),
   category: z.string().optional(),
@@ -9,7 +8,10 @@ export const listingSchema = z.object({
   description: z.string().min(1),
   displayTitle: z.string().min(1),
   email: z.string().email().min(1),
-  images: z.string().min(1),
+  image1: z.string().min(1),
+  image2: z.string().min(1).optional().nullable(),
+  image3: z.string().min(1).optional().nullable(),
+  image4: z.string().min(1).optional().nullable(),
   name: z.string().min(1),
   phone: z.string().min(10),
   subTitle: z.string().optional(),

@@ -118,7 +118,16 @@ exports.Prisma.ListingScalarFieldEnum = makeEnum({
   email: 'email',
   phone: 'phone',
   website: 'website',
-  images: 'images'
+  image1: 'image1',
+  image2: 'image2',
+  image3: 'image3',
+  image4: 'image4'
+});
+
+exports.Prisma.PinnedUserListingScalarFieldEnum = makeEnum({
+  id: 'id',
+  userId: 'userId',
+  listingId: 'listingId'
 });
 
 exports.Prisma.SortOrder = makeEnum({
@@ -142,6 +151,7 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
 
 exports.Prisma.ModelName = makeEnum({
   User: 'User',
+  PinnedUserListing: 'PinnedUserListing',
   CouponsForUser: 'CouponsForUser',
   Coupon: 'Coupon',
   Listing: 'Listing'

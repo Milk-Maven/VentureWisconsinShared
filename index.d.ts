@@ -26,6 +26,16 @@ export type User = {
 }
 
 /**
+ * Model PinnedUserListing
+ * 
+ */
+export type PinnedUserListing = {
+  id: number
+  userId: number
+  listingId: number
+}
+
+/**
  * Model CouponsForUser
  * 
  */
@@ -66,7 +76,10 @@ export type Listing = {
   email: string
   phone: string
   website: string
-  images: string
+  image1: string
+  image2: string | null
+  image3: string | null
+  image4: string | null
 }
 
 
@@ -196,6 +209,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<GlobalReject>;
+
+  /**
+   * `prisma.pinnedUserListing`: Exposes CRUD operations for the **PinnedUserListing** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PinnedUserListings
+    * const pinnedUserListings = await prisma.pinnedUserListing.findMany()
+    * ```
+    */
+  get pinnedUserListing(): Prisma.PinnedUserListingDelegate<GlobalReject>;
 
   /**
    * `prisma.couponsForUser`: Exposes CRUD operations for the **CouponsForUser** model.
@@ -703,6 +726,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    PinnedUserListing: 'PinnedUserListing',
     CouponsForUser: 'CouponsForUser',
     Coupon: 'Coupon',
     Listing: 'Listing'
@@ -877,10 +901,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     couponsForUser: number
+    PinnedUserListing: number
   }
 
   export type UserCountOutputTypeSelect = {
     couponsForUser?: boolean
+    PinnedUserListing?: boolean
   }
 
   export type UserCountOutputTypeGetPayload<S extends boolean | null | undefined | UserCountOutputTypeArgs> =
@@ -963,10 +989,12 @@ export namespace Prisma {
 
   export type ListingCountOutputType = {
     coupons: number
+    PinnedUserListing: number
   }
 
   export type ListingCountOutputTypeSelect = {
     coupons?: boolean
+    PinnedUserListing?: boolean
   }
 
   export type ListingCountOutputTypeGetPayload<S extends boolean | null | undefined | ListingCountOutputTypeArgs> =
@@ -1212,12 +1240,14 @@ export namespace Prisma {
     lastName?: boolean
     role?: boolean
     couponsForUser?: boolean | User$couponsForUserArgs
+    PinnedUserListing?: boolean | User$PinnedUserListingArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
 
   export type UserInclude = {
     couponsForUser?: boolean | User$couponsForUserArgs
+    PinnedUserListing?: boolean | User$PinnedUserListingArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
@@ -1229,12 +1259,14 @@ export namespace Prisma {
     ? User  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'couponsForUser' ? Array < CouponsForUserGetPayload<S['include'][P]>>  :
+        P extends 'PinnedUserListing' ? Array < PinnedUserListingGetPayload<S['include'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (UserArgs | UserFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'couponsForUser' ? Array < CouponsForUserGetPayload<S['select'][P]>>  :
+        P extends 'PinnedUserListing' ? Array < PinnedUserListingGetPayload<S['select'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
   } 
       : User
@@ -1594,6 +1626,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     couponsForUser<T extends User$couponsForUserArgs= {}>(args?: Subset<T, User$couponsForUserArgs>): PrismaPromise<Array<CouponsForUserGetPayload<T>>| Null>;
+
+    PinnedUserListing<T extends User$PinnedUserListingArgs= {}>(args?: Subset<T, User$PinnedUserListingArgs>): PrismaPromise<Array<PinnedUserListingGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -1960,6 +1994,27 @@ export namespace Prisma {
 
 
   /**
+   * User.PinnedUserListing
+   */
+  export type User$PinnedUserListingArgs = {
+    /**
+     * Select specific fields to fetch from the PinnedUserListing
+     */
+    select?: PinnedUserListingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PinnedUserListingInclude | null
+    where?: PinnedUserListingWhereInput
+    orderBy?: Enumerable<PinnedUserListingOrderByWithRelationInput>
+    cursor?: PinnedUserListingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<PinnedUserListingScalarFieldEnum>
+  }
+
+
+  /**
    * User without action
    */
   export type UserArgs = {
@@ -1971,6 +2026,943 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: UserInclude | null
+  }
+
+
+
+  /**
+   * Model PinnedUserListing
+   */
+
+
+  export type AggregatePinnedUserListing = {
+    _count: PinnedUserListingCountAggregateOutputType | null
+    _avg: PinnedUserListingAvgAggregateOutputType | null
+    _sum: PinnedUserListingSumAggregateOutputType | null
+    _min: PinnedUserListingMinAggregateOutputType | null
+    _max: PinnedUserListingMaxAggregateOutputType | null
+  }
+
+  export type PinnedUserListingAvgAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    listingId: number | null
+  }
+
+  export type PinnedUserListingSumAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    listingId: number | null
+  }
+
+  export type PinnedUserListingMinAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    listingId: number | null
+  }
+
+  export type PinnedUserListingMaxAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    listingId: number | null
+  }
+
+  export type PinnedUserListingCountAggregateOutputType = {
+    id: number
+    userId: number
+    listingId: number
+    _all: number
+  }
+
+
+  export type PinnedUserListingAvgAggregateInputType = {
+    id?: true
+    userId?: true
+    listingId?: true
+  }
+
+  export type PinnedUserListingSumAggregateInputType = {
+    id?: true
+    userId?: true
+    listingId?: true
+  }
+
+  export type PinnedUserListingMinAggregateInputType = {
+    id?: true
+    userId?: true
+    listingId?: true
+  }
+
+  export type PinnedUserListingMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    listingId?: true
+  }
+
+  export type PinnedUserListingCountAggregateInputType = {
+    id?: true
+    userId?: true
+    listingId?: true
+    _all?: true
+  }
+
+  export type PinnedUserListingAggregateArgs = {
+    /**
+     * Filter which PinnedUserListing to aggregate.
+     */
+    where?: PinnedUserListingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PinnedUserListings to fetch.
+     */
+    orderBy?: Enumerable<PinnedUserListingOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PinnedUserListingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PinnedUserListings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PinnedUserListings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PinnedUserListings
+    **/
+    _count?: true | PinnedUserListingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PinnedUserListingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PinnedUserListingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PinnedUserListingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PinnedUserListingMaxAggregateInputType
+  }
+
+  export type GetPinnedUserListingAggregateType<T extends PinnedUserListingAggregateArgs> = {
+        [P in keyof T & keyof AggregatePinnedUserListing]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePinnedUserListing[P]>
+      : GetScalarType<T[P], AggregatePinnedUserListing[P]>
+  }
+
+
+
+
+  export type PinnedUserListingGroupByArgs = {
+    where?: PinnedUserListingWhereInput
+    orderBy?: Enumerable<PinnedUserListingOrderByWithAggregationInput>
+    by: PinnedUserListingScalarFieldEnum[]
+    having?: PinnedUserListingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PinnedUserListingCountAggregateInputType | true
+    _avg?: PinnedUserListingAvgAggregateInputType
+    _sum?: PinnedUserListingSumAggregateInputType
+    _min?: PinnedUserListingMinAggregateInputType
+    _max?: PinnedUserListingMaxAggregateInputType
+  }
+
+
+  export type PinnedUserListingGroupByOutputType = {
+    id: number
+    userId: number
+    listingId: number
+    _count: PinnedUserListingCountAggregateOutputType | null
+    _avg: PinnedUserListingAvgAggregateOutputType | null
+    _sum: PinnedUserListingSumAggregateOutputType | null
+    _min: PinnedUserListingMinAggregateOutputType | null
+    _max: PinnedUserListingMaxAggregateOutputType | null
+  }
+
+  type GetPinnedUserListingGroupByPayload<T extends PinnedUserListingGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<PinnedUserListingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PinnedUserListingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PinnedUserListingGroupByOutputType[P]>
+            : GetScalarType<T[P], PinnedUserListingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PinnedUserListingSelect = {
+    id?: boolean
+    user?: boolean | UserArgs
+    listing?: boolean | ListingArgs
+    userId?: boolean
+    listingId?: boolean
+  }
+
+
+  export type PinnedUserListingInclude = {
+    user?: boolean | UserArgs
+    listing?: boolean | ListingArgs
+  }
+
+  export type PinnedUserListingGetPayload<S extends boolean | null | undefined | PinnedUserListingArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? PinnedUserListing :
+    S extends undefined ? never :
+    S extends { include: any } & (PinnedUserListingArgs | PinnedUserListingFindManyArgs)
+    ? PinnedUserListing  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> :
+        P extends 'listing' ? ListingGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (PinnedUserListingArgs | PinnedUserListingFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> :
+        P extends 'listing' ? ListingGetPayload<S['select'][P]> :  P extends keyof PinnedUserListing ? PinnedUserListing[P] : never
+  } 
+      : PinnedUserListing
+
+
+  type PinnedUserListingCountArgs = 
+    Omit<PinnedUserListingFindManyArgs, 'select' | 'include'> & {
+      select?: PinnedUserListingCountAggregateInputType | true
+    }
+
+  export interface PinnedUserListingDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one PinnedUserListing that matches the filter.
+     * @param {PinnedUserListingFindUniqueArgs} args - Arguments to find a PinnedUserListing
+     * @example
+     * // Get one PinnedUserListing
+     * const pinnedUserListing = await prisma.pinnedUserListing.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends PinnedUserListingFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, PinnedUserListingFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'PinnedUserListing'> extends True ? Prisma__PinnedUserListingClient<PinnedUserListingGetPayload<T>> : Prisma__PinnedUserListingClient<PinnedUserListingGetPayload<T> | null, null>
+
+    /**
+     * Find one PinnedUserListing that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {PinnedUserListingFindUniqueOrThrowArgs} args - Arguments to find a PinnedUserListing
+     * @example
+     * // Get one PinnedUserListing
+     * const pinnedUserListing = await prisma.pinnedUserListing.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends PinnedUserListingFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, PinnedUserListingFindUniqueOrThrowArgs>
+    ): Prisma__PinnedUserListingClient<PinnedUserListingGetPayload<T>>
+
+    /**
+     * Find the first PinnedUserListing that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PinnedUserListingFindFirstArgs} args - Arguments to find a PinnedUserListing
+     * @example
+     * // Get one PinnedUserListing
+     * const pinnedUserListing = await prisma.pinnedUserListing.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends PinnedUserListingFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, PinnedUserListingFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'PinnedUserListing'> extends True ? Prisma__PinnedUserListingClient<PinnedUserListingGetPayload<T>> : Prisma__PinnedUserListingClient<PinnedUserListingGetPayload<T> | null, null>
+
+    /**
+     * Find the first PinnedUserListing that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PinnedUserListingFindFirstOrThrowArgs} args - Arguments to find a PinnedUserListing
+     * @example
+     * // Get one PinnedUserListing
+     * const pinnedUserListing = await prisma.pinnedUserListing.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends PinnedUserListingFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, PinnedUserListingFindFirstOrThrowArgs>
+    ): Prisma__PinnedUserListingClient<PinnedUserListingGetPayload<T>>
+
+    /**
+     * Find zero or more PinnedUserListings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PinnedUserListingFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PinnedUserListings
+     * const pinnedUserListings = await prisma.pinnedUserListing.findMany()
+     * 
+     * // Get first 10 PinnedUserListings
+     * const pinnedUserListings = await prisma.pinnedUserListing.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pinnedUserListingWithIdOnly = await prisma.pinnedUserListing.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends PinnedUserListingFindManyArgs>(
+      args?: SelectSubset<T, PinnedUserListingFindManyArgs>
+    ): PrismaPromise<Array<PinnedUserListingGetPayload<T>>>
+
+    /**
+     * Create a PinnedUserListing.
+     * @param {PinnedUserListingCreateArgs} args - Arguments to create a PinnedUserListing.
+     * @example
+     * // Create one PinnedUserListing
+     * const PinnedUserListing = await prisma.pinnedUserListing.create({
+     *   data: {
+     *     // ... data to create a PinnedUserListing
+     *   }
+     * })
+     * 
+    **/
+    create<T extends PinnedUserListingCreateArgs>(
+      args: SelectSubset<T, PinnedUserListingCreateArgs>
+    ): Prisma__PinnedUserListingClient<PinnedUserListingGetPayload<T>>
+
+    /**
+     * Delete a PinnedUserListing.
+     * @param {PinnedUserListingDeleteArgs} args - Arguments to delete one PinnedUserListing.
+     * @example
+     * // Delete one PinnedUserListing
+     * const PinnedUserListing = await prisma.pinnedUserListing.delete({
+     *   where: {
+     *     // ... filter to delete one PinnedUserListing
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends PinnedUserListingDeleteArgs>(
+      args: SelectSubset<T, PinnedUserListingDeleteArgs>
+    ): Prisma__PinnedUserListingClient<PinnedUserListingGetPayload<T>>
+
+    /**
+     * Update one PinnedUserListing.
+     * @param {PinnedUserListingUpdateArgs} args - Arguments to update one PinnedUserListing.
+     * @example
+     * // Update one PinnedUserListing
+     * const pinnedUserListing = await prisma.pinnedUserListing.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends PinnedUserListingUpdateArgs>(
+      args: SelectSubset<T, PinnedUserListingUpdateArgs>
+    ): Prisma__PinnedUserListingClient<PinnedUserListingGetPayload<T>>
+
+    /**
+     * Delete zero or more PinnedUserListings.
+     * @param {PinnedUserListingDeleteManyArgs} args - Arguments to filter PinnedUserListings to delete.
+     * @example
+     * // Delete a few PinnedUserListings
+     * const { count } = await prisma.pinnedUserListing.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends PinnedUserListingDeleteManyArgs>(
+      args?: SelectSubset<T, PinnedUserListingDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PinnedUserListings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PinnedUserListingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PinnedUserListings
+     * const pinnedUserListing = await prisma.pinnedUserListing.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends PinnedUserListingUpdateManyArgs>(
+      args: SelectSubset<T, PinnedUserListingUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PinnedUserListing.
+     * @param {PinnedUserListingUpsertArgs} args - Arguments to update or create a PinnedUserListing.
+     * @example
+     * // Update or create a PinnedUserListing
+     * const pinnedUserListing = await prisma.pinnedUserListing.upsert({
+     *   create: {
+     *     // ... data to create a PinnedUserListing
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PinnedUserListing we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends PinnedUserListingUpsertArgs>(
+      args: SelectSubset<T, PinnedUserListingUpsertArgs>
+    ): Prisma__PinnedUserListingClient<PinnedUserListingGetPayload<T>>
+
+    /**
+     * Count the number of PinnedUserListings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PinnedUserListingCountArgs} args - Arguments to filter PinnedUserListings to count.
+     * @example
+     * // Count the number of PinnedUserListings
+     * const count = await prisma.pinnedUserListing.count({
+     *   where: {
+     *     // ... the filter for the PinnedUserListings we want to count
+     *   }
+     * })
+    **/
+    count<T extends PinnedUserListingCountArgs>(
+      args?: Subset<T, PinnedUserListingCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PinnedUserListingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PinnedUserListing.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PinnedUserListingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PinnedUserListingAggregateArgs>(args: Subset<T, PinnedUserListingAggregateArgs>): PrismaPromise<GetPinnedUserListingAggregateType<T>>
+
+    /**
+     * Group by PinnedUserListing.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PinnedUserListingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PinnedUserListingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PinnedUserListingGroupByArgs['orderBy'] }
+        : { orderBy?: PinnedUserListingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PinnedUserListingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPinnedUserListingGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PinnedUserListing.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__PinnedUserListingClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    listing<T extends ListingArgs= {}>(args?: Subset<T, ListingArgs>): Prisma__ListingClient<ListingGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * PinnedUserListing base type for findUnique actions
+   */
+  export type PinnedUserListingFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the PinnedUserListing
+     */
+    select?: PinnedUserListingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PinnedUserListingInclude | null
+    /**
+     * Filter, which PinnedUserListing to fetch.
+     */
+    where: PinnedUserListingWhereUniqueInput
+  }
+
+  /**
+   * PinnedUserListing findUnique
+   */
+  export interface PinnedUserListingFindUniqueArgs extends PinnedUserListingFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * PinnedUserListing findUniqueOrThrow
+   */
+  export type PinnedUserListingFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the PinnedUserListing
+     */
+    select?: PinnedUserListingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PinnedUserListingInclude | null
+    /**
+     * Filter, which PinnedUserListing to fetch.
+     */
+    where: PinnedUserListingWhereUniqueInput
+  }
+
+
+  /**
+   * PinnedUserListing base type for findFirst actions
+   */
+  export type PinnedUserListingFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the PinnedUserListing
+     */
+    select?: PinnedUserListingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PinnedUserListingInclude | null
+    /**
+     * Filter, which PinnedUserListing to fetch.
+     */
+    where?: PinnedUserListingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PinnedUserListings to fetch.
+     */
+    orderBy?: Enumerable<PinnedUserListingOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PinnedUserListings.
+     */
+    cursor?: PinnedUserListingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PinnedUserListings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PinnedUserListings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PinnedUserListings.
+     */
+    distinct?: Enumerable<PinnedUserListingScalarFieldEnum>
+  }
+
+  /**
+   * PinnedUserListing findFirst
+   */
+  export interface PinnedUserListingFindFirstArgs extends PinnedUserListingFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * PinnedUserListing findFirstOrThrow
+   */
+  export type PinnedUserListingFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the PinnedUserListing
+     */
+    select?: PinnedUserListingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PinnedUserListingInclude | null
+    /**
+     * Filter, which PinnedUserListing to fetch.
+     */
+    where?: PinnedUserListingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PinnedUserListings to fetch.
+     */
+    orderBy?: Enumerable<PinnedUserListingOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PinnedUserListings.
+     */
+    cursor?: PinnedUserListingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PinnedUserListings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PinnedUserListings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PinnedUserListings.
+     */
+    distinct?: Enumerable<PinnedUserListingScalarFieldEnum>
+  }
+
+
+  /**
+   * PinnedUserListing findMany
+   */
+  export type PinnedUserListingFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the PinnedUserListing
+     */
+    select?: PinnedUserListingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PinnedUserListingInclude | null
+    /**
+     * Filter, which PinnedUserListings to fetch.
+     */
+    where?: PinnedUserListingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PinnedUserListings to fetch.
+     */
+    orderBy?: Enumerable<PinnedUserListingOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PinnedUserListings.
+     */
+    cursor?: PinnedUserListingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PinnedUserListings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PinnedUserListings.
+     */
+    skip?: number
+    distinct?: Enumerable<PinnedUserListingScalarFieldEnum>
+  }
+
+
+  /**
+   * PinnedUserListing create
+   */
+  export type PinnedUserListingCreateArgs = {
+    /**
+     * Select specific fields to fetch from the PinnedUserListing
+     */
+    select?: PinnedUserListingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PinnedUserListingInclude | null
+    /**
+     * The data needed to create a PinnedUserListing.
+     */
+    data: XOR<PinnedUserListingCreateInput, PinnedUserListingUncheckedCreateInput>
+  }
+
+
+  /**
+   * PinnedUserListing update
+   */
+  export type PinnedUserListingUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the PinnedUserListing
+     */
+    select?: PinnedUserListingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PinnedUserListingInclude | null
+    /**
+     * The data needed to update a PinnedUserListing.
+     */
+    data: XOR<PinnedUserListingUpdateInput, PinnedUserListingUncheckedUpdateInput>
+    /**
+     * Choose, which PinnedUserListing to update.
+     */
+    where: PinnedUserListingWhereUniqueInput
+  }
+
+
+  /**
+   * PinnedUserListing updateMany
+   */
+  export type PinnedUserListingUpdateManyArgs = {
+    /**
+     * The data used to update PinnedUserListings.
+     */
+    data: XOR<PinnedUserListingUpdateManyMutationInput, PinnedUserListingUncheckedUpdateManyInput>
+    /**
+     * Filter which PinnedUserListings to update
+     */
+    where?: PinnedUserListingWhereInput
+  }
+
+
+  /**
+   * PinnedUserListing upsert
+   */
+  export type PinnedUserListingUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the PinnedUserListing
+     */
+    select?: PinnedUserListingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PinnedUserListingInclude | null
+    /**
+     * The filter to search for the PinnedUserListing to update in case it exists.
+     */
+    where: PinnedUserListingWhereUniqueInput
+    /**
+     * In case the PinnedUserListing found by the `where` argument doesn't exist, create a new PinnedUserListing with this data.
+     */
+    create: XOR<PinnedUserListingCreateInput, PinnedUserListingUncheckedCreateInput>
+    /**
+     * In case the PinnedUserListing was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PinnedUserListingUpdateInput, PinnedUserListingUncheckedUpdateInput>
+  }
+
+
+  /**
+   * PinnedUserListing delete
+   */
+  export type PinnedUserListingDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the PinnedUserListing
+     */
+    select?: PinnedUserListingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PinnedUserListingInclude | null
+    /**
+     * Filter which PinnedUserListing to delete.
+     */
+    where: PinnedUserListingWhereUniqueInput
+  }
+
+
+  /**
+   * PinnedUserListing deleteMany
+   */
+  export type PinnedUserListingDeleteManyArgs = {
+    /**
+     * Filter which PinnedUserListings to delete
+     */
+    where?: PinnedUserListingWhereInput
+  }
+
+
+  /**
+   * PinnedUserListing without action
+   */
+  export type PinnedUserListingArgs = {
+    /**
+     * Select specific fields to fetch from the PinnedUserListing
+     */
+    select?: PinnedUserListingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PinnedUserListingInclude | null
   }
 
 
@@ -3925,7 +4917,10 @@ export namespace Prisma {
     email: string | null
     phone: string | null
     website: string | null
-    images: string | null
+    image1: string | null
+    image2: string | null
+    image3: string | null
+    image4: string | null
   }
 
   export type ListingMaxAggregateOutputType = {
@@ -3942,7 +4937,10 @@ export namespace Prisma {
     email: string | null
     phone: string | null
     website: string | null
-    images: string | null
+    image1: string | null
+    image2: string | null
+    image3: string | null
+    image4: string | null
   }
 
   export type ListingCountAggregateOutputType = {
@@ -3959,7 +4957,10 @@ export namespace Prisma {
     email: number
     phone: number
     website: number
-    images: number
+    image1: number
+    image2: number
+    image3: number
+    image4: number
     _all: number
   }
 
@@ -3986,7 +4987,10 @@ export namespace Prisma {
     email?: true
     phone?: true
     website?: true
-    images?: true
+    image1?: true
+    image2?: true
+    image3?: true
+    image4?: true
   }
 
   export type ListingMaxAggregateInputType = {
@@ -4003,7 +5007,10 @@ export namespace Prisma {
     email?: true
     phone?: true
     website?: true
-    images?: true
+    image1?: true
+    image2?: true
+    image3?: true
+    image4?: true
   }
 
   export type ListingCountAggregateInputType = {
@@ -4020,7 +5027,10 @@ export namespace Prisma {
     email?: true
     phone?: true
     website?: true
-    images?: true
+    image1?: true
+    image2?: true
+    image3?: true
+    image4?: true
     _all?: true
   }
 
@@ -4125,7 +5135,10 @@ export namespace Prisma {
     email: string
     phone: string
     website: string
-    images: string
+    image1: string
+    image2: string | null
+    image3: string | null
+    image4: string | null
     _count: ListingCountAggregateOutputType | null
     _avg: ListingAvgAggregateOutputType | null
     _sum: ListingSumAggregateOutputType | null
@@ -4161,14 +5174,19 @@ export namespace Prisma {
     email?: boolean
     phone?: boolean
     website?: boolean
-    images?: boolean
+    image1?: boolean
+    image2?: boolean
+    image3?: boolean
+    image4?: boolean
     coupons?: boolean | Listing$couponsArgs
+    PinnedUserListing?: boolean | Listing$PinnedUserListingArgs
     _count?: boolean | ListingCountOutputTypeArgs
   }
 
 
   export type ListingInclude = {
     coupons?: boolean | Listing$couponsArgs
+    PinnedUserListing?: boolean | Listing$PinnedUserListingArgs
     _count?: boolean | ListingCountOutputTypeArgs
   }
 
@@ -4180,12 +5198,14 @@ export namespace Prisma {
     ? Listing  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'coupons' ? Array < CouponGetPayload<S['include'][P]>>  :
+        P extends 'PinnedUserListing' ? Array < PinnedUserListingGetPayload<S['include'][P]>>  :
         P extends '_count' ? ListingCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (ListingArgs | ListingFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'coupons' ? Array < CouponGetPayload<S['select'][P]>>  :
+        P extends 'PinnedUserListing' ? Array < PinnedUserListingGetPayload<S['select'][P]>>  :
         P extends '_count' ? ListingCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Listing ? Listing[P] : never
   } 
       : Listing
@@ -4545,6 +5565,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     coupons<T extends Listing$couponsArgs= {}>(args?: Subset<T, Listing$couponsArgs>): PrismaPromise<Array<CouponGetPayload<T>>| Null>;
+
+    PinnedUserListing<T extends Listing$PinnedUserListingArgs= {}>(args?: Subset<T, Listing$PinnedUserListingArgs>): PrismaPromise<Array<PinnedUserListingGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -4911,6 +5933,27 @@ export namespace Prisma {
 
 
   /**
+   * Listing.PinnedUserListing
+   */
+  export type Listing$PinnedUserListingArgs = {
+    /**
+     * Select specific fields to fetch from the PinnedUserListing
+     */
+    select?: PinnedUserListingSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PinnedUserListingInclude | null
+    where?: PinnedUserListingWhereInput
+    orderBy?: Enumerable<PinnedUserListingOrderByWithRelationInput>
+    cursor?: PinnedUserListingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<PinnedUserListingScalarFieldEnum>
+  }
+
+
+  /**
    * Listing without action
    */
   export type ListingArgs = {
@@ -4968,10 +6011,22 @@ export namespace Prisma {
     email: 'email',
     phone: 'phone',
     website: 'website',
-    images: 'images'
+    image1: 'image1',
+    image2: 'image2',
+    image3: 'image3',
+    image4: 'image4'
   };
 
   export type ListingScalarFieldEnum = (typeof ListingScalarFieldEnum)[keyof typeof ListingScalarFieldEnum]
+
+
+  export const PinnedUserListingScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    listingId: 'listingId'
+  };
+
+  export type PinnedUserListingScalarFieldEnum = (typeof PinnedUserListingScalarFieldEnum)[keyof typeof PinnedUserListingScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5017,6 +6072,7 @@ export namespace Prisma {
     lastName?: StringNullableFilter | string | null
     role?: StringFilter | string
     couponsForUser?: CouponsForUserListRelationFilter
+    PinnedUserListing?: PinnedUserListingListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -5027,6 +6083,7 @@ export namespace Prisma {
     lastName?: SortOrder
     role?: SortOrder
     couponsForUser?: CouponsForUserOrderByRelationAggregateInput
+    PinnedUserListing?: PinnedUserListingOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = {
@@ -5058,6 +6115,49 @@ export namespace Prisma {
     firstName?: StringNullableWithAggregatesFilter | string | null
     lastName?: StringNullableWithAggregatesFilter | string | null
     role?: StringWithAggregatesFilter | string
+  }
+
+  export type PinnedUserListingWhereInput = {
+    AND?: Enumerable<PinnedUserListingWhereInput>
+    OR?: Enumerable<PinnedUserListingWhereInput>
+    NOT?: Enumerable<PinnedUserListingWhereInput>
+    id?: IntFilter | number
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    listing?: XOR<ListingRelationFilter, ListingWhereInput>
+    userId?: IntFilter | number
+    listingId?: IntFilter | number
+  }
+
+  export type PinnedUserListingOrderByWithRelationInput = {
+    id?: SortOrder
+    user?: UserOrderByWithRelationInput
+    listing?: ListingOrderByWithRelationInput
+    userId?: SortOrder
+    listingId?: SortOrder
+  }
+
+  export type PinnedUserListingWhereUniqueInput = {
+    id?: number
+  }
+
+  export type PinnedUserListingOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    listingId?: SortOrder
+    _count?: PinnedUserListingCountOrderByAggregateInput
+    _avg?: PinnedUserListingAvgOrderByAggregateInput
+    _max?: PinnedUserListingMaxOrderByAggregateInput
+    _min?: PinnedUserListingMinOrderByAggregateInput
+    _sum?: PinnedUserListingSumOrderByAggregateInput
+  }
+
+  export type PinnedUserListingScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<PinnedUserListingScalarWhereWithAggregatesInput>
+    OR?: Enumerable<PinnedUserListingScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<PinnedUserListingScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    userId?: IntWithAggregatesFilter | number
+    listingId?: IntWithAggregatesFilter | number
   }
 
   export type CouponsForUserWhereInput = {
@@ -5176,8 +6276,12 @@ export namespace Prisma {
     email?: StringFilter | string
     phone?: StringFilter | string
     website?: StringFilter | string
-    images?: StringFilter | string
+    image1?: StringFilter | string
+    image2?: StringNullableFilter | string | null
+    image3?: StringNullableFilter | string | null
+    image4?: StringNullableFilter | string | null
     coupons?: CouponListRelationFilter
+    PinnedUserListing?: PinnedUserListingListRelationFilter
   }
 
   export type ListingOrderByWithRelationInput = {
@@ -5194,8 +6298,12 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     website?: SortOrder
-    images?: SortOrder
+    image1?: SortOrder
+    image2?: SortOrder
+    image3?: SortOrder
+    image4?: SortOrder
     coupons?: CouponOrderByRelationAggregateInput
+    PinnedUserListing?: PinnedUserListingOrderByRelationAggregateInput
   }
 
   export type ListingWhereUniqueInput = {
@@ -5217,7 +6325,10 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     website?: SortOrder
-    images?: SortOrder
+    image1?: SortOrder
+    image2?: SortOrder
+    image3?: SortOrder
+    image4?: SortOrder
     _count?: ListingCountOrderByAggregateInput
     _avg?: ListingAvgOrderByAggregateInput
     _max?: ListingMaxOrderByAggregateInput
@@ -5242,7 +6353,10 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter | string
     phone?: StringWithAggregatesFilter | string
     website?: StringWithAggregatesFilter | string
-    images?: StringWithAggregatesFilter | string
+    image1?: StringWithAggregatesFilter | string
+    image2?: StringNullableWithAggregatesFilter | string | null
+    image3?: StringNullableWithAggregatesFilter | string | null
+    image4?: StringNullableWithAggregatesFilter | string | null
   }
 
   export type UserCreateInput = {
@@ -5252,6 +6366,7 @@ export namespace Prisma {
     lastName?: string | null
     role?: string
     couponsForUser?: CouponsForUserCreateNestedManyWithoutUserInput
+    PinnedUserListing?: PinnedUserListingCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -5262,6 +6377,7 @@ export namespace Prisma {
     lastName?: string | null
     role?: string
     couponsForUser?: CouponsForUserUncheckedCreateNestedManyWithoutUserInput
+    PinnedUserListing?: PinnedUserListingUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -5271,6 +6387,7 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     couponsForUser?: CouponsForUserUpdateManyWithoutUserNestedInput
+    PinnedUserListing?: PinnedUserListingUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -5281,6 +6398,7 @@ export namespace Prisma {
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     couponsForUser?: CouponsForUserUncheckedUpdateManyWithoutUserNestedInput
+    PinnedUserListing?: PinnedUserListingUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpdateManyMutationInput = {
@@ -5298,6 +6416,38 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PinnedUserListingCreateInput = {
+    user: UserCreateNestedOneWithoutPinnedUserListingInput
+    listing: ListingCreateNestedOneWithoutPinnedUserListingInput
+  }
+
+  export type PinnedUserListingUncheckedCreateInput = {
+    id?: number
+    userId: number
+    listingId: number
+  }
+
+  export type PinnedUserListingUpdateInput = {
+    user?: UserUpdateOneRequiredWithoutPinnedUserListingNestedInput
+    listing?: ListingUpdateOneRequiredWithoutPinnedUserListingNestedInput
+  }
+
+  export type PinnedUserListingUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    listingId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PinnedUserListingUpdateManyMutationInput = {
+
+  }
+
+  export type PinnedUserListingUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    listingId?: IntFieldUpdateOperationsInput | number
   }
 
   export type CouponsForUserCreateInput = {
@@ -5398,8 +6548,12 @@ export namespace Prisma {
     email: string
     phone: string
     website: string
-    images: string
+    image1: string
+    image2?: string | null
+    image3?: string | null
+    image4?: string | null
     coupons?: CouponCreateNestedManyWithoutListingInput
+    PinnedUserListing?: PinnedUserListingCreateNestedManyWithoutListingInput
   }
 
   export type ListingUncheckedCreateInput = {
@@ -5416,8 +6570,12 @@ export namespace Prisma {
     email: string
     phone: string
     website: string
-    images: string
+    image1: string
+    image2?: string | null
+    image3?: string | null
+    image4?: string | null
     coupons?: CouponUncheckedCreateNestedManyWithoutListingInput
+    PinnedUserListing?: PinnedUserListingUncheckedCreateNestedManyWithoutListingInput
   }
 
   export type ListingUpdateInput = {
@@ -5433,8 +6591,12 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     website?: StringFieldUpdateOperationsInput | string
-    images?: StringFieldUpdateOperationsInput | string
+    image1?: StringFieldUpdateOperationsInput | string
+    image2?: NullableStringFieldUpdateOperationsInput | string | null
+    image3?: NullableStringFieldUpdateOperationsInput | string | null
+    image4?: NullableStringFieldUpdateOperationsInput | string | null
     coupons?: CouponUpdateManyWithoutListingNestedInput
+    PinnedUserListing?: PinnedUserListingUpdateManyWithoutListingNestedInput
   }
 
   export type ListingUncheckedUpdateInput = {
@@ -5451,8 +6613,12 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     website?: StringFieldUpdateOperationsInput | string
-    images?: StringFieldUpdateOperationsInput | string
+    image1?: StringFieldUpdateOperationsInput | string
+    image2?: NullableStringFieldUpdateOperationsInput | string | null
+    image3?: NullableStringFieldUpdateOperationsInput | string | null
+    image4?: NullableStringFieldUpdateOperationsInput | string | null
     coupons?: CouponUncheckedUpdateManyWithoutListingNestedInput
+    PinnedUserListing?: PinnedUserListingUncheckedUpdateManyWithoutListingNestedInput
   }
 
   export type ListingUpdateManyMutationInput = {
@@ -5468,7 +6634,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     website?: StringFieldUpdateOperationsInput | string
-    images?: StringFieldUpdateOperationsInput | string
+    image1?: StringFieldUpdateOperationsInput | string
+    image2?: NullableStringFieldUpdateOperationsInput | string | null
+    image3?: NullableStringFieldUpdateOperationsInput | string | null
+    image4?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ListingUncheckedUpdateManyInput = {
@@ -5485,7 +6654,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     website?: StringFieldUpdateOperationsInput | string
-    images?: StringFieldUpdateOperationsInput | string
+    image1?: StringFieldUpdateOperationsInput | string
+    image2?: NullableStringFieldUpdateOperationsInput | string | null
+    image3?: NullableStringFieldUpdateOperationsInput | string | null
+    image4?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter = {
@@ -5544,7 +6716,17 @@ export namespace Prisma {
     none?: CouponsForUserWhereInput
   }
 
+  export type PinnedUserListingListRelationFilter = {
+    every?: PinnedUserListingWhereInput
+    some?: PinnedUserListingWhereInput
+    none?: PinnedUserListingWhereInput
+  }
+
   export type CouponsForUserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PinnedUserListingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5648,8 +6830,43 @@ export namespace Prisma {
   }
 
   export type UserRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type ListingRelationFilter = {
+    is?: ListingWhereInput | null
+    isNot?: ListingWhereInput | null
+  }
+
+  export type PinnedUserListingCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    listingId?: SortOrder
+  }
+
+  export type PinnedUserListingAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    listingId?: SortOrder
+  }
+
+  export type PinnedUserListingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    listingId?: SortOrder
+  }
+
+  export type PinnedUserListingMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    listingId?: SortOrder
+  }
+
+  export type PinnedUserListingSumOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    listingId?: SortOrder
   }
 
   export type IntNullableFilter = {
@@ -5728,11 +6945,6 @@ export namespace Prisma {
     _max?: NestedBoolFilter
   }
 
-  export type ListingRelationFilter = {
-    is?: ListingWhereInput | null
-    isNot?: ListingWhereInput | null
-  }
-
   export type CouponCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -5791,7 +7003,10 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     website?: SortOrder
-    images?: SortOrder
+    image1?: SortOrder
+    image2?: SortOrder
+    image3?: SortOrder
+    image4?: SortOrder
   }
 
   export type ListingAvgOrderByAggregateInput = {
@@ -5812,7 +7027,10 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     website?: SortOrder
-    images?: SortOrder
+    image1?: SortOrder
+    image2?: SortOrder
+    image3?: SortOrder
+    image4?: SortOrder
   }
 
   export type ListingMinOrderByAggregateInput = {
@@ -5829,7 +7047,10 @@ export namespace Prisma {
     email?: SortOrder
     phone?: SortOrder
     website?: SortOrder
-    images?: SortOrder
+    image1?: SortOrder
+    image2?: SortOrder
+    image3?: SortOrder
+    image4?: SortOrder
   }
 
   export type ListingSumOrderByAggregateInput = {
@@ -5842,10 +7063,22 @@ export namespace Prisma {
     connect?: Enumerable<CouponsForUserWhereUniqueInput>
   }
 
+  export type PinnedUserListingCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<PinnedUserListingCreateWithoutUserInput>, Enumerable<PinnedUserListingUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<PinnedUserListingCreateOrConnectWithoutUserInput>
+    connect?: Enumerable<PinnedUserListingWhereUniqueInput>
+  }
+
   export type CouponsForUserUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<Enumerable<CouponsForUserCreateWithoutUserInput>, Enumerable<CouponsForUserUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<CouponsForUserCreateOrConnectWithoutUserInput>
     connect?: Enumerable<CouponsForUserWhereUniqueInput>
+  }
+
+  export type PinnedUserListingUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<PinnedUserListingCreateWithoutUserInput>, Enumerable<PinnedUserListingUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<PinnedUserListingCreateOrConnectWithoutUserInput>
+    connect?: Enumerable<PinnedUserListingWhereUniqueInput>
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -5873,6 +7106,19 @@ export namespace Prisma {
     deleteMany?: Enumerable<CouponsForUserScalarWhereInput>
   }
 
+  export type PinnedUserListingUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<PinnedUserListingCreateWithoutUserInput>, Enumerable<PinnedUserListingUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<PinnedUserListingCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<PinnedUserListingUpsertWithWhereUniqueWithoutUserInput>
+    set?: Enumerable<PinnedUserListingWhereUniqueInput>
+    disconnect?: Enumerable<PinnedUserListingWhereUniqueInput>
+    delete?: Enumerable<PinnedUserListingWhereUniqueInput>
+    connect?: Enumerable<PinnedUserListingWhereUniqueInput>
+    update?: Enumerable<PinnedUserListingUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<PinnedUserListingUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<PinnedUserListingScalarWhereInput>
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -5892,6 +7138,47 @@ export namespace Prisma {
     update?: Enumerable<CouponsForUserUpdateWithWhereUniqueWithoutUserInput>
     updateMany?: Enumerable<CouponsForUserUpdateManyWithWhereWithoutUserInput>
     deleteMany?: Enumerable<CouponsForUserScalarWhereInput>
+  }
+
+  export type PinnedUserListingUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<PinnedUserListingCreateWithoutUserInput>, Enumerable<PinnedUserListingUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<PinnedUserListingCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<PinnedUserListingUpsertWithWhereUniqueWithoutUserInput>
+    set?: Enumerable<PinnedUserListingWhereUniqueInput>
+    disconnect?: Enumerable<PinnedUserListingWhereUniqueInput>
+    delete?: Enumerable<PinnedUserListingWhereUniqueInput>
+    connect?: Enumerable<PinnedUserListingWhereUniqueInput>
+    update?: Enumerable<PinnedUserListingUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<PinnedUserListingUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<PinnedUserListingScalarWhereInput>
+  }
+
+  export type UserCreateNestedOneWithoutPinnedUserListingInput = {
+    create?: XOR<UserCreateWithoutPinnedUserListingInput, UserUncheckedCreateWithoutPinnedUserListingInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPinnedUserListingInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ListingCreateNestedOneWithoutPinnedUserListingInput = {
+    create?: XOR<ListingCreateWithoutPinnedUserListingInput, ListingUncheckedCreateWithoutPinnedUserListingInput>
+    connectOrCreate?: ListingCreateOrConnectWithoutPinnedUserListingInput
+    connect?: ListingWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPinnedUserListingNestedInput = {
+    create?: XOR<UserCreateWithoutPinnedUserListingInput, UserUncheckedCreateWithoutPinnedUserListingInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPinnedUserListingInput
+    upsert?: UserUpsertWithoutPinnedUserListingInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutPinnedUserListingInput, UserUncheckedUpdateWithoutPinnedUserListingInput>
+  }
+
+  export type ListingUpdateOneRequiredWithoutPinnedUserListingNestedInput = {
+    create?: XOR<ListingCreateWithoutPinnedUserListingInput, ListingUncheckedCreateWithoutPinnedUserListingInput>
+    connectOrCreate?: ListingCreateOrConnectWithoutPinnedUserListingInput
+    upsert?: ListingUpsertWithoutPinnedUserListingInput
+    connect?: ListingWhereUniqueInput
+    update?: XOR<ListingUpdateWithoutPinnedUserListingInput, ListingUncheckedUpdateWithoutPinnedUserListingInput>
   }
 
   export type UserCreateNestedOneWithoutCouponsForUserInput = {
@@ -5998,10 +7285,22 @@ export namespace Prisma {
     connect?: Enumerable<CouponWhereUniqueInput>
   }
 
+  export type PinnedUserListingCreateNestedManyWithoutListingInput = {
+    create?: XOR<Enumerable<PinnedUserListingCreateWithoutListingInput>, Enumerable<PinnedUserListingUncheckedCreateWithoutListingInput>>
+    connectOrCreate?: Enumerable<PinnedUserListingCreateOrConnectWithoutListingInput>
+    connect?: Enumerable<PinnedUserListingWhereUniqueInput>
+  }
+
   export type CouponUncheckedCreateNestedManyWithoutListingInput = {
     create?: XOR<Enumerable<CouponCreateWithoutListingInput>, Enumerable<CouponUncheckedCreateWithoutListingInput>>
     connectOrCreate?: Enumerable<CouponCreateOrConnectWithoutListingInput>
     connect?: Enumerable<CouponWhereUniqueInput>
+  }
+
+  export type PinnedUserListingUncheckedCreateNestedManyWithoutListingInput = {
+    create?: XOR<Enumerable<PinnedUserListingCreateWithoutListingInput>, Enumerable<PinnedUserListingUncheckedCreateWithoutListingInput>>
+    connectOrCreate?: Enumerable<PinnedUserListingCreateOrConnectWithoutListingInput>
+    connect?: Enumerable<PinnedUserListingWhereUniqueInput>
   }
 
   export type CouponUpdateManyWithoutListingNestedInput = {
@@ -6017,6 +7316,19 @@ export namespace Prisma {
     deleteMany?: Enumerable<CouponScalarWhereInput>
   }
 
+  export type PinnedUserListingUpdateManyWithoutListingNestedInput = {
+    create?: XOR<Enumerable<PinnedUserListingCreateWithoutListingInput>, Enumerable<PinnedUserListingUncheckedCreateWithoutListingInput>>
+    connectOrCreate?: Enumerable<PinnedUserListingCreateOrConnectWithoutListingInput>
+    upsert?: Enumerable<PinnedUserListingUpsertWithWhereUniqueWithoutListingInput>
+    set?: Enumerable<PinnedUserListingWhereUniqueInput>
+    disconnect?: Enumerable<PinnedUserListingWhereUniqueInput>
+    delete?: Enumerable<PinnedUserListingWhereUniqueInput>
+    connect?: Enumerable<PinnedUserListingWhereUniqueInput>
+    update?: Enumerable<PinnedUserListingUpdateWithWhereUniqueWithoutListingInput>
+    updateMany?: Enumerable<PinnedUserListingUpdateManyWithWhereWithoutListingInput>
+    deleteMany?: Enumerable<PinnedUserListingScalarWhereInput>
+  }
+
   export type CouponUncheckedUpdateManyWithoutListingNestedInput = {
     create?: XOR<Enumerable<CouponCreateWithoutListingInput>, Enumerable<CouponUncheckedCreateWithoutListingInput>>
     connectOrCreate?: Enumerable<CouponCreateOrConnectWithoutListingInput>
@@ -6028,6 +7340,19 @@ export namespace Prisma {
     update?: Enumerable<CouponUpdateWithWhereUniqueWithoutListingInput>
     updateMany?: Enumerable<CouponUpdateManyWithWhereWithoutListingInput>
     deleteMany?: Enumerable<CouponScalarWhereInput>
+  }
+
+  export type PinnedUserListingUncheckedUpdateManyWithoutListingNestedInput = {
+    create?: XOR<Enumerable<PinnedUserListingCreateWithoutListingInput>, Enumerable<PinnedUserListingUncheckedCreateWithoutListingInput>>
+    connectOrCreate?: Enumerable<PinnedUserListingCreateOrConnectWithoutListingInput>
+    upsert?: Enumerable<PinnedUserListingUpsertWithWhereUniqueWithoutListingInput>
+    set?: Enumerable<PinnedUserListingWhereUniqueInput>
+    disconnect?: Enumerable<PinnedUserListingWhereUniqueInput>
+    delete?: Enumerable<PinnedUserListingWhereUniqueInput>
+    connect?: Enumerable<PinnedUserListingWhereUniqueInput>
+    update?: Enumerable<PinnedUserListingUpdateWithWhereUniqueWithoutListingInput>
+    updateMany?: Enumerable<PinnedUserListingUpdateManyWithWhereWithoutListingInput>
+    deleteMany?: Enumerable<PinnedUserListingScalarWhereInput>
   }
 
   export type NestedIntFilter = {
@@ -6222,6 +7547,20 @@ export namespace Prisma {
     create: XOR<CouponsForUserCreateWithoutUserInput, CouponsForUserUncheckedCreateWithoutUserInput>
   }
 
+  export type PinnedUserListingCreateWithoutUserInput = {
+    listing: ListingCreateNestedOneWithoutPinnedUserListingInput
+  }
+
+  export type PinnedUserListingUncheckedCreateWithoutUserInput = {
+    id?: number
+    listingId: number
+  }
+
+  export type PinnedUserListingCreateOrConnectWithoutUserInput = {
+    where: PinnedUserListingWhereUniqueInput
+    create: XOR<PinnedUserListingCreateWithoutUserInput, PinnedUserListingUncheckedCreateWithoutUserInput>
+  }
+
   export type CouponsForUserUpsertWithWhereUniqueWithoutUserInput = {
     where: CouponsForUserWhereUniqueInput
     update: XOR<CouponsForUserUpdateWithoutUserInput, CouponsForUserUncheckedUpdateWithoutUserInput>
@@ -6248,12 +7587,178 @@ export namespace Prisma {
     used?: BoolFilter | boolean
   }
 
+  export type PinnedUserListingUpsertWithWhereUniqueWithoutUserInput = {
+    where: PinnedUserListingWhereUniqueInput
+    update: XOR<PinnedUserListingUpdateWithoutUserInput, PinnedUserListingUncheckedUpdateWithoutUserInput>
+    create: XOR<PinnedUserListingCreateWithoutUserInput, PinnedUserListingUncheckedCreateWithoutUserInput>
+  }
+
+  export type PinnedUserListingUpdateWithWhereUniqueWithoutUserInput = {
+    where: PinnedUserListingWhereUniqueInput
+    data: XOR<PinnedUserListingUpdateWithoutUserInput, PinnedUserListingUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PinnedUserListingUpdateManyWithWhereWithoutUserInput = {
+    where: PinnedUserListingScalarWhereInput
+    data: XOR<PinnedUserListingUpdateManyMutationInput, PinnedUserListingUncheckedUpdateManyWithoutPinnedUserListingInput>
+  }
+
+  export type PinnedUserListingScalarWhereInput = {
+    AND?: Enumerable<PinnedUserListingScalarWhereInput>
+    OR?: Enumerable<PinnedUserListingScalarWhereInput>
+    NOT?: Enumerable<PinnedUserListingScalarWhereInput>
+    id?: IntFilter | number
+    userId?: IntFilter | number
+    listingId?: IntFilter | number
+  }
+
+  export type UserCreateWithoutPinnedUserListingInput = {
+    createdAt?: Date | string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    role?: string
+    couponsForUser?: CouponsForUserCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPinnedUserListingInput = {
+    id?: number
+    createdAt?: Date | string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    role?: string
+    couponsForUser?: CouponsForUserUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPinnedUserListingInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPinnedUserListingInput, UserUncheckedCreateWithoutPinnedUserListingInput>
+  }
+
+  export type ListingCreateWithoutPinnedUserListingInput = {
+    name: string
+    address: string
+    city: string
+    zipcode: string
+    displayTitle: string
+    subTitle?: string | null
+    category?: string | null
+    attributes?: string | null
+    description: string
+    email: string
+    phone: string
+    website: string
+    image1: string
+    image2?: string | null
+    image3?: string | null
+    image4?: string | null
+    coupons?: CouponCreateNestedManyWithoutListingInput
+  }
+
+  export type ListingUncheckedCreateWithoutPinnedUserListingInput = {
+    id?: number
+    name: string
+    address: string
+    city: string
+    zipcode: string
+    displayTitle: string
+    subTitle?: string | null
+    category?: string | null
+    attributes?: string | null
+    description: string
+    email: string
+    phone: string
+    website: string
+    image1: string
+    image2?: string | null
+    image3?: string | null
+    image4?: string | null
+    coupons?: CouponUncheckedCreateNestedManyWithoutListingInput
+  }
+
+  export type ListingCreateOrConnectWithoutPinnedUserListingInput = {
+    where: ListingWhereUniqueInput
+    create: XOR<ListingCreateWithoutPinnedUserListingInput, ListingUncheckedCreateWithoutPinnedUserListingInput>
+  }
+
+  export type UserUpsertWithoutPinnedUserListingInput = {
+    update: XOR<UserUpdateWithoutPinnedUserListingInput, UserUncheckedUpdateWithoutPinnedUserListingInput>
+    create: XOR<UserCreateWithoutPinnedUserListingInput, UserUncheckedCreateWithoutPinnedUserListingInput>
+  }
+
+  export type UserUpdateWithoutPinnedUserListingInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    couponsForUser?: CouponsForUserUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPinnedUserListingInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    couponsForUser?: CouponsForUserUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ListingUpsertWithoutPinnedUserListingInput = {
+    update: XOR<ListingUpdateWithoutPinnedUserListingInput, ListingUncheckedUpdateWithoutPinnedUserListingInput>
+    create: XOR<ListingCreateWithoutPinnedUserListingInput, ListingUncheckedCreateWithoutPinnedUserListingInput>
+  }
+
+  export type ListingUpdateWithoutPinnedUserListingInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipcode?: StringFieldUpdateOperationsInput | string
+    displayTitle?: StringFieldUpdateOperationsInput | string
+    subTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    website?: StringFieldUpdateOperationsInput | string
+    image1?: StringFieldUpdateOperationsInput | string
+    image2?: NullableStringFieldUpdateOperationsInput | string | null
+    image3?: NullableStringFieldUpdateOperationsInput | string | null
+    image4?: NullableStringFieldUpdateOperationsInput | string | null
+    coupons?: CouponUpdateManyWithoutListingNestedInput
+  }
+
+  export type ListingUncheckedUpdateWithoutPinnedUserListingInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    zipcode?: StringFieldUpdateOperationsInput | string
+    displayTitle?: StringFieldUpdateOperationsInput | string
+    subTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    attributes?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    website?: StringFieldUpdateOperationsInput | string
+    image1?: StringFieldUpdateOperationsInput | string
+    image2?: NullableStringFieldUpdateOperationsInput | string | null
+    image3?: NullableStringFieldUpdateOperationsInput | string | null
+    image4?: NullableStringFieldUpdateOperationsInput | string | null
+    coupons?: CouponUncheckedUpdateManyWithoutListingNestedInput
+  }
+
   export type UserCreateWithoutCouponsForUserInput = {
     createdAt?: Date | string
     email: string
     firstName?: string | null
     lastName?: string | null
     role?: string
+    PinnedUserListing?: PinnedUserListingCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCouponsForUserInput = {
@@ -6263,6 +7768,7 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     role?: string
+    PinnedUserListing?: PinnedUserListingUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCouponsForUserInput = {
@@ -6301,6 +7807,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
+    PinnedUserListing?: PinnedUserListingUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCouponsForUserInput = {
@@ -6310,6 +7817,7 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
+    PinnedUserListing?: PinnedUserListingUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CouponUpsertWithoutCouponsUsedByUserInput = {
@@ -6345,7 +7853,11 @@ export namespace Prisma {
     email: string
     phone: string
     website: string
-    images: string
+    image1: string
+    image2?: string | null
+    image3?: string | null
+    image4?: string | null
+    PinnedUserListing?: PinnedUserListingCreateNestedManyWithoutListingInput
   }
 
   export type ListingUncheckedCreateWithoutCouponsInput = {
@@ -6362,7 +7874,11 @@ export namespace Prisma {
     email: string
     phone: string
     website: string
-    images: string
+    image1: string
+    image2?: string | null
+    image3?: string | null
+    image4?: string | null
+    PinnedUserListing?: PinnedUserListingUncheckedCreateNestedManyWithoutListingInput
   }
 
   export type ListingCreateOrConnectWithoutCouponsInput = {
@@ -6404,7 +7920,11 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     website?: StringFieldUpdateOperationsInput | string
-    images?: StringFieldUpdateOperationsInput | string
+    image1?: StringFieldUpdateOperationsInput | string
+    image2?: NullableStringFieldUpdateOperationsInput | string | null
+    image3?: NullableStringFieldUpdateOperationsInput | string | null
+    image4?: NullableStringFieldUpdateOperationsInput | string | null
+    PinnedUserListing?: PinnedUserListingUpdateManyWithoutListingNestedInput
   }
 
   export type ListingUncheckedUpdateWithoutCouponsInput = {
@@ -6421,7 +7941,11 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     website?: StringFieldUpdateOperationsInput | string
-    images?: StringFieldUpdateOperationsInput | string
+    image1?: StringFieldUpdateOperationsInput | string
+    image2?: NullableStringFieldUpdateOperationsInput | string | null
+    image3?: NullableStringFieldUpdateOperationsInput | string | null
+    image4?: NullableStringFieldUpdateOperationsInput | string | null
+    PinnedUserListing?: PinnedUserListingUncheckedUpdateManyWithoutListingNestedInput
   }
 
   export type CouponsForUserUpsertWithWhereUniqueWithoutCouponsInput = {
@@ -6460,6 +7984,20 @@ export namespace Prisma {
     create: XOR<CouponCreateWithoutListingInput, CouponUncheckedCreateWithoutListingInput>
   }
 
+  export type PinnedUserListingCreateWithoutListingInput = {
+    user: UserCreateNestedOneWithoutPinnedUserListingInput
+  }
+
+  export type PinnedUserListingUncheckedCreateWithoutListingInput = {
+    id?: number
+    userId: number
+  }
+
+  export type PinnedUserListingCreateOrConnectWithoutListingInput = {
+    where: PinnedUserListingWhereUniqueInput
+    create: XOR<PinnedUserListingCreateWithoutListingInput, PinnedUserListingUncheckedCreateWithoutListingInput>
+  }
+
   export type CouponUpsertWithWhereUniqueWithoutListingInput = {
     where: CouponWhereUniqueInput
     update: XOR<CouponUpdateWithoutListingInput, CouponUncheckedUpdateWithoutListingInput>
@@ -6487,6 +8025,22 @@ export namespace Prisma {
     expires?: DateTimeFilter | Date | string
   }
 
+  export type PinnedUserListingUpsertWithWhereUniqueWithoutListingInput = {
+    where: PinnedUserListingWhereUniqueInput
+    update: XOR<PinnedUserListingUpdateWithoutListingInput, PinnedUserListingUncheckedUpdateWithoutListingInput>
+    create: XOR<PinnedUserListingCreateWithoutListingInput, PinnedUserListingUncheckedCreateWithoutListingInput>
+  }
+
+  export type PinnedUserListingUpdateWithWhereUniqueWithoutListingInput = {
+    where: PinnedUserListingWhereUniqueInput
+    data: XOR<PinnedUserListingUpdateWithoutListingInput, PinnedUserListingUncheckedUpdateWithoutListingInput>
+  }
+
+  export type PinnedUserListingUpdateManyWithWhereWithoutListingInput = {
+    where: PinnedUserListingScalarWhereInput
+    data: XOR<PinnedUserListingUpdateManyMutationInput, PinnedUserListingUncheckedUpdateManyWithoutPinnedUserListingInput>
+  }
+
   export type CouponsForUserUpdateWithoutUserInput = {
     Coupons?: CouponUpdateOneWithoutCouponsUsedByUserNestedInput
     used?: BoolFieldUpdateOperationsInput | boolean
@@ -6502,6 +8056,20 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     couponsName?: NullableStringFieldUpdateOperationsInput | string | null
     used?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type PinnedUserListingUpdateWithoutUserInput = {
+    listing?: ListingUpdateOneRequiredWithoutPinnedUserListingNestedInput
+  }
+
+  export type PinnedUserListingUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    listingId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type PinnedUserListingUncheckedUpdateManyWithoutPinnedUserListingInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    listingId?: IntFieldUpdateOperationsInput | number
   }
 
   export type CouponsForUserUpdateWithoutCouponsInput = {
@@ -6541,6 +8109,15 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     deal?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PinnedUserListingUpdateWithoutListingInput = {
+    user?: UserUpdateOneRequiredWithoutPinnedUserListingNestedInput
+  }
+
+  export type PinnedUserListingUncheckedUpdateWithoutListingInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
   }
 
 
