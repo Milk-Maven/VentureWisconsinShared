@@ -46,11 +46,11 @@ export const updateCouponSchema = z.object({
 
 export const deleteCouponSchema = z.string(); //validate the incoming object
 
-export const createUserSchema = z.object({
+export const createNewUserSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
-  email: z.string(),
-  role: z.string(),
+  password: z.string().min(8).max(16),
+  email: z.string().email(),
 });
 export const getUserSchema = z.string();
 

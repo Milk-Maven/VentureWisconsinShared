@@ -22,6 +22,7 @@ export type User = {
   email: string
   firstName: string | null
   lastName: string | null
+  password: string
   role: string
 }
 
@@ -1058,6 +1059,7 @@ export namespace Prisma {
     email: string | null
     firstName: string | null
     lastName: string | null
+    password: string | null
     role: string | null
   }
 
@@ -1067,6 +1069,7 @@ export namespace Prisma {
     email: string | null
     firstName: string | null
     lastName: string | null
+    password: string | null
     role: string | null
   }
 
@@ -1076,6 +1079,7 @@ export namespace Prisma {
     email: number
     firstName: number
     lastName: number
+    password: number
     role: number
     _all: number
   }
@@ -1095,6 +1099,7 @@ export namespace Prisma {
     email?: true
     firstName?: true
     lastName?: true
+    password?: true
     role?: true
   }
 
@@ -1104,6 +1109,7 @@ export namespace Prisma {
     email?: true
     firstName?: true
     lastName?: true
+    password?: true
     role?: true
   }
 
@@ -1113,6 +1119,7 @@ export namespace Prisma {
     email?: true
     firstName?: true
     lastName?: true
+    password?: true
     role?: true
     _all?: true
   }
@@ -1210,6 +1217,7 @@ export namespace Prisma {
     email: string
     firstName: string | null
     lastName: string | null
+    password: string
     role: string
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
@@ -1238,6 +1246,7 @@ export namespace Prisma {
     email?: boolean
     firstName?: boolean
     lastName?: boolean
+    password?: boolean
     role?: boolean
     couponsForUser?: boolean | User$couponsForUserArgs
     PinnedUserListing?: boolean | User$PinnedUserListingArgs
@@ -6050,6 +6059,7 @@ export namespace Prisma {
     email: 'email',
     firstName: 'firstName',
     lastName: 'lastName',
+    password: 'password',
     role: 'role'
   };
 
@@ -6070,6 +6080,7 @@ export namespace Prisma {
     email?: StringFilter | string
     firstName?: StringNullableFilter | string | null
     lastName?: StringNullableFilter | string | null
+    password?: StringFilter | string
     role?: StringFilter | string
     couponsForUser?: CouponsForUserListRelationFilter
     PinnedUserListing?: PinnedUserListingListRelationFilter
@@ -6081,6 +6092,7 @@ export namespace Prisma {
     email?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
+    password?: SortOrder
     role?: SortOrder
     couponsForUser?: CouponsForUserOrderByRelationAggregateInput
     PinnedUserListing?: PinnedUserListingOrderByRelationAggregateInput
@@ -6097,6 +6109,7 @@ export namespace Prisma {
     email?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
+    password?: SortOrder
     role?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
@@ -6114,6 +6127,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter | string
     firstName?: StringNullableWithAggregatesFilter | string | null
     lastName?: StringNullableWithAggregatesFilter | string | null
+    password?: StringWithAggregatesFilter | string
     role?: StringWithAggregatesFilter | string
   }
 
@@ -6364,6 +6378,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    password: string
     role?: string
     couponsForUser?: CouponsForUserCreateNestedManyWithoutUserInput
     PinnedUserListing?: PinnedUserListingCreateNestedManyWithoutUserInput
@@ -6375,6 +6390,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    password: string
     role?: string
     couponsForUser?: CouponsForUserUncheckedCreateNestedManyWithoutUserInput
     PinnedUserListing?: PinnedUserListingUncheckedCreateNestedManyWithoutUserInput
@@ -6385,6 +6401,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     couponsForUser?: CouponsForUserUpdateManyWithoutUserNestedInput
     PinnedUserListing?: PinnedUserListingUpdateManyWithoutUserNestedInput
@@ -6396,6 +6413,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     couponsForUser?: CouponsForUserUncheckedUpdateManyWithoutUserNestedInput
     PinnedUserListing?: PinnedUserListingUncheckedUpdateManyWithoutUserNestedInput
@@ -6406,6 +6424,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
   }
 
@@ -6415,6 +6434,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
   }
 
@@ -6736,6 +6756,7 @@ export namespace Prisma {
     email?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
+    password?: SortOrder
     role?: SortOrder
   }
 
@@ -6749,6 +6770,7 @@ export namespace Prisma {
     email?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
+    password?: SortOrder
     role?: SortOrder
   }
 
@@ -6758,6 +6780,7 @@ export namespace Prisma {
     email?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
+    password?: SortOrder
     role?: SortOrder
   }
 
@@ -7617,6 +7640,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    password: string
     role?: string
     couponsForUser?: CouponsForUserCreateNestedManyWithoutUserInput
   }
@@ -7627,6 +7651,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    password: string
     role?: string
     couponsForUser?: CouponsForUserUncheckedCreateNestedManyWithoutUserInput
   }
@@ -7692,6 +7717,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     couponsForUser?: CouponsForUserUpdateManyWithoutUserNestedInput
   }
@@ -7702,6 +7728,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     couponsForUser?: CouponsForUserUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -7757,6 +7784,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    password: string
     role?: string
     PinnedUserListing?: PinnedUserListingCreateNestedManyWithoutUserInput
   }
@@ -7767,6 +7795,7 @@ export namespace Prisma {
     email: string
     firstName?: string | null
     lastName?: string | null
+    password: string
     role?: string
     PinnedUserListing?: PinnedUserListingUncheckedCreateNestedManyWithoutUserInput
   }
@@ -7806,6 +7835,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     PinnedUserListing?: PinnedUserListingUpdateManyWithoutUserNestedInput
   }
@@ -7816,6 +7846,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     PinnedUserListing?: PinnedUserListingUncheckedUpdateManyWithoutUserNestedInput
   }
