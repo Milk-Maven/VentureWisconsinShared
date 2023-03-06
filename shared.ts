@@ -60,5 +60,9 @@ export const updatedUserSchema = z.object({
   email: z.string(),
   role: z.string(),
 });
+export const pinListingSchema = z.object({
+  listingName: z.string(),
+  userEmail: z.string().email(),
+});
 
 export const deleteUserSchema = z.string(); //validate the incoming object
