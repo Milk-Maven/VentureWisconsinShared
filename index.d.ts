@@ -55,8 +55,8 @@ export type Coupon = {
   id: number
   name: string
   listingId: number | null
-  deal: string
-  expires: Date
+  description: string
+  expired: boolean
 }
 
 /**
@@ -3944,24 +3944,24 @@ export namespace Prisma {
     id: number | null
     name: string | null
     listingId: number | null
-    deal: string | null
-    expires: Date | null
+    description: string | null
+    expired: boolean | null
   }
 
   export type CouponMaxAggregateOutputType = {
     id: number | null
     name: string | null
     listingId: number | null
-    deal: string | null
-    expires: Date | null
+    description: string | null
+    expired: boolean | null
   }
 
   export type CouponCountAggregateOutputType = {
     id: number
     name: number
     listingId: number
-    deal: number
-    expires: number
+    description: number
+    expired: number
     _all: number
   }
 
@@ -3980,24 +3980,24 @@ export namespace Prisma {
     id?: true
     name?: true
     listingId?: true
-    deal?: true
-    expires?: true
+    description?: true
+    expired?: true
   }
 
   export type CouponMaxAggregateInputType = {
     id?: true
     name?: true
     listingId?: true
-    deal?: true
-    expires?: true
+    description?: true
+    expired?: true
   }
 
   export type CouponCountAggregateInputType = {
     id?: true
     name?: true
     listingId?: true
-    deal?: true
-    expires?: true
+    description?: true
+    expired?: true
     _all?: true
   }
 
@@ -4092,8 +4092,8 @@ export namespace Prisma {
     id: number
     name: string
     listingId: number | null
-    deal: string
-    expires: Date
+    description: string
+    expired: boolean
     _count: CouponCountAggregateOutputType | null
     _avg: CouponAvgAggregateOutputType | null
     _sum: CouponSumAggregateOutputType | null
@@ -4120,8 +4120,8 @@ export namespace Prisma {
     name?: boolean
     listing?: boolean | ListingArgs
     listingId?: boolean
-    deal?: boolean
-    expires?: boolean
+    description?: boolean
+    expired?: boolean
     couponsUsedByUser?: boolean | Coupon$couponsUsedByUserArgs
     _count?: boolean | CouponCountOutputTypeArgs
   }
@@ -5989,8 +5989,8 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     listingId: 'listingId',
-    deal: 'deal',
-    expires: 'expires'
+    description: 'description',
+    expired: 'expired'
   };
 
   export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
@@ -6229,8 +6229,8 @@ export namespace Prisma {
     name?: StringFilter | string
     listing?: XOR<ListingRelationFilter, ListingWhereInput> | null
     listingId?: IntNullableFilter | number | null
-    deal?: StringFilter | string
-    expires?: DateTimeFilter | Date | string
+    description?: StringFilter | string
+    expired?: BoolFilter | boolean
     couponsUsedByUser?: CouponsForUserListRelationFilter
   }
 
@@ -6239,8 +6239,8 @@ export namespace Prisma {
     name?: SortOrder
     listing?: ListingOrderByWithRelationInput
     listingId?: SortOrder
-    deal?: SortOrder
-    expires?: SortOrder
+    description?: SortOrder
+    expired?: SortOrder
     couponsUsedByUser?: CouponsForUserOrderByRelationAggregateInput
   }
 
@@ -6253,8 +6253,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     listingId?: SortOrder
-    deal?: SortOrder
-    expires?: SortOrder
+    description?: SortOrder
+    expired?: SortOrder
     _count?: CouponCountOrderByAggregateInput
     _avg?: CouponAvgOrderByAggregateInput
     _max?: CouponMaxOrderByAggregateInput
@@ -6269,8 +6269,8 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter | number
     name?: StringWithAggregatesFilter | string
     listingId?: IntNullableWithAggregatesFilter | number | null
-    deal?: StringWithAggregatesFilter | string
-    expires?: DateTimeWithAggregatesFilter | Date | string
+    description?: StringWithAggregatesFilter | string
+    expired?: BoolWithAggregatesFilter | boolean
   }
 
   export type ListingWhereInput = {
@@ -6510,8 +6510,8 @@ export namespace Prisma {
   export type CouponCreateInput = {
     name: string
     listing?: ListingCreateNestedOneWithoutCouponsInput
-    deal: string
-    expires: Date | string
+    description: string
+    expired?: boolean
     couponsUsedByUser?: CouponsForUserCreateNestedManyWithoutCouponsInput
   }
 
@@ -6519,16 +6519,16 @@ export namespace Prisma {
     id?: number
     name: string
     listingId?: number | null
-    deal: string
-    expires: Date | string
+    description: string
+    expired?: boolean
     couponsUsedByUser?: CouponsForUserUncheckedCreateNestedManyWithoutCouponsInput
   }
 
   export type CouponUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     listing?: ListingUpdateOneWithoutCouponsNestedInput
-    deal?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    expired?: BoolFieldUpdateOperationsInput | boolean
     couponsUsedByUser?: CouponsForUserUpdateManyWithoutCouponsNestedInput
   }
 
@@ -6536,23 +6536,23 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     listingId?: NullableIntFieldUpdateOperationsInput | number | null
-    deal?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    expired?: BoolFieldUpdateOperationsInput | boolean
     couponsUsedByUser?: CouponsForUserUncheckedUpdateManyWithoutCouponsNestedInput
   }
 
   export type CouponUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
-    deal?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    expired?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CouponUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     listingId?: NullableIntFieldUpdateOperationsInput | number | null
-    deal?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    expired?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ListingCreateInput = {
@@ -6972,8 +6972,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     listingId?: SortOrder
-    deal?: SortOrder
-    expires?: SortOrder
+    description?: SortOrder
+    expired?: SortOrder
   }
 
   export type CouponAvgOrderByAggregateInput = {
@@ -6985,16 +6985,16 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     listingId?: SortOrder
-    deal?: SortOrder
-    expires?: SortOrder
+    description?: SortOrder
+    expired?: SortOrder
   }
 
   export type CouponMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     listingId?: SortOrder
-    deal?: SortOrder
-    expires?: SortOrder
+    description?: SortOrder
+    expired?: SortOrder
   }
 
   export type CouponSumOrderByAggregateInput = {
@@ -7808,16 +7808,16 @@ export namespace Prisma {
   export type CouponCreateWithoutCouponsUsedByUserInput = {
     name: string
     listing?: ListingCreateNestedOneWithoutCouponsInput
-    deal: string
-    expires: Date | string
+    description: string
+    expired?: boolean
   }
 
   export type CouponUncheckedCreateWithoutCouponsUsedByUserInput = {
     id?: number
     name: string
     listingId?: number | null
-    deal: string
-    expires: Date | string
+    description: string
+    expired?: boolean
   }
 
   export type CouponCreateOrConnectWithoutCouponsUsedByUserInput = {
@@ -7859,16 +7859,16 @@ export namespace Prisma {
   export type CouponUpdateWithoutCouponsUsedByUserInput = {
     name?: StringFieldUpdateOperationsInput | string
     listing?: ListingUpdateOneWithoutCouponsNestedInput
-    deal?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    expired?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CouponUncheckedUpdateWithoutCouponsUsedByUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     listingId?: NullableIntFieldUpdateOperationsInput | number | null
-    deal?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    expired?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ListingCreateWithoutCouponsInput = {
@@ -7997,16 +7997,16 @@ export namespace Prisma {
 
   export type CouponCreateWithoutListingInput = {
     name: string
-    deal: string
-    expires: Date | string
+    description: string
+    expired?: boolean
     couponsUsedByUser?: CouponsForUserCreateNestedManyWithoutCouponsInput
   }
 
   export type CouponUncheckedCreateWithoutListingInput = {
     id?: number
     name: string
-    deal: string
-    expires: Date | string
+    description: string
+    expired?: boolean
     couponsUsedByUser?: CouponsForUserUncheckedCreateNestedManyWithoutCouponsInput
   }
 
@@ -8052,8 +8052,8 @@ export namespace Prisma {
     id?: IntFilter | number
     name?: StringFilter | string
     listingId?: IntNullableFilter | number | null
-    deal?: StringFilter | string
-    expires?: DateTimeFilter | Date | string
+    description?: StringFilter | string
+    expired?: BoolFilter | boolean
   }
 
   export type PinnedUserListingUpsertWithWhereUniqueWithoutListingInput = {
@@ -8122,24 +8122,24 @@ export namespace Prisma {
 
   export type CouponUpdateWithoutListingInput = {
     name?: StringFieldUpdateOperationsInput | string
-    deal?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    expired?: BoolFieldUpdateOperationsInput | boolean
     couponsUsedByUser?: CouponsForUserUpdateManyWithoutCouponsNestedInput
   }
 
   export type CouponUncheckedUpdateWithoutListingInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    deal?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    expired?: BoolFieldUpdateOperationsInput | boolean
     couponsUsedByUser?: CouponsForUserUncheckedUpdateManyWithoutCouponsNestedInput
   }
 
   export type CouponUncheckedUpdateManyWithoutCouponsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    deal?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: StringFieldUpdateOperationsInput | string
+    expired?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type PinnedUserListingUpdateWithoutListingInput = {

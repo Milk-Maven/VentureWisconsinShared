@@ -29,19 +29,18 @@ export const deleteListingSchema = z.string(); //validate the incoming object
 
 export const createCouponSchema = z.object({
   name: z.string(),
-  listingId: z.number().int(),
-  deal: z.string(),
-  expires: z.date(),
+  listingId: z.number().int().optional(),
+  description: z.string(),
 });
 
 export const getCouponSchema = z.string();
 
 export const updateCouponSchema = z.object({
-  id: z.number().int(),
+  id: z.number(),
   name: z.string(),
-  listingId: z.number().int(),
-  deal: z.string(),
-  expires: z.date(),
+  listingId: z.number().int().optional(),
+  description: z.string(),
+  expired: z.boolean().optional(),
 });
 
 export const deleteCouponSchema = z.string(); //validate the incoming object
