@@ -26,11 +26,12 @@ export const getAllListingsParams = z.object({
 });
 
 export const deleteListingSchema = z.string(); //validate the incoming object
-
+export const getAllCouponsSchema = z.string().optional();
 export const createCouponSchema = z.object({
   name: z.string(),
   listingId: z.number().int().optional(),
   description: z.string(),
+  email: z.string(),
 });
 
 export const getCouponSchema = z.string();
@@ -58,6 +59,7 @@ export const updatedUserSchema = z.object({
   lastName: z.string(),
   email: z.string(),
   role: z.string(),
+  session: z.string(),
 });
 export const pinListingSchema = z.object({
   listingName: z.string(),
