@@ -42,8 +42,9 @@ export type PinnedUserListing = {
  */
 export type CouponsForUser = {
   id: number
-  userId: number | null
-  couponsName: string | null
+  userId: number
+  userEmail: string
+  couponId: number
   used: boolean
 }
 
@@ -58,6 +59,7 @@ export type Coupon = {
   description: string
   expired: boolean
   email: string
+  group: string
 }
 
 /**
@@ -2993,31 +2995,36 @@ export namespace Prisma {
   export type CouponsForUserAvgAggregateOutputType = {
     id: number | null
     userId: number | null
+    couponId: number | null
   }
 
   export type CouponsForUserSumAggregateOutputType = {
     id: number | null
     userId: number | null
+    couponId: number | null
   }
 
   export type CouponsForUserMinAggregateOutputType = {
     id: number | null
     userId: number | null
-    couponsName: string | null
+    userEmail: string | null
+    couponId: number | null
     used: boolean | null
   }
 
   export type CouponsForUserMaxAggregateOutputType = {
     id: number | null
     userId: number | null
-    couponsName: string | null
+    userEmail: string | null
+    couponId: number | null
     used: boolean | null
   }
 
   export type CouponsForUserCountAggregateOutputType = {
     id: number
     userId: number
-    couponsName: number
+    userEmail: number
+    couponId: number
     used: number
     _all: number
   }
@@ -3026,31 +3033,36 @@ export namespace Prisma {
   export type CouponsForUserAvgAggregateInputType = {
     id?: true
     userId?: true
+    couponId?: true
   }
 
   export type CouponsForUserSumAggregateInputType = {
     id?: true
     userId?: true
+    couponId?: true
   }
 
   export type CouponsForUserMinAggregateInputType = {
     id?: true
     userId?: true
-    couponsName?: true
+    userEmail?: true
+    couponId?: true
     used?: true
   }
 
   export type CouponsForUserMaxAggregateInputType = {
     id?: true
     userId?: true
-    couponsName?: true
+    userEmail?: true
+    couponId?: true
     used?: true
   }
 
   export type CouponsForUserCountAggregateInputType = {
     id?: true
     userId?: true
-    couponsName?: true
+    userEmail?: true
+    couponId?: true
     used?: true
     _all?: true
   }
@@ -3144,8 +3156,9 @@ export namespace Prisma {
 
   export type CouponsForUserGroupByOutputType = {
     id: number
-    userId: number | null
-    couponsName: string | null
+    userId: number
+    userEmail: string
+    couponId: number
     used: boolean
     _count: CouponsForUserCountAggregateOutputType | null
     _avg: CouponsForUserAvgAggregateOutputType | null
@@ -3172,8 +3185,9 @@ export namespace Prisma {
     id?: boolean
     User?: boolean | UserArgs
     userId?: boolean
+    userEmail?: boolean
+    couponId?: boolean
     Coupons?: boolean | CouponArgs
-    couponsName?: boolean
     used?: boolean
   }
 
@@ -3948,6 +3962,7 @@ export namespace Prisma {
     description: string | null
     expired: boolean | null
     email: string | null
+    group: string | null
   }
 
   export type CouponMaxAggregateOutputType = {
@@ -3957,6 +3972,7 @@ export namespace Prisma {
     description: string | null
     expired: boolean | null
     email: string | null
+    group: string | null
   }
 
   export type CouponCountAggregateOutputType = {
@@ -3966,6 +3982,7 @@ export namespace Prisma {
     description: number
     expired: number
     email: number
+    group: number
     _all: number
   }
 
@@ -3987,6 +4004,7 @@ export namespace Prisma {
     description?: true
     expired?: true
     email?: true
+    group?: true
   }
 
   export type CouponMaxAggregateInputType = {
@@ -3996,6 +4014,7 @@ export namespace Prisma {
     description?: true
     expired?: true
     email?: true
+    group?: true
   }
 
   export type CouponCountAggregateInputType = {
@@ -4005,6 +4024,7 @@ export namespace Prisma {
     description?: true
     expired?: true
     email?: true
+    group?: true
     _all?: true
   }
 
@@ -4102,6 +4122,7 @@ export namespace Prisma {
     description: string
     expired: boolean
     email: string
+    group: string
     _count: CouponCountAggregateOutputType | null
     _avg: CouponAvgAggregateOutputType | null
     _sum: CouponSumAggregateOutputType | null
@@ -4132,6 +4153,7 @@ export namespace Prisma {
     expired?: boolean
     email?: boolean
     couponsUsedByUser?: boolean | Coupon$couponsUsedByUserArgs
+    group?: boolean
     _count?: boolean | CouponCountOutputTypeArgs
   }
 
@@ -6000,7 +6022,8 @@ export namespace Prisma {
     listingId: 'listingId',
     description: 'description',
     expired: 'expired',
-    email: 'email'
+    email: 'email',
+    group: 'group'
   };
 
   export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
@@ -6009,7 +6032,8 @@ export namespace Prisma {
   export const CouponsForUserScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    couponsName: 'couponsName',
+    userEmail: 'userEmail',
+    couponId: 'couponId',
     used: 'used'
   };
 
@@ -6190,9 +6214,10 @@ export namespace Prisma {
     NOT?: Enumerable<CouponsForUserWhereInput>
     id?: IntFilter | number
     User?: XOR<UserRelationFilter, UserWhereInput> | null
-    userId?: IntNullableFilter | number | null
+    userId?: IntFilter | number
+    userEmail?: StringFilter | string
+    couponId?: IntFilter | number
     Coupons?: XOR<CouponRelationFilter, CouponWhereInput> | null
-    couponsName?: StringNullableFilter | string | null
     used?: BoolFilter | boolean
   }
 
@@ -6200,8 +6225,9 @@ export namespace Prisma {
     id?: SortOrder
     User?: UserOrderByWithRelationInput
     userId?: SortOrder
+    userEmail?: SortOrder
+    couponId?: SortOrder
     Coupons?: CouponOrderByWithRelationInput
-    couponsName?: SortOrder
     used?: SortOrder
   }
 
@@ -6212,7 +6238,8 @@ export namespace Prisma {
   export type CouponsForUserOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    couponsName?: SortOrder
+    userEmail?: SortOrder
+    couponId?: SortOrder
     used?: SortOrder
     _count?: CouponsForUserCountOrderByAggregateInput
     _avg?: CouponsForUserAvgOrderByAggregateInput
@@ -6226,8 +6253,9 @@ export namespace Prisma {
     OR?: Enumerable<CouponsForUserScalarWhereWithAggregatesInput>
     NOT?: Enumerable<CouponsForUserScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
-    userId?: IntNullableWithAggregatesFilter | number | null
-    couponsName?: StringNullableWithAggregatesFilter | string | null
+    userId?: IntWithAggregatesFilter | number
+    userEmail?: StringWithAggregatesFilter | string
+    couponId?: IntWithAggregatesFilter | number
     used?: BoolWithAggregatesFilter | boolean
   }
 
@@ -6243,6 +6271,7 @@ export namespace Prisma {
     expired?: BoolFilter | boolean
     email?: StringFilter | string
     couponsUsedByUser?: CouponsForUserListRelationFilter
+    group?: StringFilter | string
   }
 
   export type CouponOrderByWithRelationInput = {
@@ -6254,6 +6283,7 @@ export namespace Prisma {
     expired?: SortOrder
     email?: SortOrder
     couponsUsedByUser?: CouponsForUserOrderByRelationAggregateInput
+    group?: SortOrder
   }
 
   export type CouponWhereUniqueInput = {
@@ -6268,6 +6298,7 @@ export namespace Prisma {
     description?: SortOrder
     expired?: SortOrder
     email?: SortOrder
+    group?: SortOrder
     _count?: CouponCountOrderByAggregateInput
     _avg?: CouponAvgOrderByAggregateInput
     _max?: CouponMaxOrderByAggregateInput
@@ -6285,6 +6316,7 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter | string
     expired?: BoolWithAggregatesFilter | boolean
     email?: StringWithAggregatesFilter | string
+    group?: StringWithAggregatesFilter | string
   }
 
   export type ListingWhereInput = {
@@ -6486,38 +6518,44 @@ export namespace Prisma {
 
   export type CouponsForUserCreateInput = {
     User?: UserCreateNestedOneWithoutCouponsForUserInput
+    userEmail?: string
     Coupons?: CouponCreateNestedOneWithoutCouponsUsedByUserInput
     used?: boolean
   }
 
   export type CouponsForUserUncheckedCreateInput = {
     id?: number
-    userId?: number | null
-    couponsName?: string | null
+    userId: number
+    userEmail?: string
+    couponId: number
     used?: boolean
   }
 
   export type CouponsForUserUpdateInput = {
     User?: UserUpdateOneWithoutCouponsForUserNestedInput
+    userEmail?: StringFieldUpdateOperationsInput | string
     Coupons?: CouponUpdateOneWithoutCouponsUsedByUserNestedInput
     used?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CouponsForUserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    userId?: NullableIntFieldUpdateOperationsInput | number | null
-    couponsName?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: IntFieldUpdateOperationsInput | number
+    userEmail?: StringFieldUpdateOperationsInput | string
+    couponId?: IntFieldUpdateOperationsInput | number
     used?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CouponsForUserUpdateManyMutationInput = {
+    userEmail?: StringFieldUpdateOperationsInput | string
     used?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CouponsForUserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    userId?: NullableIntFieldUpdateOperationsInput | number | null
-    couponsName?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: IntFieldUpdateOperationsInput | number
+    userEmail?: StringFieldUpdateOperationsInput | string
+    couponId?: IntFieldUpdateOperationsInput | number
     used?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -6528,6 +6566,7 @@ export namespace Prisma {
     expired?: boolean
     email: string
     couponsUsedByUser?: CouponsForUserCreateNestedManyWithoutCouponsInput
+    group?: string
   }
 
   export type CouponUncheckedCreateInput = {
@@ -6538,6 +6577,7 @@ export namespace Prisma {
     expired?: boolean
     email: string
     couponsUsedByUser?: CouponsForUserUncheckedCreateNestedManyWithoutCouponsInput
+    group?: string
   }
 
   export type CouponUpdateInput = {
@@ -6547,6 +6587,7 @@ export namespace Prisma {
     expired?: BoolFieldUpdateOperationsInput | boolean
     email?: StringFieldUpdateOperationsInput | string
     couponsUsedByUser?: CouponsForUserUpdateManyWithoutCouponsNestedInput
+    group?: StringFieldUpdateOperationsInput | string
   }
 
   export type CouponUncheckedUpdateInput = {
@@ -6557,6 +6598,7 @@ export namespace Prisma {
     expired?: BoolFieldUpdateOperationsInput | boolean
     email?: StringFieldUpdateOperationsInput | string
     couponsUsedByUser?: CouponsForUserUncheckedUpdateManyWithoutCouponsNestedInput
+    group?: StringFieldUpdateOperationsInput | string
   }
 
   export type CouponUpdateManyMutationInput = {
@@ -6564,6 +6606,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     expired?: BoolFieldUpdateOperationsInput | boolean
     email?: StringFieldUpdateOperationsInput | string
+    group?: StringFieldUpdateOperationsInput | string
   }
 
   export type CouponUncheckedUpdateManyInput = {
@@ -6573,6 +6616,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     expired?: BoolFieldUpdateOperationsInput | boolean
     email?: StringFieldUpdateOperationsInput | string
+    group?: StringFieldUpdateOperationsInput | string
   }
 
   export type ListingCreateInput = {
@@ -6912,17 +6956,6 @@ export namespace Prisma {
     listingId?: SortOrder
   }
 
-  export type IntNullableFilter = {
-    equals?: number | null
-    in?: Enumerable<number> | null
-    notIn?: Enumerable<number> | null
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntNullableFilter | number | null
-  }
-
   export type CouponRelationFilter = {
     is?: CouponWhereInput | null
     isNot?: CouponWhereInput | null
@@ -6936,32 +6969,96 @@ export namespace Prisma {
   export type CouponsForUserCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    couponsName?: SortOrder
+    userEmail?: SortOrder
+    couponId?: SortOrder
     used?: SortOrder
   }
 
   export type CouponsForUserAvgOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    couponId?: SortOrder
   }
 
   export type CouponsForUserMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    couponsName?: SortOrder
+    userEmail?: SortOrder
+    couponId?: SortOrder
     used?: SortOrder
   }
 
   export type CouponsForUserMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    couponsName?: SortOrder
+    userEmail?: SortOrder
+    couponId?: SortOrder
     used?: SortOrder
   }
 
   export type CouponsForUserSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    couponId?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
+  }
+
+  export type IntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
+  }
+
+  export type CouponCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    listingId?: SortOrder
+    description?: SortOrder
+    expired?: SortOrder
+    email?: SortOrder
+    group?: SortOrder
+  }
+
+  export type CouponAvgOrderByAggregateInput = {
+    id?: SortOrder
+    listingId?: SortOrder
+  }
+
+  export type CouponMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    listingId?: SortOrder
+    description?: SortOrder
+    expired?: SortOrder
+    email?: SortOrder
+    group?: SortOrder
+  }
+
+  export type CouponMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    listingId?: SortOrder
+    description?: SortOrder
+    expired?: SortOrder
+    email?: SortOrder
+    group?: SortOrder
+  }
+
+  export type CouponSumOrderByAggregateInput = {
+    id?: SortOrder
+    listingId?: SortOrder
   }
 
   export type IntNullableWithAggregatesFilter = {
@@ -6978,51 +7075,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter
     _min?: NestedIntNullableFilter
     _max?: NestedIntNullableFilter
-  }
-
-  export type BoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    _count?: NestedIntFilter
-    _min?: NestedBoolFilter
-    _max?: NestedBoolFilter
-  }
-
-  export type CouponCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    listingId?: SortOrder
-    description?: SortOrder
-    expired?: SortOrder
-    email?: SortOrder
-  }
-
-  export type CouponAvgOrderByAggregateInput = {
-    id?: SortOrder
-    listingId?: SortOrder
-  }
-
-  export type CouponMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    listingId?: SortOrder
-    description?: SortOrder
-    expired?: SortOrder
-    email?: SortOrder
-  }
-
-  export type CouponMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    listingId?: SortOrder
-    description?: SortOrder
-    expired?: SortOrder
-    email?: SortOrder
-  }
-
-  export type CouponSumOrderByAggregateInput = {
-    id?: SortOrder
-    listingId?: SortOrder
   }
 
   export type CouponListRelationFilter = {
@@ -7263,14 +7315,6 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type ListingCreateNestedOneWithoutCouponsInput = {
     create?: XOR<ListingCreateWithoutCouponsInput, ListingUncheckedCreateWithoutCouponsInput>
     connectOrCreate?: ListingCreateOrConnectWithoutCouponsInput
@@ -7310,6 +7354,14 @@ export namespace Prisma {
     update?: Enumerable<CouponsForUserUpdateWithWhereUniqueWithoutCouponsInput>
     updateMany?: Enumerable<CouponsForUserUpdateManyWithWhereWithoutCouponsInput>
     deleteMany?: Enumerable<CouponsForUserScalarWhereInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type CouponsForUserUncheckedUpdateManyWithoutCouponsNestedInput = {
@@ -7542,6 +7594,14 @@ export namespace Prisma {
     not?: NestedBoolFilter | boolean
   }
 
+  export type NestedBoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
+  }
+
   export type NestedIntNullableWithAggregatesFilter = {
     equals?: number | null
     in?: Enumerable<number> | null
@@ -7569,22 +7629,16 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter | number | null
   }
 
-  export type NestedBoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    _count?: NestedIntFilter
-    _min?: NestedBoolFilter
-    _max?: NestedBoolFilter
-  }
-
   export type CouponsForUserCreateWithoutUserInput = {
+    userEmail?: string
     Coupons?: CouponCreateNestedOneWithoutCouponsUsedByUserInput
     used?: boolean
   }
 
   export type CouponsForUserUncheckedCreateWithoutUserInput = {
     id?: number
-    couponsName?: string | null
+    userEmail?: string
+    couponId: number
     used?: boolean
   }
 
@@ -7628,8 +7682,9 @@ export namespace Prisma {
     OR?: Enumerable<CouponsForUserScalarWhereInput>
     NOT?: Enumerable<CouponsForUserScalarWhereInput>
     id?: IntFilter | number
-    userId?: IntNullableFilter | number | null
-    couponsName?: StringNullableFilter | string | null
+    userId?: IntFilter | number
+    userEmail?: StringFilter | string
+    couponId?: IntFilter | number
     used?: BoolFilter | boolean
   }
 
@@ -7834,6 +7889,7 @@ export namespace Prisma {
     description: string
     expired?: boolean
     email: string
+    group?: string
   }
 
   export type CouponUncheckedCreateWithoutCouponsUsedByUserInput = {
@@ -7843,6 +7899,7 @@ export namespace Prisma {
     description: string
     expired?: boolean
     email: string
+    group?: string
   }
 
   export type CouponCreateOrConnectWithoutCouponsUsedByUserInput = {
@@ -7887,6 +7944,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     expired?: BoolFieldUpdateOperationsInput | boolean
     email?: StringFieldUpdateOperationsInput | string
+    group?: StringFieldUpdateOperationsInput | string
   }
 
   export type CouponUncheckedUpdateWithoutCouponsUsedByUserInput = {
@@ -7896,6 +7954,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     expired?: BoolFieldUpdateOperationsInput | boolean
     email?: StringFieldUpdateOperationsInput | string
+    group?: StringFieldUpdateOperationsInput | string
   }
 
   export type ListingCreateWithoutCouponsInput = {
@@ -7946,12 +8005,14 @@ export namespace Prisma {
 
   export type CouponsForUserCreateWithoutCouponsInput = {
     User?: UserCreateNestedOneWithoutCouponsForUserInput
+    userEmail?: string
     used?: boolean
   }
 
   export type CouponsForUserUncheckedCreateWithoutCouponsInput = {
     id?: number
-    userId?: number | null
+    userId: number
+    userEmail?: string
     used?: boolean
   }
 
@@ -8028,6 +8089,7 @@ export namespace Prisma {
     expired?: boolean
     email: string
     couponsUsedByUser?: CouponsForUserCreateNestedManyWithoutCouponsInput
+    group?: string
   }
 
   export type CouponUncheckedCreateWithoutListingInput = {
@@ -8037,6 +8099,7 @@ export namespace Prisma {
     expired?: boolean
     email: string
     couponsUsedByUser?: CouponsForUserUncheckedCreateNestedManyWithoutCouponsInput
+    group?: string
   }
 
   export type CouponCreateOrConnectWithoutListingInput = {
@@ -8084,6 +8147,7 @@ export namespace Prisma {
     description?: StringFilter | string
     expired?: BoolFilter | boolean
     email?: StringFilter | string
+    group?: StringFilter | string
   }
 
   export type PinnedUserListingUpsertWithWhereUniqueWithoutListingInput = {
@@ -8103,19 +8167,22 @@ export namespace Prisma {
   }
 
   export type CouponsForUserUpdateWithoutUserInput = {
+    userEmail?: StringFieldUpdateOperationsInput | string
     Coupons?: CouponUpdateOneWithoutCouponsUsedByUserNestedInput
     used?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CouponsForUserUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    couponsName?: NullableStringFieldUpdateOperationsInput | string | null
+    userEmail?: StringFieldUpdateOperationsInput | string
+    couponId?: IntFieldUpdateOperationsInput | number
     used?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CouponsForUserUncheckedUpdateManyWithoutCouponsForUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    couponsName?: NullableStringFieldUpdateOperationsInput | string | null
+    userEmail?: StringFieldUpdateOperationsInput | string
+    couponId?: IntFieldUpdateOperationsInput | number
     used?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -8135,18 +8202,21 @@ export namespace Prisma {
 
   export type CouponsForUserUpdateWithoutCouponsInput = {
     User?: UserUpdateOneWithoutCouponsForUserNestedInput
+    userEmail?: StringFieldUpdateOperationsInput | string
     used?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CouponsForUserUncheckedUpdateWithoutCouponsInput = {
     id?: IntFieldUpdateOperationsInput | number
-    userId?: NullableIntFieldUpdateOperationsInput | number | null
+    userId?: IntFieldUpdateOperationsInput | number
+    userEmail?: StringFieldUpdateOperationsInput | string
     used?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CouponsForUserUncheckedUpdateManyWithoutCouponsUsedByUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    userId?: NullableIntFieldUpdateOperationsInput | number | null
+    userId?: IntFieldUpdateOperationsInput | number
+    userEmail?: StringFieldUpdateOperationsInput | string
     used?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -8156,6 +8226,7 @@ export namespace Prisma {
     expired?: BoolFieldUpdateOperationsInput | boolean
     email?: StringFieldUpdateOperationsInput | string
     couponsUsedByUser?: CouponsForUserUpdateManyWithoutCouponsNestedInput
+    group?: StringFieldUpdateOperationsInput | string
   }
 
   export type CouponUncheckedUpdateWithoutListingInput = {
@@ -8165,6 +8236,7 @@ export namespace Prisma {
     expired?: BoolFieldUpdateOperationsInput | boolean
     email?: StringFieldUpdateOperationsInput | string
     couponsUsedByUser?: CouponsForUserUncheckedUpdateManyWithoutCouponsNestedInput
+    group?: StringFieldUpdateOperationsInput | string
   }
 
   export type CouponUncheckedUpdateManyWithoutCouponsInput = {
@@ -8173,6 +8245,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     expired?: BoolFieldUpdateOperationsInput | boolean
     email?: StringFieldUpdateOperationsInput | string
+    group?: StringFieldUpdateOperationsInput | string
   }
 
   export type PinnedUserListingUpdateWithoutListingInput = {

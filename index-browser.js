@@ -95,13 +95,15 @@ exports.Prisma.CouponScalarFieldEnum = makeEnum({
   listingId: 'listingId',
   description: 'description',
   expired: 'expired',
-  email: 'email'
+  email: 'email',
+  group: 'group'
 });
 
 exports.Prisma.CouponsForUserScalarFieldEnum = makeEnum({
   id: 'id',
   userId: 'userId',
-  couponsName: 'couponsName',
+  userEmail: 'userEmail',
+  couponId: 'couponId',
   used: 'used'
 });
 

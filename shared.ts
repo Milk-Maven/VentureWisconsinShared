@@ -42,10 +42,14 @@ export const updateCouponSchema = z.object({
   listingId: z.number().int().optional(),
   description: z.string(),
   expired: z.boolean().optional(),
+  group: z.string(),
 });
 
 export const deleteCouponSchema = z.string(); //validate the incoming object
-
+export const useCouponSchema = z.object({
+  email: z.string().email(),
+  couponId: z.number(),
+});
 export const createNewUserSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
