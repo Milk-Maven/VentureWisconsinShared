@@ -32,6 +32,7 @@ export const createCouponSchema = z.object({
   listingId: z.number().int().optional(),
   description: z.string(),
   email: z.string(),
+  groupName: z.string(),
 });
 
 export const getCouponSchema = z.string();
@@ -39,10 +40,10 @@ export const getCouponSchema = z.string();
 export const updateCouponSchema = z.object({
   id: z.number(),
   name: z.string(),
-  listingId: z.number().int().optional(),
+  listingId: z.number().int(),
   description: z.string(),
   expired: z.boolean().optional(),
-  group: z.string(),
+  groupName: z.string(),
 });
 
 export const deleteCouponSchema = z.string(); //validate the incoming object
@@ -68,6 +69,10 @@ export const updatedUserSchema = z.object({
 export const pinListingSchema = z.object({
   listingName: z.string(),
   userEmail: z.string().email(),
+});
+
+export const createGroupSchema = z.object({
+  groupName: z.string(),
 });
 
 export const deleteUserSchema = z.string(); //validate the incoming object

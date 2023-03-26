@@ -96,7 +96,7 @@ exports.Prisma.CouponScalarFieldEnum = makeEnum({
   description: 'description',
   expired: 'expired',
   email: 'email',
-  group: 'group'
+  groupName: 'groupName'
 });
 
 exports.Prisma.CouponsForUserScalarFieldEnum = makeEnum({
@@ -105,6 +105,10 @@ exports.Prisma.CouponsForUserScalarFieldEnum = makeEnum({
   userEmail: 'userEmail',
   couponId: 'couponId',
   used: 'used'
+});
+
+exports.Prisma.GroupsScalarFieldEnum = makeEnum({
+  groupName: 'groupName'
 });
 
 exports.Prisma.ListingScalarFieldEnum = makeEnum({
@@ -149,7 +153,8 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
   firstName: 'firstName',
   lastName: 'lastName',
   password: 'password',
-  role: 'role'
+  role: 'role',
+  groupsGroupName: 'groupsGroupName'
 });
 
 
@@ -157,6 +162,7 @@ exports.Prisma.ModelName = makeEnum({
   User: 'User',
   PinnedUserListing: 'PinnedUserListing',
   CouponsForUser: 'CouponsForUser',
+  Groups: 'Groups',
   Coupon: 'Coupon',
   Listing: 'Listing'
 });
